@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Service;
 use Illuminate\Http\Request;
 
-use App\Models\Category;
-use Illuminate\Support\Facades\Storage;
-
-class CategoryController extends Controller
+class ServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,8 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $categories = Category::OrderBy('updated_at', 'DESC')->search($search)->paginate(5);
-        return view('categories.index', compact('categories'));
+        $services = Service::OrderBy('updated_at', 'DESC')->search($search)->paginate(5);
+        return view('services.index', compact('services'));
     }
 
     /**
@@ -28,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('content.create');
     }
 
     /**
@@ -39,28 +37,28 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request
+         // Validate the request
         $request->validate([
             'name' => ['required', 'string', 'max:255']
         ]);
 
-        // Create a new category
-        $category               = new Category;
-        $category->name         = $request->name;
-        $category->description  = $request->description;
-        $category->save();
+        // Create a new service
+        $service               = new Service;
+        $service->name         = $request->name;
+        $service->description  = $request->description;
+        $service->save();
 
-        // Redirect to the categories index
-        return redirect()->route('categories.index')->with('success', 'Categoría creada correctamente.');
+        // Redirect to the services index
+        return redirect()->route('services.index')->with('success', 'Servicio creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Service $service)
     {
         //
     }
@@ -68,51 +66,49 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $category = Category::findorFail($id);
-        return view('categories.edit', compact('category'));
+        $service = Service::findorFail($id);
+        return view('services.edit', compact('service'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        // Validate the request
+         // Validate the request
         $request->validate([
             'name' => ['required','string','max:255']
         ]);
 
-        // Update the category
-        $category               = Category::find($id);
-        $category->name         = $request->name;
-        $category->description  = $request->description;
-        $category->updated_at    = now();
-        $category->save();
+        // Update the specified service
+        $service                = Service::find($id);
+        $service->name          = $request->name;
+        $service->description   = $request->description;
+        $service->updated_at    = now();
+        $service->save();
 
         // Redirect to the categories index
-        return redirect()->route('categories.index')->with('success', 'Categoría actualizada correctamente.');
+        return redirect()->route('services.index')->with('success', 'Servicio actualizado correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        // Delete the category
-        Category::destroy($id);
-        // Redirect to the categories index
-        return redirect()->route('categories.index')->with('success', 'Categoría eliminada correctamente.');
+        Service::destroy($id);
+        return redirect()->route('services.index')->with('success', 'Servicio eliminado correctamente.');
     }
 }

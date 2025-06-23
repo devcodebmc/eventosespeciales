@@ -1,34 +1,14 @@
 @extends('frontend.layouts.main')
 
 @section('content')
-<!-- Destacadas -->
-@include('frontend.partials.destacadas')
-<!-- Historias -->
-<section class="py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold mb-6 tracking-widest">Historias</h2>
-        @include('frontend.partials.historias')
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-4">Bienvenido a Eventos Especiales Lerma</h1>
+    <p class="text-gray-700">Aquí encontrarás los mejores eventos y servicios para hacer de tu ocasión especial algo inolvidable.</p>
+    <div class="mt-6">
+        <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Ver Eventos</a>
+        <a href="#" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Ver Servicios</a>
     </div>
-</section>
-<!-- Top Categories -->
-<section class="py-12 bg-white">
-    @include('frontend.components.topCategories')
-</section>
-<!-- Sección Descubre -->
-@include('frontend.partials.descubre')
-<!--Sección Características -->
-@include('frontend.partials.caracteristicas')
-<!-- Suscríbete -->
-@include('frontend.partials.suscribete')
-<!-- Galería -->
-@include('frontend.partials.galeria')
-<!-- Counters Section -->
-<section class="bg-white mb-12">
-    @include('frontend.components.counters')
-</section>
-<!-- Mejores Cocineras de la Semana -->
-@include('frontend.partials.cocineras')
-<!-- Invitación a recetas -->
-@include('frontend.partials.invitacionRecetas')
+</div>
     
 @endsection

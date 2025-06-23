@@ -21,14 +21,6 @@
                                 </label>
                                 <input id="name" type="text" name="name" value="{{ old('name') }}" required class="mt-1 block w-full border border-gray-300 rounded-md pl-3 text-sm" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"/>
                             </div>
-                            {{-- Imagen de la Categoría --}}
-                            <div class="col-span-1">
-                                <label for="icon_url" class="block text-sm font-medium text-gray-700">
-                                    Imagen
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <input id="icon_url" type="file" name="icon_url" required class="mt-1 block w-full bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"/>
-                            </div>
                             {{-- Descripción de la Categoría --}}
                             <div class="col-span-1">
                                 <label for="description" class="block text-sm font-medium text-gray-700">

@@ -4,10 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\RecipeController;
-use App\Http\Controllers\FetchTagController;
-use App\Http\Controllers\RecipeImageController;
-use App\Http\Controllers\HomemadeRecipeController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,11 +18,8 @@ use App\Http\Controllers\HomemadeRecipeController;
 |
 */
 
-Route::get('/', [HomemadeRecipeController::class, 'index'])->name('welcome');
-Route::get('/categoria/{category}', [HomemadeRecipeController::class,'showCategory'])->name('category.show');
-Route::post('/recipes/{recipe}/like', [HomemadeRecipeController::class, 'like'])->name('recipes.like');
-Route::get('/receta/{recipe}', [HomemadeRecipeController::class, 'show'])->name('showRecipe');
-Route::get('/etiqueta/{tag}', [HomemadeRecipeController::class, 'showTag'])->name('tag.show');
+Route::get('/', [EventController::class, 'index'])->name('welcome');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,14 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('categories', CategoryController::class);
+    Route::resource('services', ServiceController::class);
     Route::resource('tags', TagController::class);
-    Route::resource('recipes', RecipeController::class);
-    Route::patch('/recipes/{recipe}/update-status', [RecipeController::class, 'updateStatus'])
-    ->name('recipes.update-status');
-    Route::get('/fetch-tags', [FetchTagController::class, 'index'])->name('fetch-tags.index');
-    Route::delete('/recipes/images/{recipeImage}', [RecipeImageController::class, 'destroy'])->name('recipes.images.destroy');
-
-
+  
     // Recyclebin routes
     Route::get('/recyclebin', [App\Http\Controllers\RecyclebinController::class, 'index'])->name('recyclebin.index');
     Route::patch('/recyclebin/{id}/restore', [App\Http\Controllers\RecyclebinController::class, 'restore'])->name('recyclebin.restore');

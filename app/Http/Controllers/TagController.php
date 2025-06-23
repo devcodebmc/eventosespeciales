@@ -90,6 +90,7 @@ class TagController extends Controller
         // Encontrar la etiqueta por su ID y actualizar solo el nombre
         $tag = Tag::findOrFail($id);
         $tag->name = $request->input('name');
+        $tag->updated_at = now();
         $tag->save();
     
         // Redirigir con un mensaje de éxito
