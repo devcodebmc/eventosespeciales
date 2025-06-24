@@ -11,7 +11,7 @@ class EventImage extends Model
 
     protected $fillable = ['event_id', 'image_path', 'order'];
 
-    public function recipe()
+    public function event()
     {
         return $this->belongsTo(Event::class);
     }

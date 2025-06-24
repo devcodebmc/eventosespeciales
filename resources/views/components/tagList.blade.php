@@ -57,8 +57,8 @@
         <!-- Contenedor para mostrar etiquetas seleccionadas -->
         <div id="etiquetas-container" class="mt-2 flex flex-wrap gap-2">
             <!-- Mostrar etiquetas existentes en modo edición -->
-            @isset($recipe)
-                @foreach($recipe->tags as $tag)
+            @isset($event)
+                @foreach($event->tags as $tag)
                     <div class="etiqueta-pill" data-id="{{ $tag->id }}">
                         {{ $tag->name }}
                         <button type="button" onclick="eliminarEtiqueta({{ $tag->id }})" class="etiqueta-remove">
@@ -72,14 +72,14 @@
 
     <!-- Select oculto para sincronización con Laravel -->
     <select name="tags[]" id="tags-select" multiple class="w-full hidden">
-        @isset($recipe)
-            @foreach($recipe->tags as $tag)
+        @isset($event)
+            @foreach($event->tags as $tag)
                 <option value="{{ $tag->id }}" selected>{{ $tag->name }}</option>
             @endforeach
         @endisset
         
         @foreach(old('tags', []) as $tagId)
-            @if(!isset($recipe) || !$recipe->tags->contains($tagId))
+            @if(!isset($event) || !$event->tags->contains($tagId))
                 <option value="{{ $tagId }}" selected>
                     {{ \App\Models\Tag::find($tagId)->name ?? '' }}
                 </option>

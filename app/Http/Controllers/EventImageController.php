@@ -81,13 +81,9 @@ class EventImageController extends Controller
      */
     public function destroy(EventImage $eventImage)
     {
-
-        // Verificar si el usuario autenticado es el propietario del evento
-        if (auth()->id() !== $eventImage->event->user_id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No autorizado para eliminar esta imagen'
-            ], 403);
+        // Validar autenticación
+        if (!auth()->check()) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
         }
 
         try {
