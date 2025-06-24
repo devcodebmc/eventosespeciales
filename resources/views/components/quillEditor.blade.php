@@ -9,7 +9,7 @@
         <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
             Descripción Detallada
         </label>
-        <div id="quill-editor" style="min-height: 180px;">{!! old('content') !!}</div>
+        <div id="quill-editor" style="min-height: 380px;">{!! old('content') !!}</div>
         <input type="hidden" name="content" id="content" value="{{ old('content', isset($event) ? $event->content : '') }}">    @error('content')
         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
         @enderror

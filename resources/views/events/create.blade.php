@@ -61,6 +61,9 @@
                     </div>
                     <!-- Tags -->
                     @include('components.tagList')
+                </div>
+                <!-- Columna Derecha -->
+                <div class="space-y-6">
                     <!-- Fecha y hora -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -78,9 +81,6 @@
                             @enderror
                         </div>
                     </div>
-                </div>
-                <!-- Columna Derecha -->
-                <div class="space-y-6">
                     <!-- Organizador -->
                     <div>
                         <label for="organizer" class="block text-sm font-medium text-gray-700 mb-2">Organizador</label>
