@@ -69,6 +69,7 @@
                         </a>
                     </div>
                 </div>
+                
                 <!-- Vista de lista -->
                 <div id="list-view-container" class="p-6 overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -79,6 +80,9 @@
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Titulo
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Contenido
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Estado
@@ -112,6 +116,16 @@
                                                 {{ $event->title }}
                                             </span>
                                         </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button 
+                                            type="button" 
+                                            onclick="openContentModal({{ $event->id }})"
+                                            class="mt-2 text-xs text-emerald-600 hover:underline focus:outline-none"
+                                            title="Ver contenido completo"
+                                        >
+                                            Vista previa
+                                        </button>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if ($event->status == 'draft')
@@ -178,10 +192,24 @@
                         {{ $events->links() }}
                     </div>
                 </div>
+                
                 <!-- Vista de cuadrícula -->
-                <div id="grid-view-container" class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div id="grid-view-container" class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 hidden">
                     @foreach ($events as $event)
-                        <div class="relative bg-cover bg-center rounded-lg shadow-md h-48 group" style="background-image: url('{{ asset($event->image) }}');">
+                        <div class="relative bg-cover bg-center rounded-lg shadow-md h-48 group" 
+                             @if ($event->image)
+                                 style="background-image: url('{{ asset($event->image) }}');"
+                             @else
+                                 style="background-color: #f3f4f6; display: flex; align-items: center; justify-content: center;"
+                             @endif
+                        >
+                            @unless($event->image)
+                                <div class="flex items-center justify-center h-full w-full">
+                                    <svg class="w-16 h-16 text-gray-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                </div>
+                            @endunless
                             <!-- Badge de estado en la esquina superior izquierda -->
                             <div class="absolute top-2 left-2 z-10">
                                 @if ($event->status == 'draft')
@@ -204,6 +232,15 @@
                                 <div class="text-sm text-gray-300 mt-2 group-hover:text-gray-100 transition-colors duration-300">
                                     {{ $event->updated_at->format('d/m/Y h:i a') }}
                                 </div>
+                                
+                                <!-- Botón de vista previa -->
+                                <button 
+                                    onclick="openContentModal({{ $event->id }})"
+                                    class="mt-2 text-xs text-emerald-300 hover:text-emerald-100 focus:outline-none text-left"
+                                    title="Ver contenido completo"
+                                >
+                                    Vista previa
+                                </button>
                             </div>
                                                                     
                             <!-- Menú de tres puntos y dropdown de acciones -->
@@ -262,8 +299,96 @@
                     @endforeach
                 </div>
             </div>
-            <!-- Table -->
         </div>
     </div>
-<!-- Main Content -->
+    
+    <!-- Modal para vista previa del contenido (compartido por ambas vistas) -->
+    @foreach ($events as $event)
+    <div 
+        id="content-modal-{{ $event->id }}" 
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden"
+        aria-modal="true" role="dialog"
+    >
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4 sm:mx-6 p-4 sm:p-6 relative flex flex-col max-h-[90vh]">
+            <button 
+                onclick="closeContentModal({{ $event->id }})"
+                class="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
+                title="Cerrar"
+            >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 pr-8">{{ $event->title }}</h3>
+            <div class="prose max-w-full overflow-y-auto" style="max-height:60vh;">
+                {!! $event->content !!}
+            </div>
+        </div>
+    </div>
+    @endforeach
+
+    <script>
+        // Función para alternar la visibilidad del dropdown
+        function toggleDropdown(dropdownId, event) {
+            event.stopPropagation(); // Evita que el clic se propague y cierre el dropdown inmediatamente
+            const dropdown = document.getElementById(dropdownId);
+            const allDropdowns = document.querySelectorAll('.dropdown-content');
+
+            // Cerrar todos los dropdowns excepto el actual
+            allDropdowns.forEach(function(d) {
+                if (d.id !== dropdownId) {
+                    d.classList.add('hidden');
+                }
+            });
+
+            // Alternar la visibilidad del dropdown actual
+            dropdown.classList.toggle('hidden');
+        }
+        
+        // Cerrar el dropdown al hacer clic fuera de él
+        document.addEventListener('click', function(event) {
+            const dropdowns = document.querySelectorAll('.dropdown-content');
+            const isClickInsideDropdown = Array.from(dropdowns).some(dropdown => dropdown.contains(event.target));
+            const isClickOnButton = event.target.matches('.dropdown-button') || event.target.closest('.dropdown-button');
+
+            if (!isClickInsideDropdown && !isClickOnButton) {
+                dropdowns.forEach(function(dropdown) {
+                    dropdown.classList.add('hidden');
+                });
+            }
+        });
+        
+        // Funciones para el modal de contenido
+        function openContentModal(id) {
+            document.getElementById('content-modal-' + id).classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+        
+        function closeContentModal(id) {
+            document.getElementById('content-modal-' + id).classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+        
+        // Funciones para alternar entre vistas
+        function toggleView(activeButton, inactiveButton, activeContainer, inactiveContainer) {
+            document.getElementById(activeContainer).classList.remove('hidden');
+            document.getElementById(inactiveContainer).classList.add('hidden');
+            document.getElementById(activeButton).classList.add('bg-indigo-200');
+            document.getElementById(inactiveButton).classList.remove('bg-indigo-200');
+        }
+
+        // Agregar eventos a los botones de vista
+        document.getElementById('list-view').addEventListener('click', function() {
+            toggleView('list-view', 'grid-view', 'list-view-container', 'grid-view-container');
+        });
+
+        document.getElementById('grid-view').addEventListener('click', function() {
+            toggleView('grid-view', 'list-view', 'grid-view-container', 'list-view-container');
+        });
+        
+        // Inicializar con la vista de lista activa
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('list-view').classList.add('bg-indigo-200');
+        });
+    </script>
 </x-app-layout>

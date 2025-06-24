@@ -25,11 +25,14 @@
                 placeholder: 'Describe el evento con detalle...',
                 modules: {
                     toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    ['link', 'image'],
-                    ['clean']
+                        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                        ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
+                        [{ 'color': [] }, { 'background': [] }],
+                        [{ 'font': [] }],
+                        [{ 'align': [] }],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
+                        ['link', 'image', 'video', 'formula'],
+                        ['clean']
                     ]
                 }
                 });

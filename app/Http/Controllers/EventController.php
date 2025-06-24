@@ -38,7 +38,7 @@ class EventController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'summary' => 'required|string|max:255',
+            'summary' => 'nullable|string|max:255',
             'content' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'event_date' => 'nullable|date',
@@ -48,7 +48,7 @@ class EventController extends Controller
             'video_url' => 'nullable|url|max:255',
             'event_images.*' => 'nullable|image|max:10240',
             'status' => 'required|in:draft,published',
-            'type' => 'required|in:Event,Service,Gallery,Video,Banner',
+            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package',
         ]);
 
         // Subir imagen principal si se proporciona
@@ -118,7 +118,7 @@ class EventController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'summary' => 'required|string|max:255',
+            'summary' => 'nullable|string|max:255',
             'content' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'event_date' => 'nullable|date',
@@ -127,7 +127,7 @@ class EventController extends Controller
             'image' => 'nullable|image|max:10240',
             'video_url' => 'nullable|url|max:255',
             'status' => 'required|in:draft,published',
-            'type' => 'required|in:Event,Service,Gallery,Video,Banner',
+            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package',
         ]);
 
         // Subir imagen principal si se proporciona

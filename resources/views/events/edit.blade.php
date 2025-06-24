@@ -175,6 +175,8 @@
                                 <option value="Gallery" {{ old('type', $event->type) == 'Gallery' ? 'selected' : '' }}>Galería</option>
                                 <option value="Video" {{ old('type', $event->type) == 'Video' ? 'selected' : '' }}>Video</option>
                                 <option value="Banner" {{ old('type', $event->type) == 'Banner' ? 'selected' : '' }}>Banner</option>
+                                <option value="Promotion" {{ old('type', $event->type) == 'Promotion' ? 'selected' : '' }}>Promoción</option>
+                                <option value="Package" {{ old('type', $event->type) == 'Package' ? 'selected' : '' }}>Paquete</option>
                             </select>
                             @error('type')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

@@ -21,13 +21,13 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->unsignedInteger('category_id'); // Mismo tipo que categories.id
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->dateTime('event_date'); // Fecha y hora del evento
-            $table->string('location'); // Lugar del evento
+            $table->dateTime('event_date')->nullable(); // Fecha y hora del evento
+            $table->string('location')->nullable(); // Lugar del evento
             $table->string('organizer')->nullable(); // Organizador del evento
             $table->string('image')->nullable(); // Imagen principal
             $table->string('video_url')->nullable(); // URL del video (opcional)
             $table->enum('status', ['draft', 'published'])->default('draft'); // Estado del evento
-            $table->enum('type', ['Event', 'Service', 'Gallery', 'Video', 'Banner'])->default('Event'); // Tipo de evento
+            $table->enum('type', ['Event', 'Service', 'Gallery', 'Video', 'Banner','Promotion','Package'])->default('Event'); // Tipo de evento
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
