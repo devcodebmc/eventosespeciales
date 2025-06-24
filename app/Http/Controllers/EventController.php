@@ -48,7 +48,7 @@ class EventController extends Controller
             'video_url' => 'nullable|url|max:255',
             'event_images.*' => 'nullable|image|max:10240',
             'status' => 'required|in:draft,published',
-            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package',
+            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package,Article',
         ]);
 
         // Subir imagen principal si se proporciona
@@ -127,7 +127,7 @@ class EventController extends Controller
             'image' => 'nullable|image|max:10240',
             'video_url' => 'nullable|url|max:255',
             'status' => 'required|in:draft,published',
-            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package',
+            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package,Article',
         ]);
 
         // Subir imagen principal si se proporciona

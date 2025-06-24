@@ -200,12 +200,12 @@
                              @if ($event->image)
                                  style="background-image: url('{{ asset($event->image) }}');"
                              @else
-                                 style="background-color: #f3f4f6; display: flex; align-items: center; justify-content: center;"
+                                 style="background-color: #566573 ; display: flex; align-items: center; justify-content: center;"
                              @endif
                         >
                             @unless($event->image)
                                 <div class="flex items-center justify-center h-full w-full">
-                                    <svg class="w-16 h-16 text-gray-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <svg class="w-28 h-28 text-gray-100 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                     </svg>
                                 </div>

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('image')->nullable(); // Imagen principal
             $table->string('video_url')->nullable(); // URL del video (opcional)
             $table->enum('status', ['draft', 'published'])->default('draft'); // Estado del evento
-            $table->enum('type', ['Event', 'Service', 'Gallery', 'Video', 'Banner','Promotion','Package'])->default('Event'); // Tipo de evento
+            $table->enum('type', ['Event', 'Service', 'Gallery', 'Video', 'Banner','Promotion','Package', 'Article'])->default('Event'); // Tipo de evento
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
