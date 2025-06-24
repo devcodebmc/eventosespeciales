@@ -45,11 +45,7 @@ class User extends Authenticatable
     
     public function recipes()
     {
-        return $this->hasMany(Recipe::class);
+        return $this->hasMany(Event::class);
     }
 
-    public function totalLikes()
-    {
-        return $this->recipes()->sum('likes');
-    }
 }

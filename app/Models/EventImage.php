@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RecipeImage extends Model
+class EventImage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['recipe_id', 'image_path', 'order'];
+    protected $fillable = ['event_id', 'image_path', 'order'];
 
     public function recipe()
     {
-        return $this->belongsTo(Recipe::class);
+        return $this->belongsTo(Event::class);
     }
 }

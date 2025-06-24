@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\EventController;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ServiceController;
 
 /*
@@ -18,7 +18,7 @@ use App\Http\Controllers\ServiceController;
 |
 */
 
-Route::get('/', [EventController::class, 'index'])->name('welcome');
+Route::get('/', [FrontController::class, 'index'])->name('welcome');
 
 
 Route::get('/dashboard', function () {

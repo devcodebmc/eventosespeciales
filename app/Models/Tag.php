@@ -27,7 +27,7 @@ class Tag extends Model
     
     public function recipes()
     {
-        return $this->belongsToMany(Recipe::class, 'recipe_tags', 'tag_id', 'recipe_id');
+        return $this->belongsToMany(Event::class, 'event_tags', 'tag_id', 'event_id');
     }
 
     public function scopeSearch($query, $search)
