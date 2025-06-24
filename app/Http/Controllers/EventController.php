@@ -39,7 +39,7 @@ class EventController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'summary' => 'required|string|max:255',
-            'content' => 'required|string',
+            'content' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'event_date' => 'nullable|date',
             'location' => 'nullable|string|max:255',
@@ -119,7 +119,7 @@ class EventController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'summary' => 'required|string|max:255',
-            'content' => 'required|string',
+            'content' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'event_date' => 'nullable|date',
             'location' => 'nullable|string|max:255',

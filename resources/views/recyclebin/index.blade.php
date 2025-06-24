@@ -16,7 +16,7 @@
                         </svg>
                     </button>
                 </div>
-                <p class="text-gray-600 mb-6">¿Estás seguro que deseas eliminar esta receta definitivamente? Esta acción no se puede deshacer.</p>
+                <p class="text-gray-600 mb-6">¿Estás seguro que deseas eliminar esta evento definitivamente? Esta acción no se puede deshacer.</p>
                 <div class="flex justify-end space-x-3">
                     <button onclick="closeModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Cancelar
@@ -60,7 +60,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold">Recetas en la papelera</h3>
+                        <h3 class="text-lg font-semibold">Eventos en la papelera</h3>
                         <div class="flex space-x-2">
                             <button id="list-view" class="p-2 rounded hover:bg-indigo-100" title="Vista de lista">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -75,8 +75,8 @@
                         </div>
                     </div>
 
-                    @if ($recipes->isEmpty())
-                        <p class="text-gray-500">No hay recetas en la papelera de reciclaje.</p>
+                    @if ($events->isEmpty())
+                        <p class="text-gray-500">No hay eventos en la papelera de reciclaje.</p>
                     @else
                         <!-- Vista de lista -->
                         <div id="list-view-container" class="overflow-x-auto">
@@ -101,18 +101,24 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach ($recipes as $recipe)
+                                    @foreach ($events as $event)
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <img src="{{ asset($recipe->image) }}" alt="{{ $recipe->title }}" class="w-16 h-16 object-cover rounded">
+                                                @if ($event->image)
+                                                    <img src="{{ asset($event->image) }}" alt="{{ $event->title }}" class="w-10 h-10 rounded-full border-2 border-emerald-500">
+                                                @else
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                @endif
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm text-gray-900">
-                                                    {{ $recipe->title }}
+                                                    {{ $event->title }}
                                                 </div>
                                             </td>
                                             <td>
-                                                @if ($recipe->deleted_at)
+                                                @if ($event->deleted_at)
                                                     <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-red-400 text-white">
                                                         Eliminado
                                                     </span>
@@ -120,11 +126,11 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm text-gray-900">
-                                                    {{ $recipe->deleted_at->format('d/m/Y h:i a') }}
+                                                    {{ $event->deleted_at->format('d/m/Y h:i a') }}
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <form action="{{ route('recyclebin.restore', $recipe->id) }}" method="POST" class="inline">
+                                                <form action="{{ route('recyclebin.restore', $event->id) }}" method="POST" class="inline">
                                                     @csrf
                                                     @method('PATCH')
                                                     <button type="submit" class="text-gray-500 hover:text-indigo-600" title="Restaurar">
@@ -133,10 +139,10 @@
                                                         </svg>
                                                     </button>
                                                 </form>
-                                                <form action="{{ route('recyclebin.destroy', $recipe->id) }}" method="POST" class="inline ml-2">
+                                                <form action="{{ route('recyclebin.destroy', $event->id) }}" method="POST" class="inline ml-2">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button onclick="showDeleteModal('{{ route('recyclebin.destroy', $recipe->id) }}')" type="button" class="text-gray-500 hover:text-red-600" title="Eliminar definitivamente">
+                                                    <button onclick="showDeleteModal('{{ route('recyclebin.destroy', $event->id) }}')" type="button" class="text-gray-500 hover:text-red-600" title="Eliminar definitivamente">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                                         </svg>
@@ -151,30 +157,30 @@
 
                         <!-- Vista de cuadrícula -->
                         <div id="grid-view-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            @foreach ($recipes as $recipe)
-                                <div class="relative bg-cover bg-center rounded-lg shadow-md h-48 group" style="background-image: url('{{ asset($recipe->image) }}');">
+                            @foreach ($events as $event)
+                                <div class="relative bg-cover bg-center rounded-lg shadow-md h-48 group" style="background-image: url('{{ asset($event->image) }}');">
                                     <div class="absolute inset-0 bg-black bg-opacity-50 rounded-lg p-4 flex flex-col justify-end transition-all duration-300 hover:bg-opacity-65 group">
                                         <!-- Título con mejor contraste -->
                                         <div class="text-sm font-semibold text-white group-hover:text-yellow-300 transition-colors duration-300">
-                                            {{ $recipe->title }}
+                                            {{ $event->title }}
                                         </div>
                                         <!-- Texto secundario con mejor contraste -->
                                         <div class="text-sm text-gray-300 mt-2 group-hover:text-gray-100 transition-colors duration-300">
-                                            {{ $recipe->deleted_at->format('d/m/Y h:i a') }}
+                                            {{ $event->deleted_at->format('d/m/Y h:i a') }}
                                         </div>
                                     </div>
                                                                    
                                     <!-- Menú de tres puntos y dropdown de acciones -->
                                     <div class="absolute top-2 right-2">
                                         <!-- Botón de tres puntos -->
-                                        <button onclick="toggleDropdown('dropdown-{{ $recipe->id }}', event)" class="dropdown-button text-white bg-gray-700 bg-opacity-50 rounded-full p-1 focus:outline-none hover:bg-gray-600">
+                                        <button onclick="toggleDropdown('dropdown-{{ $event->id }}', event)" class="dropdown-button text-white bg-gray-700 bg-opacity-50 rounded-full p-1 focus:outline-none hover:bg-gray-600">
                                             &#x22EE; <!-- Icono de tres puntos -->
                                         </button>
 
                                         <!-- Dropdown de acciones -->
-                                        <div id="dropdown-{{ $recipe->id }}" class="dropdown-content hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                                        <div id="dropdown-{{ $event->id }}" class="dropdown-content hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                                             <div class="py-1">
-                                                <form action="{{ route('recyclebin.restore', $recipe->id) }}" method="POST" class="block w-full text-left px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <form action="{{ route('recyclebin.restore', $event->id) }}" method="POST" class="block w-full text-left px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                                     @csrf
                                                     @method('PATCH')
                                                     <button type="submit" class="w-full flex items-center gap-2">
@@ -184,10 +190,10 @@
                                                         Restaurar
                                                     </button>
                                                 </form>
-                                                <form action="{{ route('recyclebin.destroy', $recipe->id) }}" method="POST" class="block w-full text-left px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <form action="{{ route('recyclebin.destroy', $event->id) }}" method="POST" class="block w-full text-left px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button onclick="showDeleteModal('{{ route('recyclebin.destroy', $recipe->id) }}')" type="button" class="w-full flex items-center gap-2 text-left">
+                                                    <button onclick="showDeleteModal('{{ route('recyclebin.destroy', $event->id) }}')" type="button" class="w-full flex items-center gap-2 text-left">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                                         </svg>

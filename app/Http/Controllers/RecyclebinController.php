@@ -30,7 +30,7 @@ class RecyclebinController extends Controller
         }
  
         $event->restore();
-        return redirect()->route('event.index')->with('success', 'Evento restaurado correctamente');
+        return redirect()->route('events.index')->with('success', 'Evento restaurado correctamente');
     }
 
     public function destroy($id)
