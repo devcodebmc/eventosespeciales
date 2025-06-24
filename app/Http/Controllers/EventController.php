@@ -3,8 +3,107 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event;
+use App\Models\Category;
+use App\Models\Tag;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
-    //
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+ 
+        // Verificar si el usuario está autenticado
+       if (!auth()->check()) {
+           return redirect()->route('login'); // O manejar usuarios no autenticados
+       }
+       
+       // Base query con ordenación y búsqueda
+       $query = Event::orderBy('updated_at', 'DESC')->search($search);   
+
+       $events = $query->paginate(5);
+
+       return view('events.index', compact('events'));
+    }
+
+    public function create()
+    {
+        $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
+        $tags = Tag::select('id', 'name')->orderBy('name', 'asc')->get();
+        return view('events.create', compact('categories', 'tags'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'summary' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'event_date' => 'nullable|date',
+            'location' => 'nullable|string|max:255',
+            'organizer' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:10240',
+            'video_url' => 'nullable|url|max:255',
+            'event_images.*' => 'nullable|image|max:10240',
+            'status' => 'required|in:draft,published',
+            'type' => 'required|in:Event,Service,Gallery,Video,Banner',
+        ]);
+
+        // Subir imagen principal si se proporciona
+        $image = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('events', 'public');
+            $image = Storage::url($imagePath);
+        }
+
+        // Guardar el evento
+        $event = Event::create([
+            'title' => $request->title,
+            'summary' => $request->summary,
+            'content' => $request->content,
+            'category_id' => $request->category_id,
+            'user_id' => auth()->id(),
+            'event_date' => $request->event_date,
+            'location' => $request->location,
+            'organizer' => $request->organizer,
+            'image' => $image,
+            'video_url' => $request->video_url,
+            'status' => $request->status,
+            'type' => $request->type,
+        ]);
+
+        // Guardar las tags (si se enviaron)
+        if ($request->has('tags')) {
+            $event->tags()->sync($request->tags);
+        }
+
+        // Guardar imágenes secundarias si se suben
+        if ($request->hasFile('event_images')) {
+            foreach ($request->file('event_images') as $key => $file) {
+                $secondaryImagePath = $file->store('event_images', 'public');
+                $secondaryImage = Storage::url($secondaryImagePath);
+
+                // Suponiendo que tienes un modelo EventImage relacionado
+                $event->images()->create([
+                    'image_path' => $secondaryImage,
+                    'order' => $key,
+                ]);
+            }
+        }
+
+        return redirect()->route('events.index')->with('success', 'Evento creado con éxito.');
+    }
+
+    public function updateStatus(Request $request, Event $event)
+    {
+        $validated = $request->validate([
+            'new_status' => 'required|in:published,draft'
+        ]);
+        
+        $event->update(['status' => $validated['new_status']]);
+        
+        return back()->with('success', 'Estado actualizado correctamente');
+    }
 }

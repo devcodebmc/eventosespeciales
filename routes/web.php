@@ -4,8 +4,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\FetchTagController;
+use App\Models\EventImage;  
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('services', ServiceController::class);
     Route::resource('tags', TagController::class);
+
+    Route::resource('events', EventController::class);
+    Route::patch('/events/{event}/update-status', [EventController::class, 'updateStatus'])
+    ->name('events.update-status');
+    Route::get('/fetch-tags', [FetchTagController::class, 'index'])->name('fetch-tags.index');
+    Route::delete('/events/images/{recipeImage}', [EventController::class, 'destroy'])->name('events.images.destroy');
   
     // Recyclebin routes
     Route::get('/recyclebin', [App\Http\Controllers\RecyclebinController::class, 'index'])->name('recyclebin.index');

@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('services.index')" :active="request()->is('services*')">
                         {{ __('Servicios') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('events.index')" :active="request()->is('events*')">
+                        {{ __('Eventos') }}
+                    </x-nav-link>
                     {{-- <x-nav-link :href="route('recyclebin.index')" :active="request()->is('recyclebin*')">
                         {{ __('Papelera') }}
                     </x-nav-link> --}}
@@ -90,6 +93,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link  :href="route('services.index')" :active="request()->is('services*')">
                 {{ __('Servicios') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link  :href="route('events.index')" :active="request()->is('events*')">
+                {{ __('Eventos') }}
             </x-responsive-nav-link>
             {{-- <x-responsive-nav-link :href="route('recyclebin.index')" :active="request()->is('recyclebin*')">
                 {{ __('Papelera') }}
