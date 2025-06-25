@@ -192,37 +192,8 @@ class EventController extends Controller
             abort(403, 'No tienes permiso para eliminar este evento.');
         }
 
-        DB::beginTransaction();
-
-        try {
-            // Eliminar imagen principal si existe
-            if ($event->image) {
-                $this->deleteImage($event->image);
-            }
-
-            // Eliminar imágenes secundarias si existen
-            if ($event->images()->exists()) {
-                foreach ($event->images as $image) {
-                    $this->deleteImage($image->image_path);
-                }
-                $event->images()->delete();
-            }
-
-            // Eliminar relaciones de tags
-            $event->tags()->detach();
-
-            // Eliminar el evento
-            $event->delete();
-
-            DB::commit();
-
-            return redirect()->route('events.index')->with('success', 'Evento enviado a la papelera correctamente.');
-            
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Error al eliminar evento: ' . $e->getMessage());
-            return back()->with('error', 'Error al eliminar el evento. Por favor, inténtelo de nuevo.');
-        }
+        $event->delete();
+        return redirect()->route('events.index')->with('success', 'Evento enviado a la papelera correctamente.');
     }
 
     public function updateStatus(Request $request, Event $event)
