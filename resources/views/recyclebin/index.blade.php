@@ -156,7 +156,7 @@
                         </div>
 
                         <!-- Vista de cuadrícula -->
-                        <div id="grid-view-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <div id="grid-view-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 hidden">
                             @foreach ($events as $event)
                                 <div class="relative bg-cover bg-center rounded-lg shadow-md h-48 group" style="background-image: url('{{ asset($event->image) }}');">
                                     <div class="absolute inset-0 bg-black bg-opacity-50 rounded-lg p-4 flex flex-col justify-end transition-all duration-300 hover:bg-opacity-65 group">
@@ -211,9 +211,72 @@
             </div>
         </div>
     </div>
-
+    @push('js')
     <script>
-        // Función para mostrar u ocultar el dropdown de acciones
+        // Función para alternar la visibilidad del dropdown
+        function toggleDropdown(dropdownId, event) {
+            event.stopPropagation(); // Evita que el clic se propague y cierre el dropdown inmediatamente
+            const dropdown = document.getElementById(dropdownId);
+            const allDropdowns = document.querySelectorAll('.dropdown-content');
+
+            // Cerrar todos los dropdowns excepto el actual
+            allDropdowns.forEach(function(d) {
+                if (d.id !== dropdownId) {
+                    d.classList.add('hidden');
+                }
+            });
+
+            // Alternar la visibilidad del dropdown actual
+            dropdown.classList.toggle('hidden');
+        }
+        
+        // Cerrar el dropdown al hacer clic fuera de él
+        document.addEventListener('click', function(event) {
+            const dropdowns = document.querySelectorAll('.dropdown-content');
+            const isClickInsideDropdown = Array.from(dropdowns).some(dropdown => dropdown.contains(event.target));
+            const isClickOnButton = event.target.matches('.dropdown-button') || event.target.closest('.dropdown-button');
+
+            if (!isClickInsideDropdown && !isClickOnButton) {
+                dropdowns.forEach(function(dropdown) {
+                    dropdown.classList.add('hidden');
+                });
+            }
+        });
+        
+        // Funciones para el modal de contenido
+        function openContentModal(id) {
+            document.getElementById('content-modal-' + id).classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+        
+        function closeContentModal(id) {
+            document.getElementById('content-modal-' + id).classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+        
+        // Funciones para alternar entre vistas
+        function toggleView(activeButton, inactiveButton, activeContainer, inactiveContainer) {
+            document.getElementById(activeContainer).classList.remove('hidden');
+            document.getElementById(inactiveContainer).classList.add('hidden');
+            document.getElementById(activeButton).classList.add('bg-indigo-200');
+            document.getElementById(inactiveButton).classList.remove('bg-indigo-200');
+        }
+
+        // Agregar eventos a los botones de vista
+        document.getElementById('list-view').addEventListener('click', function() {
+            toggleView('list-view', 'grid-view', 'list-view-container', 'grid-view-container');
+        });
+
+        document.getElementById('grid-view').addEventListener('click', function() {
+            toggleView('grid-view', 'list-view', 'grid-view-container', 'list-view-container');
+        });
+        
+        // Inicializar con la vista de lista activa
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('list-view').classList.add('bg-indigo-200');
+        });
+
+         // Función para mostrar u ocultar el dropdown de acciones
         document.getElementById('confirmModal').classList.add('hidden');
         // Función para mostrar el modal de confirmación
         function showDeleteModal(actionUrl) {
@@ -255,4 +318,5 @@
             }
         });
     </script>
+    @endpush
 </x-app-layout>

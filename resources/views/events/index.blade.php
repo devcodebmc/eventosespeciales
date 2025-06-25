@@ -327,6 +327,7 @@
     </div>
     @endforeach
 
+    @push('js')
     <script>
         // Función para alternar la visibilidad del dropdown
         function toggleDropdown(dropdownId, event) {
@@ -391,4 +392,5 @@
             document.getElementById('list-view').classList.add('bg-indigo-200');
         });
     </script>
+    @endpush
 </x-app-layout>
