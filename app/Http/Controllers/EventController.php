@@ -7,6 +7,8 @@ use App\Models\Event;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
@@ -14,17 +16,15 @@ class EventController extends Controller
     {
         $search = $request->input('search');
  
-        // Verificar si el usuario está autenticado
-       if (!auth()->check()) {
-           return redirect()->route('login'); // O manejar usuarios no autenticados
-       }
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
        
-       // Base query con ordenación y búsqueda
-       $query = Event::orderBy('updated_at', 'DESC')->search($search);   
+        $events = Event::orderBy('updated_at', 'DESC')
+            ->search($search)
+            ->paginate(5);
 
-       $events = $query->paginate(5);
-
-       return view('events.index', compact('events'));
+        return view('events.index', compact('events'));
     }
 
     public function create()
@@ -36,7 +36,7 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'summary' => 'nullable|string|max:255',
             'content' => 'nullable|string',
@@ -51,72 +51,73 @@ class EventController extends Controller
             'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package,Article',
         ]);
 
-        // Subir imagen principal si se proporciona
-        $image = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('events', 'public');
-            $image = Storage::url($imagePath);
-        }
+        DB::beginTransaction();
 
-        // Guardar el evento
-        $event = Event::create([
-            'title' => $request->title,
-            'summary' => $request->summary,
-            'content' => $request->content,
-            'category_id' => $request->category_id,
-            'user_id' => auth()->id(),
-            'event_date' => $request->event_date,
-            'location' => $request->location,
-            'organizer' => $request->organizer,
-            'image' => $image,
-            'video_url' => $request->video_url,
-            'status' => $request->status,
-            'type' => $request->type,
-        ]);
-
-        // Guardar las tags (si se enviaron)
-        if ($request->has('tags')) {
-            $event->tags()->sync($request->tags);
-        }
-
-        // Guardar imágenes secundarias si se suben
-        if ($request->hasFile('event_images')) {
-            foreach ($request->file('event_images') as $key => $file) {
-                $secondaryImagePath = $file->store('event_images', 'public');
-                $secondaryImage = Storage::url($secondaryImagePath);
-
-                // Suponiendo que tienes un modelo EventImage relacionado
-                $event->images()->create([
-                    'image_path' => $secondaryImage,
-                    'order' => $key,
-                ]);
+        try {
+            // Subir imagen principal si se proporciona
+            $imagePath = null;
+            if ($request->hasFile('image')) {
+                $imagePath = Storage::url($request->file('image')->store('events', 'public'));
             }
-        }
 
-        return redirect()->route('events.index')->with('success', 'Evento creado con éxito.');
+            // Crear el evento
+            $event = Event::create([
+                'title' => $validatedData['title'],
+                'summary' => $validatedData['summary'],
+                'content' => $validatedData['content'],
+                'category_id' => $validatedData['category_id'],
+                'user_id' => auth()->id(),
+                'event_date' => $validatedData['event_date'],
+                'location' => $validatedData['location'],
+                'organizer' => $validatedData['organizer'],
+                'image' => $imagePath,
+                'video_url' => $validatedData['video_url'],
+                'status' => $validatedData['status'],
+                'type' => $validatedData['type'],
+            ]);
+
+            // Sincronizar tags
+            if ($request->has('tags')) {
+                $event->tags()->sync($request->tags);
+            }
+
+            // Procesar imágenes secundarias
+            if ($request->hasFile('event_images')) {
+                $this->processEventImages($request->file('event_images'), $event);
+            }
+
+            DB::commit();
+
+            return redirect()->route('events.index')->with('success', 'Evento creado con éxito.');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error al crear evento: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Error al crear el evento. Por favor, inténtelo de nuevo.');
+        }
     }
 
     public function edit($id)
     {
         $event = Event::with(['category', 'tags', 'images'])->findOrFail($id);
 
-        // Validar autenticación
         if (!auth()->check()) {
             return redirect()->route('login');
         }
+
         $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
         $tags = Tag::select('id', 'name')->orderBy('name', 'asc')->get();
+        
         return view('events.edit', compact('event', 'categories', 'tags'));
     }
 
     public function update(Request $request, Event $event)
     {
-        // Validar autenticación
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
-        $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'summary' => 'nullable|string|max:255',
             'content' => 'nullable|string',
@@ -130,71 +131,98 @@ class EventController extends Controller
             'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package,Article',
         ]);
 
-        // Subir imagen principal si se proporciona
-        $image = $event->image;
-        if ($request->hasFile('image')) {
-             // Eliminar la imagen anterior si existe
-            if ($event->image) {
-                $oldImagePath = str_replace('/storage', 'public', $event->image);
-                Storage::delete($oldImagePath);
+        DB::beginTransaction();
+
+        try {
+            // Procesar imagen principal
+            $imagePath = $event->image;
+            if ($request->hasFile('image')) {
+                // Eliminar la imagen anterior si existe
+                if ($event->image) {
+                    $this->deleteImage($event->image);
+                }
+                $imagePath = Storage::url($request->file('image')->store('events', 'public'));
             }
-            $imagePath = $request->file('image')->store('events', 'public');
-            $image = Storage::url($imagePath);
+
+            // Actualizar el evento
+            $event->update([
+                'title' => $validatedData['title'],
+                'summary' => $validatedData['summary'],
+                'content' => $validatedData['content'],
+                'category_id' => $validatedData['category_id'],
+                'event_date' => $validatedData['event_date'],
+                'location' => $validatedData['location'],
+                'organizer' => $validatedData['organizer'],
+                'image' => $imagePath,
+                'video_url' => $validatedData['video_url'],
+                'status' => $validatedData['status'],
+                'type' => $validatedData['type'],
+            ]);
+
+            // Sincronizar tags
+            if ($request->has('tags')) {
+                $event->tags()->sync($request->tags);
+            }
+
+            // Procesar imágenes secundarias
+            if ($request->hasFile('event_images')) {
+                $this->processEventImages($request->file('event_images'), $event);
+            }
+
+            DB::commit();
+
+            return redirect()->route('events.index')->with('success', 'Evento actualizado con éxito.');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error al actualizar evento: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Error al actualizar el evento. Por favor, inténtelo de nuevo.');
         }
-
-        // Actualizar el evento
-        $event->update([
-            'title' => $request->title,
-            'summary' => $request->summary,
-            'content' => $request->content,
-            'category_id' => $request->category_id,
-            'event_date' => $request->event_date,
-            'location' => $request->location,
-            'organizer' => $request->organizer,
-            'image' => $image,
-            'video_url' => $request->video_url,
-            'status' => $request->status,
-            'type' => $request->type,
-        ]);
-
-        // Actualizar las tags (si se enviaron)
-        if ($request->has('tags')) {
-            $event->tags()->sync($request->tags);
-        }
-
-        // Actualizar las imagenes secundarias si se suben
-        if ($request->hasFile('event_images')) {
-            foreach ($request->file('event_images') as $key => $file) {
-                $secondaryImagePath = $file->store('event_images', 'public');
-                $secondaryImage = Storage::url($secondaryImagePath);
-
-                // Suponiendo que tienes un modelo EventImage relacionado
-                $event->images()->create([
-                    'image_path' => $secondaryImage,
-                    'order' => $key,
-                ]);
-            }       
-        }
-
-        return redirect()->route('events.index')->with('success', 'Evento actualizado con éxito.');
     }
 
     public function destroy($id)
     {
-        // Validar autenticación
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
         $event = Event::findOrFail($id);
 
-        // Validar roles y propiedad de la receta
         if ($event->user_id !== auth()->id()) {
-            abort(403, 'No tienes permiso para eliminar esta receta.');
+            abort(403, 'No tienes permiso para eliminar este evento.');
         }
 
-        $event->delete();
-        return redirect()->route('events.index')->with('success', 'Evento enviado a la papelera correctamente.');
+        DB::beginTransaction();
+
+        try {
+            // Eliminar imagen principal si existe
+            if ($event->image) {
+                $this->deleteImage($event->image);
+            }
+
+            // Eliminar imágenes secundarias si existen
+            if ($event->images()->exists()) {
+                foreach ($event->images as $image) {
+                    $this->deleteImage($image->image_path);
+                }
+                $event->images()->delete();
+            }
+
+            // Eliminar relaciones de tags
+            $event->tags()->detach();
+
+            // Eliminar el evento
+            $event->delete();
+
+            DB::commit();
+
+            return redirect()->route('events.index')->with('success', 'Evento enviado a la papelera correctamente.');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error al eliminar evento: ' . $e->getMessage());
+            return back()->with('error', 'Error al eliminar el evento. Por favor, inténtelo de nuevo.');
+        }
     }
 
     public function updateStatus(Request $request, Event $event)
@@ -206,5 +234,29 @@ class EventController extends Controller
         $event->update(['status' => $validated['new_status']]);
         
         return back()->with('success', 'Estado actualizado correctamente');
+    }
+
+    /**
+     * Procesa y guarda las imágenes secundarias del evento
+     */
+    protected function processEventImages($images, Event $event)
+    {
+        foreach ($images as $key => $file) {
+            $secondaryImagePath = Storage::url($file->store('event_images', 'public'));
+            
+            $event->images()->create([
+                'image_path' => $secondaryImagePath,
+                'order' => $key,
+            ]);
+        }
+    }
+
+    /**
+     * Elimina una imagen del almacenamiento
+     */
+    protected function deleteImage($imageUrl)
+    {
+        $path = str_replace('/storage', 'public', $imageUrl);
+        Storage::delete($path);
     }
 }

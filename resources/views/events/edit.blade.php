@@ -45,6 +45,9 @@
                     <!-- Contenido con Quill -->
                     @include('components.quillEditor', ['content' => old('content', $event->content)])
 
+                </div>
+                <!-- Columna Derecha -->
+                <div class="space-y-6">
                     <!-- Categoría -->
                     <div>
                         <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
@@ -61,9 +64,6 @@
                     </div>
                     <!-- Tags -->
                     @include('components.tagList', ['selected' => old('tags', $event->tags->pluck('id')->toArray() ?? [])])
-                </div>
-                <!-- Columna Derecha -->
-                <div class="space-y-6">
                     <!-- Fecha y hora -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>

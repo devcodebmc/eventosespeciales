@@ -45,7 +45,10 @@
                     <!-- Contenido con Quill -->
                     @include('components.quillEditor')
 
-                    <!-- Categoría -->
+                </div>
+                <!-- Columna Derecha -->
+                <div class="space-y-6">
+                     <!-- Categoría -->
                     <div>
                         <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
                         <select name="category_id" id="category_id" class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition duration-200">
@@ -61,9 +64,6 @@
                     </div>
                     <!-- Tags -->
                     @include('components.tagList')
-                </div>
-                <!-- Columna Derecha -->
-                <div class="space-y-6">
                     <!-- Fecha y hora -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
