@@ -178,6 +178,7 @@
                                 <option value="Promotion" {{ old('type', $event->type) == 'Promotion' ? 'selected' : '' }}>Promoción</option>
                                 <option value="Package" {{ old('type', $event->type) == 'Package' ? 'selected' : '' }}>Paquete</option>
                                 <option value="Article" {{ old('type', $event->type) == 'Article' ? 'selected' : '' }}>Artículo</option>
+                                <option value="Section" {{ old('type', $event->type) == 'Section' ? 'selected' : '' }}>Sección</option>
                             </select>
                             @error('type')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
