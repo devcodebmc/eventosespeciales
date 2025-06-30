@@ -3,10 +3,10 @@
         <div class="flex justify-between h-20 items-center">
             <!-- Logo -->
             <div class="flex-shrink-0 flex flex-col items-start">
-                <span class="font-script text-3xl text-gray-800">
+                <span class="font-script text-2xl text-gray-800">
                     Eventos Especiales Lerma
                 </span>
-                <span class="text-xs tracking-widest text-gray-500 font-semibold mt-1">
+                <span class="text-xs tracking-widest text-gray-500 mt-1">
                     AGENCIAS DE EVENTOS
                 </span>
             </div>

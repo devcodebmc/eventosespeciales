@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/identidad');
 
 .font-script {
     font-family: 'Dancing Script', cursive;
+}
+
+.font-identidad {
+    font-family: 'Afacad', sans-serif;                                                                                      
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Dancing Script', cursive;
+}
+
+body, p, span, li, a, small, label, input, textarea, button {
+    font-family: 'Identidad', sans-serif;
 }
