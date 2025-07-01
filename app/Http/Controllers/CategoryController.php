@@ -41,13 +41,21 @@ class CategoryController extends Controller
     {
         // Validate the request
         $request->validate([
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'max:2048'] // max 2MB
         ]);
 
         // Create a new category
-        $category               = new Category;
-        $category->name         = $request->name;
-        $category->description  = $request->description;
+        $category = new Category;
+        $category->name = $request->name;
+        $category->description = $request->description;
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('categories', 'public');
+            $category->image = $path;
+        }
+
         $category->save();
 
         // Redirect to the categories index
@@ -88,14 +96,27 @@ class CategoryController extends Controller
     {
         // Validate the request
         $request->validate([
-            'name' => ['required','string','max:255']
+            'name' => ['required', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'max:2048'] // max 2MB
         ]);
 
         // Update the category
-        $category               = Category::find($id);
-        $category->name         = $request->name;
-        $category->description  = $request->description;
-        $category->updated_at    = now();
+        $category = Category::findOrFail($id);
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->updated_at = now();
+
+        // Handle image upload and delete previous image if replaced
+        if ($request->hasFile('image')) {
+            // Delete previous image if exists
+            if ($category->image && Storage::disk('public')->exists($category->image)) {
+                Storage::disk('public')->delete($category->image);
+            }
+            // Store new image
+            $path = $request->file('image')->store('categories', 'public');
+            $category->image = $path;
+        }
+
         $category->save();
 
         // Redirect to the categories index
@@ -110,8 +131,16 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $category = Category::findOrFail($id);
+
+        // Delete image if exists
+        if ($category->image && Storage::disk('public')->exists($category->image)) {
+            Storage::disk('public')->delete($category->image);
+        }
+
         // Delete the category
-        Category::destroy($id);
+        $category->delete();
+
         // Redirect to the categories index
         return redirect()->route('categories.index')->with('success', 'Categoría eliminada correctamente.');
     }

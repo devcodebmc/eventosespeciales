@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
@@ -26,7 +27,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return view('content.create');
+        return view('services.create');
     }
 
     /**
@@ -39,13 +40,21 @@ class ServiceController extends Controller
     {
          // Validate the request
         $request->validate([
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'max:2048']
         ]);
 
         // Create a new service
         $service               = new Service;
         $service->name         = $request->name;
         $service->description  = $request->description;
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('services', 'public');
+            $service->image = $imagePath;
+        }
+
         $service->save();
 
         // Redirect to the services index
@@ -84,19 +93,31 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-         // Validate the request
+        // Validate the request
         $request->validate([
-            'name' => ['required','string','max:255']
+            'name' => ['required', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'max:2048']
         ]);
 
         // Update the specified service
-        $service                = Service::find($id);
-        $service->name          = $request->name;
-        $service->description   = $request->description;
-        $service->updated_at    = now();
+        $service = Service::findOrFail($id);
+        $service->name = $request->name;
+        $service->description = $request->description;
+
+        // Handle image upload and delete previous image if replaced
+        if ($request->hasFile('image')) {
+            // Delete previous image if exists
+            if ($service->image && Storage::disk('public')->exists($service->image)) {
+                Storage::disk('public')->delete($service->image);
+            }
+            $imagePath = $request->file('image')->store('services', 'public');
+            $service->image = $imagePath;
+        }
+
+        $service->updated_at = now();
         $service->save();
 
-        // Redirect to the categories index
+        // Redirect to the services index
         return redirect()->route('services.index')->with('success', 'Servicio actualizado correctamente.');
     }
 
@@ -108,7 +129,15 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        Service::destroy($id);
+        $service = Service::findOrFail($id);
+
+        // Delete image if exists
+        if ($service->image && Storage::disk('public')->exists($service->image)) {
+            Storage::disk('public')->delete($service->image);
+        }
+
+        $service->delete();
+
         return redirect()->route('services.index')->with('success', 'Servicio eliminado correctamente.');
     }
 }

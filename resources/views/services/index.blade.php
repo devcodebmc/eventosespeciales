@@ -88,6 +88,9 @@
                                     Descripción
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Imagen
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Fecha de creación
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -108,7 +111,14 @@
                                         {{ $service->slug }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ $service->description }}
+                                        {{ (strlen($service->description) > 50) ? substr($service->description, 0, 30) . '...' : (string)$service->description }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if ($service->image)
+                                            <img src="{{ asset('storage/' . $service->image) }}" alt="Imagen actual" class="w-12 h-12 object-cover rounded-md border border-gray-200">
+                                        @else
+                                            Sin imagen
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ $service->created_at->diffForHumans() }}
