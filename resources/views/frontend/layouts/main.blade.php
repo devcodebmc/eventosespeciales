@@ -17,5 +17,27 @@
         <!-- Footer -->
     
         @stack('js')
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const animatedElements = document.querySelectorAll('[data-animate]');
+                
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('opacity-100', 'translate-y-0');
+                                entry.target.classList.remove('opacity-0', 'translate-y-4');
+                                observer.unobserve(entry.target); // Deja de observar después de animar
+                            }
+                        });
+                    },
+                    {
+                        threshold: 0.1, // Activa cuando el 10% del elemento es visible
+                    }
+                );
+
+                animatedElements.forEach((element) => observer.observe(element));
+            });
+        </script>
     </body>    
 </html>

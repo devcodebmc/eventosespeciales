@@ -111,7 +111,7 @@
                                         {{ $category->slug }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ (strlen($category->description) > 50) ? substr($category->description, 0, 30) . '...' : (string)$category->description }}
+                                        {{ (strlen($category->description) > 50) ? substr($category->description, 0, 20) . '...' : (string)$category->description }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if ($category->image)
