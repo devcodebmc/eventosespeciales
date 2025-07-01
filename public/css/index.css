@@ -14,10 +14,26 @@
     font-family: 'Merriweather', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1 {
     font-family: 'Dancing Script', cursive;
 }
 
-body, p, span, li, a, small, label, input, textarea, button {
+body, p, h2, h3, h4, h5, h6, span, li, a, small, label, input, textarea, button {
     font-family: 'Identidad', sans-serif;
+}
+
+.btn-action {
+    background-color: #fff;
+    border: 1px solid #F6BBA9;
+    color: #2A4044;
+    transition: background-color 0.2s, color 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn-action:hover,
+.btn-action:focus {
+    background-color: #F6BBA9;
+    color: #2A4044;
 }
