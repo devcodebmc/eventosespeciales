@@ -30,5 +30,6 @@
     </div>
     @include('frontend.partials.services')
     @include('frontend.partials.shortHistory')
+    @include('frontend.partials.moments')
 </section> 
 @endsection

@@ -40,6 +40,31 @@
                 });
             });
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Animación scale-in (de dentro hacia afuera)
+                const scaleInElements = document.querySelectorAll('[data-animate-scale]');
+                
+                const scaleInObserver = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('opacity-100', 'scale-100');
+                                entry.target.classList.remove('opacity-0', 'scale-90');
+                                scaleInObserver.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.1 }
+                );
+
+                scaleInElements.forEach((element) => {
+                    element.classList.add('opacity-0', 'scale-90');
+                    element.style.transition = 'opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    scaleInObserver.observe(element);
+                });
+            });
+        </script>
         @stack('js')
     </body>    
 </html>
