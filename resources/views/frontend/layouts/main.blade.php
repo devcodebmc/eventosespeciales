@@ -15,29 +15,31 @@
         @yield('content')
         
         <!-- Footer -->
-    
-        @stack('js')
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const animatedElements = document.querySelectorAll('[data-animate]');
+                // Animación principal (slide-up)
+                const slideUpElements = document.querySelectorAll('[data-animate]');
                 
-                const observer = new IntersectionObserver(
+                const slideUpObserver = new IntersectionObserver(
                     (entries) => {
                         entries.forEach((entry) => {
                             if (entry.isIntersecting) {
                                 entry.target.classList.add('opacity-100', 'translate-y-0');
                                 entry.target.classList.remove('opacity-0', 'translate-y-4');
-                                observer.unobserve(entry.target); // Deja de observar después de animar
+                                slideUpObserver.unobserve(entry.target);
                             }
                         });
                     },
-                    {
-                        threshold: 0.1, // Activa cuando el 10% del elemento es visible
-                    }
+                    { threshold: 0.1 }
                 );
 
-                animatedElements.forEach((element) => observer.observe(element));
+                slideUpElements.forEach((element) => {
+                    element.classList.add('opacity-0', 'translate-y-4');
+                    element.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                    slideUpObserver.observe(element);
+                });
             });
         </script>
+        @stack('js')
     </body>    
 </html>
