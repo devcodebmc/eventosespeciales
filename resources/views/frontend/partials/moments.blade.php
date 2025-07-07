@@ -1,4 +1,4 @@
-<section class="flex flex-col items-center sm:items-start opacity-0 translate-y-4 transition-all duration-700 px-4 sm:px-6 lg:px-8 mt-16" data-animate>
+<section class="flex flex-col items-center sm:items-start opacity-0 translate-y-4 transition-all duration-700 px-4 sm:px-6 lg:px-8 mt-8" data-animate>
     <header class="flex flex-col sm:flex-row items-center sm:items-start justify-start my-6 w-full">
         <div class="flex items-center w-full justify-center sm:justify-start gap-3">
             <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>

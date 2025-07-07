@@ -31,5 +31,6 @@
     @include('frontend.partials.services')
     @include('frontend.partials.shortHistory')
     @include('frontend.partials.moments')
+    @include('frontend.partials.packages')
 </section> 
 @endsection
