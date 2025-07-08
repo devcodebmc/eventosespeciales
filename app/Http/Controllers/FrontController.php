@@ -13,7 +13,10 @@ class FrontController extends Controller
     public function index(Request $request)
     {
         $services = Service::all();
-        return view('welcome', compact('services'));
+        $packages = Event::select('id', 'title', 'summary', 'content', 'image', 'slug')
+                    ->where('type', 'Package')
+                    ->get();
+        return view('welcome', compact('services', 'packages'));
     }
 
    
