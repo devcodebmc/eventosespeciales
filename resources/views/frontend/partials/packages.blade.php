@@ -19,22 +19,25 @@
     </h3>
 </section>
 
-<section class="bg-gray-100 py-8 md:py-16">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+<section class="bg-gray-100 py-8 md:py-16 relative">
+    <!-- Flor izquierda -->
+    <img src="{{ asset('images/flor-izquierda.png') }}" 
+         alt="Flor izquierda" 
+         class="absolute left-0 top-0 w-24 md:w-32 opacity-0 pointer-events-none z-0" 
+         data-animate />
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             @foreach ($packages as $package)
-                <div class="relative w-full group"> <!-- Añadido group para efectos hover -->
-                    <!-- Contenedor de la imagen más alargada -->
+                <div class="relative w-full group">
                     <div class="relative h-80 md:h-96 w-full rounded-xl overflow-hidden shadow-md">
                         <img src="{{ asset($package->image) }}"
-                            alt="{{ $package->title }}"
-                            class="w-full h-full object-cover" />
-                        
-                        <!-- Card superpuesta con efecto hover -->
+                             alt="{{ $package->title }}"
+                             class="w-full h-full object-cover" />
                         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
                                     w-4/5 md:w-3/4 transition-all duration-500 group-hover:-translate-y-1/3 z-10">
                             <div class="bg-white rounded-xl shadow-xl p-5 md:p-6 text-center min-h-[180px] 
-                                      flex flex-col border border-gray-100">
+                                        flex flex-col border border-gray-100">
                                 <h2 class="text-lg md:text-xl font-secondary text-[#F6BBA9] mb-2">
                                     {{ $package->title }}
                                 </h2>
@@ -55,4 +58,9 @@
             @endforeach
         </div>
     </div>
+    <!-- Flor derecha -->
+    <img src="{{ asset('images/flor-derecha.png') }}" 
+         alt="Flor derecha" 
+         class="absolute right-0 bottom-0 w-24 md:w-32 opacity-0 pointer-events-none z-0" 
+         data-animate />
 </section>

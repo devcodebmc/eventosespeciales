@@ -15,6 +15,7 @@ class FrontController extends Controller
         $services = Service::all();
         $packages = Event::select('id', 'title', 'summary', 'content', 'image', 'slug')
                     ->where('type', 'Package')
+                    ->where('status', 'published')
                     ->get();
         return view('welcome', compact('services', 'packages'));
     }
