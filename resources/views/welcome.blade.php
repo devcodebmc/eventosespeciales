@@ -34,5 +34,6 @@
     @include('frontend.partials.packages')
     @include('frontend.partials.shortDescription')
     @include('frontend.partials.team')
+    @include('frontend.partials.contactForm')
 </section> 
 @endsection

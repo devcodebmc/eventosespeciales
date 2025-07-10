@@ -29,24 +29,31 @@
                         'role' => 'Manager',
                         'image' => 'images/1.jpg',
                         'socials' => ['x' => '#', 'facebook' => '#'],
+                        'delay' => '100' // Retardo para la animación en escalera
                     ],
                     [
                         'name' => 'Lily Mae',
                         'role' => 'Designer',
                         'image' => 'images/2.jpg',
                         'socials' => ['instagram' => '#', 'x' => '#', 'facebook' => '#'],
+                        'delay' => '400'
                     ],
                     [
                         'name' => 'John Michael',
                         'role' => 'Wedding Planner',
                         'image' => 'images/3.jpg',
                         'socials' => ['x' => '#', 'facebook' => '#'],
+                        'delay' => '600'
                     ]
                 ];
             @endphp
 
             @foreach ($team as $member)
-                <article class="relative group flex">
+                <article 
+                    class="relative group flex animate-stair"
+                    data-animate-stair
+                    data-delay="{{ $member['delay'] }}"
+                >
                     <!-- Contenedor de la imagen y contenido -->
                     <div class="flex-1 relative">
                         <!-- Imagen con borde redondeado -->
@@ -107,3 +114,39 @@
         </div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Animación en escalera
+        const stairObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const delay = entry.target.getAttribute('data-delay') || 0;
+                        
+                        setTimeout(() => {
+                            entry.target.classList.add('opacity-100', 'translate-y-0');
+                            entry.target.classList.remove('opacity-0', 'translate-y-16');
+                        }, delay);
+                        
+                        stairObserver.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        // Configuración inicial para los elementos de la escalera
+        document.querySelectorAll('[data-animate-stair]').forEach((element) => {
+            element.classList.add(
+                'opacity-0',
+                'translate-y-16',
+                'transition-all',
+                'duration-500',
+                'ease-out'
+            );
+            element.style.transitionDelay = '0ms'; // Se sobrescribirá con el delay individual
+            stairObserver.observe(element);
+        });
+    });
+</script>
