@@ -19,7 +19,7 @@
     </h3>
 </section>
 
-<section class="bg-gray-100 py-8 md:py-16 relative">
+<section class="bg-gray-100 py-8 md:py-16 px-4 relative">
     <!-- Flor izquierda -->
     <img src="{{ asset('images/flor-izquierda.png') }}" 
          alt="Flor izquierda" 

@@ -33,5 +33,6 @@
     @include('frontend.partials.moments')
     @include('frontend.partials.packages')
     @include('frontend.partials.shortDescription')
+    @include('frontend.partials.team')
 </section> 
 @endsection

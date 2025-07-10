@@ -19,7 +19,7 @@
     </h3>
 </section>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-6 lg:gap-4 mt-12 justify-center items-stretch w-full px-4 sm:px-0 place-items-center">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-6 lg:gap-4 mt-12 justify-center items-stretch w-full px-8 md:px-6 lg:px-4 place-items-center">
     <!-- Card 1: Cumpleaños -->
     <div class="flex flex-col flex-1 max-w-md w-full" data-animate-scale>
         <div class="grid grid-cols-2 sm:grid-cols-3 grid-rows-2 gap-2">

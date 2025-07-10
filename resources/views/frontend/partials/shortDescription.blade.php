@@ -2,8 +2,8 @@
   <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative">
 
     <!-- Imagen circular más grande -->
-    <div class="flex justify-center">
-      <div class="w-96 h-96 lg:w-[28rem] lg:h-[28rem] rounded-full overflow-hidden shadow-lg">
+    <div class="flex justify-center opacity-0" data-animate>
+      <div class="w-80 h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] rounded-full overflow-hidden shadow-lg">
         <img src="{{ asset('images/montage.jpg') }}"
              alt="Montage en restaurante con sillas y mesas crossback"
              class="w-full h-full object-cover" />
@@ -11,7 +11,7 @@
     </div>
 
     <!-- Contenido de texto -->
-    <section class="flex flex-col justify-center items-start px-4 sm:px-6 lg:px-0 relative text-left">
+    <section class="flex flex-col justify-center items-start px-4 sm:px-6 lg:px-0 relative text-left opacity-0" data-animate>
       
       <!-- Encabezado decorativo -->
       <header class="flex flex-col sm:flex-row items-center justify-center my-6 w-full">
