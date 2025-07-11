@@ -15,6 +15,7 @@
         @yield('content')
         
         <!-- Footer -->
+        @include('frontend.components.footer')
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 // Animación principal (slide-up)
