@@ -35,5 +35,6 @@
     @include('frontend.partials.shortDescription')
     @include('frontend.partials.team')
     @include('frontend.partials.contactForm')
+    @include('frontend.partials.eventCards')
 </section> 
 @endsection
