@@ -22,7 +22,7 @@
                 Creando una Celebración Inolvidable
             </h2>
             <div class="flex items-center justify-center mt-8">
-                <a href="#" class="btn-action text-lg py-5 px-10">
+                <a href="#" class="btn-action text-lg py-5 px-10 rounded-md">
                     Nuestro Trabajo
                 </a>
             </div>

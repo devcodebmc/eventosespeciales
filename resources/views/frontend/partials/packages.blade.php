@@ -61,6 +61,6 @@
     <!-- Flor derecha -->
     <img src="{{ asset('images/flor-derecha.png') }}" 
          alt="Flor derecha" 
-         class="absolute right-0 bottom-0 w-24 md:w-32 opacity-0 pointer-events-none z-0" 
+         class="absolute right-0 bottom-0 w-24 md:w-32 opacity-0 pointer-events-none z-0 rounded-md" 
          data-animate />
 </section>

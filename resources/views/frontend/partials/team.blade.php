@@ -115,38 +115,40 @@
     </div>
 </section>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Animación en escalera
-        const stairObserver = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const delay = entry.target.getAttribute('data-delay') || 0;
-                        
-                        setTimeout(() => {
-                            entry.target.classList.add('opacity-100', 'translate-y-0');
-                            entry.target.classList.remove('opacity-0', 'translate-y-16');
-                        }, delay);
-                        
-                        stairObserver.unobserve(entry.target);
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
-
-        // Configuración inicial para los elementos de la escalera
-        document.querySelectorAll('[data-animate-stair]').forEach((element) => {
-            element.classList.add(
-                'opacity-0',
-                'translate-y-16',
-                'transition-all',
-                'duration-500',
-                'ease-out'
+@push('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animación en escalera
+            const stairObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            const delay = entry.target.getAttribute('data-delay') || 0;
+                            
+                            setTimeout(() => {
+                                entry.target.classList.add('opacity-100', 'translate-y-0');
+                                entry.target.classList.remove('opacity-0', 'translate-y-16');
+                            }, delay);
+                            
+                            stairObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.1 }
             );
-            element.style.transitionDelay = '0ms'; // Se sobrescribirá con el delay individual
-            stairObserver.observe(element);
+
+            // Configuración inicial para los elementos de la escalera
+            document.querySelectorAll('[data-animate-stair]').forEach((element) => {
+                element.classList.add(
+                    'opacity-0',
+                    'translate-y-16',
+                    'transition-all',
+                    'duration-500',
+                    'ease-out'
+                );
+                element.style.transitionDelay = '0ms'; // Se sobrescribirá con el delay individual
+                stairObserver.observe(element);
+            });
         });
-    });
-</script>
+    </script>
+@endpush

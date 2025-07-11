@@ -25,7 +25,7 @@
 @include('frontend.partials.collageSection')
 
 <div class="flex items-center justify-center mt-8">
-    <a href="#" class="btn-action text-lg py-5 px-10">
+    <a href="#" class="btn-action text-lg py-5 px-10 transition rounded-md">
         Cotizar Ahora
     </a>
 </div>
