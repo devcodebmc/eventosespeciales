@@ -1,4 +1,4 @@
-<section class="bg-white py-20">
+<section class="bg-white py-4 md:py-8 lg:py-16">
   <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative">
 
     <!-- Imagen circular más grande -->
