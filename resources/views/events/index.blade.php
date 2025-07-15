@@ -113,7 +113,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div id="tag-view-{{ $event->id }}">
                                             <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                                                {{ $event->title }}
+                                                {{ Str::limit($event->title, 30) }}
                                             </span>
                                         </div>
                                     </td>

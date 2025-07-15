@@ -90,18 +90,47 @@
             </section>
 
             <!-- Columna 4 - Galería -->
-            <section aria-labelledby="gallery-heading">
+            <section aria-labelledby="gallery-heading" class="mb-8">
                 <h3 id="gallery-heading" class="text-lg font-secondary tracking-wider text-[#2A4044] mb-4">Galería</h3>
-                <div class="grid grid-cols-3 gap-2">
-                    <a href="#" class="focus:outline-none focus:ring-2 focus:ring-[#4b8b97] rounded overflow-hidden">
-                        <img src="https://cdn.prod.website-files.com/648044f76e52ed7cac83946c/6482e2a8f4a3713a31766201_footer-social-image-01.jpg" alt="Imagen de galería 1" class="w-full h-24 object-cover hover:opacity-90 transition-opacity" loading="lazy">
-                    </a>
-                    <a href="#" class="focus:outline-none focus:ring-2 focus:ring-[#4b8b97] rounded overflow-hidden">
-                        <img src="https://cdn.prod.website-files.com/648044f76e52ed7cac83946c/6482e2c5d1a36f1641e42c72_footer-social-image-02.jpg" alt="Imagen de galería 2" class="w-full h-24 object-cover hover:opacity-90 transition-opacity" loading="lazy">
-                    </a>
-                    <a href="#" class="focus:outline-none focus:ring-2 focus:ring-[#4b8b97] rounded overflow-hidden">
-                        <img src="https://cdn.prod.website-files.com/648044f76e52ed7cac83946c/6482e2cf2de566c5d93502d9_footer-social-image-03.jpg" alt="Imagen de galería 3" class="w-full h-24 object-cover hover:opacity-90 transition-opacity" loading="lazy">
-                    </a>
+                <div class="grid grid-cols-3 gap-2" id="gallery-container">
+                    @foreach ($smallGallery->sortBy('order') as $gallery)
+                        <button 
+                            class="gallery-thumbnail focus:outline-none focus:ring-2 focus:ring-[#4b8b97] rounded overflow-hidden"
+                            data-index="{{ $loop->index }}"
+                            onclick="openLightbox({{ $loop->index }})"
+                        >
+                            <img 
+                                src="{{ asset($gallery->image_path) }}" 
+                                alt="{{ $gallery->event->title ?? 'Imagen de galería' }}" 
+                                class="w-full h-24 object-cover hover:opacity-90 transition-opacity" 
+                                loading="lazy"
+                            >
+                        </button>
+                    @endforeach
+                </div>
+
+                <!-- Lightbox/Slider -->
+                <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden items-center justify-center">
+                    <button class="absolute top-4 right-4 text-white text-3xl" onclick="closeLightbox()">&times;</button>
+                    
+                    <button 
+                        class="absolute left-4 bg-white bg-opacity-30 text-white p-2 rounded-full hover:bg-opacity-50 transition-all"
+                        onclick="changeSlide(-1)"
+                    >
+                        &larr;
+                    </button>
+                    
+                    <div class="max-w-4xl mx-auto px-4">
+                        <img id="lightbox-image" class="max-h-[80vh] mx-auto" src="" alt="">
+                        <p id="lightbox-caption" class="text-white text-center mt-2"></p>
+                    </div>
+                    
+                    <button 
+                        class="absolute right-4 bg-white bg-opacity-30 text-white p-2 rounded-full hover:bg-opacity-50 transition-all"
+                        onclick="changeSlide(1)"
+                    >
+                        &rarr;
+                    </button>
                 </div>
             </section>
         </div>
@@ -120,3 +149,80 @@
         </div>
     </div>
 </footer>
+
+@push('js')
+    <script>
+        // Variables globales
+        let currentIndex = 0;
+        let galleryImages = [];
+
+        // Inicializar la galería al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener todas las imágenes de la galería ordenadas por 'order'
+            const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+            galleryImages = Array.from(thumbnails).map(thumb => ({
+                src: thumb.querySelector('img').src,
+                alt: thumb.querySelector('img').alt,
+                index: parseInt(thumb.dataset.index)
+            })).sort((a, b) => a.index - b.index);
+        });
+
+        // Abrir lightbox
+        function openLightbox(index) {
+            currentIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            
+            lightboxImage.src = galleryImages[currentIndex].src;
+            lightboxCaption.textContent = galleryImages[currentIndex].alt;
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            
+            // Deshabilitar scroll de la página
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Cerrar lightbox
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+            
+            // Habilitar scroll de la página
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cambiar slide
+        function changeSlide(step) {
+            currentIndex += step;
+            
+            // Circular navigation
+            if (currentIndex >= galleryImages.length) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = galleryImages.length - 1;
+            }
+            
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            
+            lightboxImage.src = galleryImages[currentIndex].src;
+            lightboxCaption.textContent = galleryImages[currentIndex].alt;
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('hidden')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    changeSlide(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeSlide(1);
+                }
+            }
+        });
+    </script>
+@endpush

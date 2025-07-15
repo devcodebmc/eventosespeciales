@@ -81,9 +81,12 @@ class EventController extends Controller
                 $event->tags()->sync($request->tags);
             }
 
-            // Procesar imágenes secundarias
+            // Procesar imágenes en lotes más pequeños
             if ($request->hasFile('event_images')) {
-                $this->processEventImages($request->file('event_images'), $event);
+                $images = $request->file('event_images');
+                foreach (array_chunk($images, 5) as $chunk) { // Procesar 5 imágenes a la vez
+                    $this->processEventImages($chunk, $event);
+                }
             }
 
             DB::commit();
