@@ -40,5 +40,22 @@ class FrontController extends Controller
         return view('welcome', compact('services', 'packages', 'cards', 'smallGallery'));
     }
 
+    public function category($slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        $smallGallery = EventImage::select('id', 'image_path', 'event_id', 'order')
+                ->whereHas('event', function($query) {
+                    $query->where('type', 'Gallery')
+                          ->where('status', 'published');
+                })
+                ->with(['event:id,title']) // Carga mínima de datos del evento
+                ->orderBy('order')
+                ->limit(3)
+                ->get();
+                
+        return view('frontend.pages.'. $slug, compact('category', 'smallGallery'));
+    }
+
    
 }

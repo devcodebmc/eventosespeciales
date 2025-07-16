@@ -13,22 +13,35 @@
             
             <!-- Desktop Menu -->
             <div class="hidden md:flex md:items-center md:space-x-6 lg:space-x-12">
-                <a href="#" class="text-gray-700 hover:text-[#65ABB7] font-medium border-b-2 border-[#65ABB7] pb-1 transition duration-300">Home</a>
-                <a href="#" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300">About Us</a>
-                <a href="#" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300">Services</a>
-                <a href="#" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300">Portfolio</a>
-                <div class="relative group">
+                <a href="{{ route('welcome') }}" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                    Inicio
+                    <span class="{{ request()->is('/') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                </a>
+                <a href="/sobre-nosotros" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                    Sobre Nosotros
+                    <span class="{{ request()->is('sobre-nosotros') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                </a>
+                <a href="#" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                    Services
+                    <span class="{{ request()->is('services') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                </a>
+                <a href="#" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                    Portfolio
+                    <span class="{{ request()->is('portfolio') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                </a>
+                <div class="relative group flex flex-col items-center">
                     <button class="flex items-center text-gray-700 hover:text-[#65ABB7] font-medium focus:outline-none transition duration-300">
                         Pages
                         <svg class="ml-1 w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
+                    <span class="{{ request()->is('team', 'faq', 'testimonials') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-2 w-40 sm:w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition">Team</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition">FAQ</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition">Testimonials</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('team') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">Team</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('faq') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">FAQ</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('testimonials') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">Testimonials</a>
                     </div>
                 </div>
                 <a href="mailto:info@eventosespecialeslerma.com" class="flex items-center text-gray-700 hover:text-[#65ABB7] transition duration-300">
@@ -59,21 +72,21 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg rounded-b-lg">
         <div class="px-2 sm:px-4 pt-2 pb-6 space-y-1 sm:space-y-2">
-            <a href="#" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">Home</a>
-            <a href="#" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">About Us</a>
-            <a href="#" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">Services</a>
-            <a href="#" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">Portfolio</a>
+            <a href="{{ route('welcome') }}" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('/') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Inicio</a>
+            <a href="/sobre-nosotros" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('sobre-nosotros') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Sobre Nosotros</a>
+            <a href="#" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('services') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Services</a>
+            <a href="#" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('portfolio') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Portfolio</a>
             <div class="block">
-                <button id="mobile-dropdown-toggle" class="w-full flex justify-between items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 focus:outline-none transition">
+                <button id="mobile-dropdown-toggle" class="w-full flex justify-between items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('team', 'faq', 'testimonials') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} focus:outline-none transition">
                     <span>Pages</span>
                     <svg id="mobile-dropdown-arrow" class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
                 <div id="mobile-dropdown" class="hidden pl-6 mt-1 space-y-1">
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50 transition">Team</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50 transition">FAQ</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50 transition">Testimonials</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('team') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Team</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('faq') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">FAQ</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('testimonials') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Testimonials</a>
                 </div>
             </div>
             <a href="mailto:info@eventosespecialeslerma.com" class="flex items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">
