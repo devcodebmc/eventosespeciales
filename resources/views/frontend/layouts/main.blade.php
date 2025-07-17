@@ -13,7 +13,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('img/logos/logorm.svg')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{asset('images/logo-white.png')}}" type="image/x-icon">
     
     <!-- Primary Meta Tags -->
     <title>@yield('title', 'Eventos Especiales Lerma - Organización de Eventos en Lerma')</title>
