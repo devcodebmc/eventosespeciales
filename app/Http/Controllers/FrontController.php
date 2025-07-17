@@ -44,6 +44,13 @@ class FrontController extends Controller
     {
         $category = Category::where('slug', $slug)->firstOrFail();
 
+        $cards = Event::with(['category:id,name,slug'])
+                    ->where('type', 'Event')
+                    ->where('status', 'published')
+                    ->select('id', 'title', 'summary', 'event_date', 'image', 'slug', 'category_id')
+                    ->limit(5)
+                    ->get();
+
         $smallGallery = EventImage::select('id', 'image_path', 'event_id', 'order')
                 ->whereHas('event', function($query) {
                     $query->where('type', 'Gallery')
@@ -51,10 +58,10 @@ class FrontController extends Controller
                 })
                 ->with(['event:id,title']) // Carga mínima de datos del evento
                 ->orderBy('order')
-                ->limit(3)
+                ->limit(7)
                 ->get();
                 
-        return view('frontend.pages.'. $slug, compact('category', 'smallGallery'));
+        return view('frontend.pages.'. $slug, compact('category', 'cards', 'smallGallery'));
     }
 
    

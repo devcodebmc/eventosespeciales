@@ -1,4 +1,4 @@
-<section aria-labelledby="featured-posts-heading" class="py-8 px-1 max-w-full mx-auto">
+<section aria-labelledby="featured-posts-heading" class="py-8 px-1 max-w-full mx-auto transition-all duration-700" data-animate>
     <h2 id="featured-posts-heading" class="sr-only">Publicaciones destacadas</h2>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-1">

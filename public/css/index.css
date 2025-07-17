@@ -35,5 +35,6 @@ body, p, h2, h3, h4, h5, h6, span, li, a, small, label, input, textarea, button 
 .btn-action:hover,
 .btn-action:focus {
     background-color: #F6BBA9;
-    color: #2A4044;
+    color: #fff;
+    text-decoration: none;
 }
