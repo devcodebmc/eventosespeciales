@@ -44,6 +44,13 @@ class FrontController extends Controller
     {
         $category = Category::where('slug', $slug)->firstOrFail();
 
+        $services = Service::all();
+
+        $packages = Event::select('id', 'title', 'summary', 'content', 'image', 'slug')
+                    ->where('type', 'Package')
+                    ->where('status', 'published')
+                    ->get();
+
         $cards = Event::with(['category:id,name,slug'])
                     ->where('type', 'Event')
                     ->where('status', 'published')
@@ -61,7 +68,7 @@ class FrontController extends Controller
                 ->limit(7)
                 ->get();
                 
-        return view('frontend.pages.'. $slug, compact('category', 'cards', 'smallGallery'));
+        return view('frontend.pages.'. $slug, compact('category', 'services', 'packages', 'cards', 'smallGallery'));
     }
 
    

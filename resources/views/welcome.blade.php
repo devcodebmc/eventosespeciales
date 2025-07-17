@@ -29,6 +29,7 @@
         </div>
     </div>
     @include('frontend.partials.services')
+    @include('frontend.partials.divider')
     @include('frontend.partials.shortHistory')
     @include('frontend.partials.moments')
     @include('frontend.partials.packages')

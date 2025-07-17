@@ -39,6 +39,6 @@
     </div>
 </section>
 
-@include('frontend.partials.divider')
+
 
 

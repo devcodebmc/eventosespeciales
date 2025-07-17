@@ -26,7 +26,7 @@
                         <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
                     </svg>
                     <p class="text-lg text-gray-500 tracking-widest uppercase mx-2 sm:mx-4">
-                        Nuestra Agencia de Eventos Especiales
+                        Somos Expertos
                     </p>
                     <svg class="mx-0" width="20" height="20" viewBox="0 0 20 20" focusable="false">
                         <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
@@ -34,15 +34,13 @@
                     <span class="w-24 sm:w-36 border-t border-[#4b8b97] mx-2"></span>
                 </div>
                 <h1 id="acerca-de-nosotros" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl text-[#2A4044] font-secondary text-center mt-8 px-4">
-                    Acerca de Nosotros
+                    Nuestros Servicios
                 </h1>
             </article>
         </div>
         @include('frontend.partials.divider')
-        @include('frontend.partials.shortAbout')
-        @include('frontend.partials.blockquote')
-        @include('frontend.partials.galleryBento')
-        @include('frontend.partials.team')
+        @include('frontend.partials.services')
+        @include('frontend.partials.packages')
         @include('frontend.partials.eventCards')
     </section>
 </main>
