@@ -59,67 +59,82 @@
         </div>
         @include('frontend.partials.divider')
     </section>
-    <section class="relative py-20 bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
-            <!-- Imagen (entra desde derecha) -->
-            <div class="relative h-96 lg:h-[48rem] overflow-hidden rounded-lg shadow-lg transform transition-all duration-1000 ease-[cubic-bezier(0.12,0.8,0.32,1)] translate-x-16 opacity-0" 
-                 data-animate-image
-                 style="transition-property: transform, opacity; will-change: transform, opacity;">
+    <section class="relative py-12 md:py-20 bg-white"> <!-- Overflow-hidden eliminado -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <!-- Imagen (entra desde derecha) - Ajustes responsive -->
+            <div class="relative h-64 sm:h-80 md:h-96 lg:h-[48rem] w-full overflow-hidden rounded-lg shadow-lg transform transition-all duration-1000 ease-[cubic-bezier(0.12,0.8,0.32,1)] translate-x-16 opacity-0" 
+                data-animate-image
+                style="transition-property: transform, opacity; will-change: transform, opacity;">
                 <img src="{{ asset('images/montaje-vintage.jpg') }}" alt="Contacto"
                     class="w-full h-full object-cover object-center">
             </div>
 
-            <!-- Card (entra desde izquierda con ligero delay) -->
-            <div class="bg-[#f1f7f6] rounded-md shadow-md p-10 lg:p-12 lg:ml-[-6rem] z-10 relative h-auto lg:min-h-[36rem] flex flex-col justify-center transform transition-all duration-1000 ease-[cubic-bezier(0.12,0.8,0.32,1)] -translate-x-16 opacity-0" 
-                 data-animate-image
-                 style="transition-property: transform, opacity; will-change: transform, opacity;">
-                <header class="flex flex-col sm:flex-row items-center sm:items-start justify-start my-6 w-full">
+            <!-- Card (entra desde izquierda) - Ajustes para mobile -->
+            <div class="bg-[#f1f7f6] rounded-md shadow-md p-6 sm:p-8 lg:p-12 lg:ml-[-6rem] z-10 relative w-full h-auto lg:min-h-[36rem] flex flex-col justify-center transform transition-all duration-1000 ease-[cubic-bezier(0.12,0.8,0.32,1)] -translate-x-16 opacity-0" 
+                data-animate-image
+                style="transition-property: transform, opacity; will-change: transform, opacity;">
+                
+                <!-- Header ajustado para mobile -->
+                <header class="flex flex-col items-center sm:items-start justify-start my-4 sm:my-6 w-full">
                     <div class="flex items-center w-full justify-center sm:justify-start gap-3">
-                        <span class="sm:block w-10 border-t border-[#4b8b97] mx-0"></span>
-                        <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <span class="w-8 sm:w-10 border-t border-[#4b8b97]"></span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                             <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
                         </svg>
-                        <h2 class="text-base sm:text-lg md:text-xl text-gray-500 tracking-widest uppercase mx-0 text-left">
+                        <h2 class="text-sm sm:text-base md:text-lg text-gray-500 tracking-widest uppercase text-center sm:text-left">
                             Hablemos
                         </h2>
-                        <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                             <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
                         </svg>
-                        <span class="sm:block w-10 border-t border-[#4b8b97] mx-0"></span>
+                        <span class="w-8 sm:w-10 border-t border-[#4b8b97]"></span>
                     </div>
                 </header>
 
-                <h3 class="text-2xl md:text-3xl lg:text-4xl text-[#2A4044] font-secondary text-left px-2">
+                <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#2A4044] text-left px-0 sm:px-2">
                     Contáctanos
                 </h3>
-                <p class="mt-4 text-base md:text-lg text-gray-500 text-left px-2">
+                <p class="mt-2 sm:mt-4 text-sm sm:text-base md:text-lg text-gray-500 text-left px-0 sm:px-2">
                     Nuestras puertas nunca están cerradas. Iniciemos un diálogo y emprendamos una aventura juntos.
                 </p>
 
-                <ul class="space-y-6 mt-8 px-2">
-                    <li class="flex items-center gap-6">
-                        <div class="w-14 h-14 rounded-full border border-gray-500 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.427 14.768 17.2 13.542a1.733 1.733 0 0 0-2.45 0l-.613.613a1.732 1.732 0 0 1-2.45 0l-1.838-1.84a1.735 1.735 0 0 1 0-2.452l.612-.613a1.735 1.735 0 0 0 0-2.452L9.237 5.572a1.6 1.6 0 0 0-2.45 0c-3.223 3.2-1.702 6.896 1.519 10.117 3.22 3.221 6.914 4.745 10.12 1.535a1.601 1.601 0 0 0 0-2.456Z"/>
-                            </svg>
+                <!-- Lista de contactos optimizada para mobile -->
+                <ul class="space-y-4 sm:space-y-6 mt-6 sm:mt-8 px-0 sm:px-2">
+                    <!-- Cada ítem de contacto -->
+                    <li class="flex flex-col xs:flex-row items-start xs:items-baseline gap-3 sm:gap-6">
+                        <div class="flex items-center gap-3 sm:gap-6">
+                            <!-- Contenedor del icono (tamaños responsivos) -->
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border border-gray-500 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.427 14.768 17.2 13.542a1.733 1.733 0 0 0-2.45 0l-.613.613a1.732 1.732 0 0 1-2.45 0l-1.838-1.84a1.735 1.735 0 0 1 0-2.452l.612-.613a1.735 1.735 0 0 0 0-2.452L9.237 5.572a1.6 1.6 0 0 0-2.45 0c-3.223 3.2-1.702 6.896 1.519 10.117 3.22 3.221 6.914 4.745 10.12 1.535a1.601 1.601 0 0 0 0-2.456Z"/>
+                                </svg>
+                            </div>
+                            <!-- Texto alineado con el icono -->
+                            <span class="text-base sm:text-lg text-gray-800 mt-0 sm:mt-[2px]">728 281 35 14</span>
                         </div>
-                        <span class="text-lg text-gray-800">728 281 35 14</span>
                     </li>
-                    <li class="flex items-center gap-6">
-                        <div class="w-14 h-14 rounded-full border border-gray-500 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
-                            </svg>
+                    
+                    <!-- Repetir para los otros ítems -->
+                    <li class="flex flex-col xs:flex-row items-start xs:items-baseline gap-3 sm:gap-6">
+                        <div class="flex items-center gap-3 sm:gap-6">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border border-gray-500 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+                                </svg>
+                            </div>
+                            <span class="text-base sm:text-lg text-gray-800 mt-0 sm:mt-[2px] break-words">info@eventosespecialeslerma.com</span>
                         </div>
-                        <span class="text-lg text-gray-800">info@eventosespecialeslerma.com</span>
                     </li>
-                    <li class="flex items-center gap-6">
-                        <div class="w-14 h-14 rounded-full border border-gray-500 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0 0v6M9.5 9A2.5 2.5 0 0 1 12 6.5"/>
-                            </svg>
+                    
+                    <li class="flex flex-col xs:flex-row items-start xs:items-baseline gap-3 sm:gap-6">
+                        <div class="flex items-center gap-3 sm:gap-6">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border border-gray-500 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0 0v6M9.5 9A2.5 2.5 0 0 1 12 6.5"/>
+                                </svg>
+                            </div>
+                            <span class="text-base sm:text-lg text-gray-800 mt-0 sm:mt-[2px]">Av. Circunvalación, 15, Lerma, Edo de México</span>
                         </div>
-                        <span class="text-lg text-gray-800">Av. Circunvalación, 15, Lerma, Edo de México</span>
                     </li>
                 </ul>
             </div>
