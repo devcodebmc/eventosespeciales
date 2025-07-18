@@ -13,7 +13,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('images/logo-white.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{asset('images/Logo-white.png')}}" type="image/x-icon">
     
     <!-- Primary Meta Tags -->
     <title>@yield('title', 'Eventos Especiales Lerma - Organización de Eventos en Lerma')</title>
@@ -39,8 +39,8 @@
     <meta property="og:url" content="@yield('ogurl','https://eventosespecialeslerma.com/')">
     <meta property="og:site_name" content="Eventos Especiales Lerma">  
     <meta property="article:publisher" content="https://www.facebook.com/eventosespecialeslerma1">
-    <meta property="og:image" content="@yield('ogimage', asset('img/og-image.jpg'))">
-    <meta property="og:image:secure_url" content="@yield('ogimage', asset('img/og-image.jpg'))">
+    <meta property="og:image" content="@yield('ogimage', asset('images/Logo-white.png'))">
+    <meta property="og:image:secure_url" content="@yield('ogimage', asset('images/Logo-white.png'))">
     <meta property="og:image:alt" content="Eventos Especiales Lerma - Organización de Eventos">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
@@ -52,7 +52,7 @@
     <meta name="twitter:creator" content="@EventosLerma">
     <meta name="twitter:title" content="@yield('ogtitle', 'Eventos Especiales Lerma - Organización Profesional de Eventos')">
     <meta name="twitter:description" content="@yield('ogdescription', 'Agencia profesional de organización de eventos en Lerma. Creamos experiencias únicas para bodas, fiestas y eventos corporativos.')">
-    <meta name="twitter:image" content="@yield('ogimage', asset('img/og-image.jpg'))">
+    <meta name="twitter:image" content="@yield('ogimage', asset('images/Logo-white.png'))">
     <meta name="twitter:image:alt" content="Eventos Especiales Lerma - Organización de Eventos">
     
     <!-- Schema.org markup for Google -->
@@ -61,7 +61,7 @@
       "@context": "https://schema.org",
       "@type": "EventPlanningBusiness",
       "name": "Eventos Especiales Lerma",
-      "image": "{{asset('img/logos/logorm.svg')}}",
+      "image": "{{asset('images/Logo-white.png')}}",
       "@id": "https://eventosespecialeslerma.com/",
       "url": "https://eventosespecialeslerma.com/",
       "telephone": "+52 55 1234 5678",
@@ -93,7 +93,7 @@
       },
       "sameAs": [
         "https://www.facebook.com/eventosespecialeslerma1",
-        "https://www.instagram.com/eventosespecialeslerma"
+        "https://www.instagram.com/eventosespeciales.lerma"
       ] 
     }
     </script>
@@ -104,7 +104,7 @@
     
     <!-- Preload important resources -->
     <link rel="preload" href="{{ asset('css/index.css') }}" as="style">
-    <link rel="preload" href="{{asset('img/logos/logorm.svg')}}" as="image">
+    <link rel="preload" href="{{asset('images/Logo-white.png')}}" as="image">
 </head>
 <body class="bg-gray-100">
     <!-- Navbar -->
