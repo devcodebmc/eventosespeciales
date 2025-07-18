@@ -126,7 +126,7 @@
 </section>
 
 @push('js')
-    <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         const faqItems = document.querySelectorAll('.faq-item');
         
