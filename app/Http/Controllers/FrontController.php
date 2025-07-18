@@ -67,8 +67,15 @@ class FrontController extends Controller
                 ->orderBy('order')
                 ->limit(7)
                 ->get();
+
+        $events = Event::with(['category:id,name,slug'])
+                    ->where('type', 'Event')
+                    ->where('status', 'published')
+                    ->select('id', 'title', 'summary', 'event_date', 'image', 'slug', 'category_id')
+                    ->limit(10)
+                    ->get();
                 
-        return view('frontend.pages.'. $slug, compact('category', 'services', 'packages', 'cards', 'smallGallery'));
+        return view('frontend.pages.'. $slug, compact('category', 'services', 'packages', 'cards', 'smallGallery', 'events'));
     }
 
    

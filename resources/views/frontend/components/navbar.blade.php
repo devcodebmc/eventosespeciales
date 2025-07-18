@@ -25,9 +25,9 @@
                     Servicios
                     <span class="{{ request()->is('servicios') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
                 </a>
-                <a href="#" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
-                    Portfolio
-                    <span class="{{ request()->is('portfolio') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                <a href="/portafolio" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                    Portafolio
+                    <span class="{{ request()->is('portafolio') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
                 </a>
                 <div class="relative group flex flex-col items-center">
                     <button class="flex items-center text-gray-700 hover:text-[#65ABB7] font-medium focus:outline-none transition duration-300">
@@ -75,7 +75,7 @@
             <a href="{{ route('welcome') }}" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('/') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Inicio</a>
             <a href="/sobre-nosotros" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('sobre-nosotros') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Sobre Nosotros</a>
             <a href="/servicios" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('servicios') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Servicios</a>
-            <a href="#" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('portfolio') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Portfolio</a>
+            <a href="/portafolio" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('portafolio') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Portafolio</a>
             <div class="block">
                 <button id="mobile-dropdown-toggle" class="w-full flex justify-between items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('team', 'faq', 'testimonials') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} focus:outline-none transition">
                     <span>Paginas</span>
