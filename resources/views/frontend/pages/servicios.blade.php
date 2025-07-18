@@ -11,12 +11,12 @@
 @section('ogtitle', 'Servicios | Eventos Especiales Lerma')
 @section('ogdescription', 'Agencia profesional de organización de eventos en Lerma. Creamos experiencias únicas para bodas, fiestas y eventos corporativos.')
 @section('ogurl', 'https://eventosespecialeslerma.com/servicios')
-@section('ogimage', asset('img/og-image.jpg'))
-@section('ogimage:secure_url', asset('ogimage', asset('img/og-image.jpg')))
+@section('ogimage', asset('images/Logo-white.png'))
+@section('ogimage:secure_url', asset('ogimage', asset('images/Logo-white.png')))
 
 @section('twittertitle', 'Servicios | Eventos Especiales Lerma')
 @section('twitterdescription', 'Agencia profesional de organización de eventos en Lerma. Creamos experiencias únicas para bodas, fiestas y eventos corporativos.')
-@section('twitterimage', asset('img/og-image.jpg'))
+@section('twitterimage', asset('images/Logo-white.png'))
 
 @section('content')
 <main>

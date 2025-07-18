@@ -116,55 +116,67 @@
     <!-- Footer -->
     @include('frontend.components.footer')
     
-    <!-- Animation Scripts -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Animación principal (slide-up)
+            // --- Slide-up animation ---
             const slideUpElements = document.querySelectorAll('[data-animate]');
-            
-            const slideUpObserver = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('opacity-100', 'translate-y-0');
-                            entry.target.classList.remove('opacity-0', 'translate-y-4');
-                            slideUpObserver.unobserve(entry.target);
-                        }
-                    });
-                },
-                { threshold: 0.1 }
-            );
+            const slideUpObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-4');
+                        slideUpObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
 
-            slideUpElements.forEach((element) => {
-                element.classList.add('opacity-0', 'translate-y-4');
-                element.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
-                slideUpObserver.observe(element);
+            slideUpElements.forEach((el) => {
+                el.classList.add('opacity-0', 'translate-y-4');
+                el.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                slideUpObserver.observe(el);
             });
-            
-            // Animación scale-in (de dentro hacia afuera)
-            const scaleInElements = document.querySelectorAll('[data-animate-scale]');
-            
-            const scaleInObserver = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('opacity-100', 'scale-100');
-                            entry.target.classList.remove('opacity-0', 'scale-90');
-                            scaleInObserver.unobserve(entry.target);
-                        }
-                    });
-                },
-                { threshold: 0.1 }
-            );
 
-            scaleInElements.forEach((element) => {
-                element.classList.add('opacity-0', 'scale-90');
-                element.style.transition = 'opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-                scaleInObserver.observe(element);
+            // --- Scale-in animation ---
+            const scaleInElements = document.querySelectorAll('[data-animate-scale]');
+            const scaleInObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'scale-100');
+                        entry.target.classList.remove('opacity-0', 'scale-90');
+                        scaleInObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            scaleInElements.forEach((el) => {
+                el.classList.add('opacity-0', 'scale-90');
+                el.style.transition = 'opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                scaleInObserver.observe(el);
+            });
+
+            // --- Ultra Smooth Horizontal Animation --- 
+            const imageElements = document.querySelectorAll('[data-animate-image]');
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('translate-x-16', '-translate-x-16', 'opacity-0');
+                        entry.target.classList.add('translate-x-0', 'opacity-100');
+                        imageObserver.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.05, // Dispara con menos visibilidad
+                rootMargin: '0px 0px -100px 0px' // Activa 100px antes
+            });
+
+            imageElements.forEach((el) => {
+                // Pequeño stagger manual
+                const delay = el.classList.contains('lg:ml-[-6rem]') ? 150 : 0;
+                setTimeout(() => imageObserver.observe(el), delay);
             });
         });
     </script>
-    
+
     @stack('js')
 </body>    
 </html>

@@ -31,7 +31,7 @@
                 </a>
                 <div class="relative group flex flex-col items-center">
                     <button class="flex items-center text-gray-700 hover:text-[#65ABB7] font-medium focus:outline-none transition duration-300">
-                        Pages
+                        Paginas
                         <svg class="ml-1 w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -39,7 +39,7 @@
                     <span class="{{ request()->is('team', 'faq', 'testimonials') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-2 w-40 sm:w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('team') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">Team</a>
+                        <a href="/contacto" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('contacto') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">Contacto</a>
                         <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('faq') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">FAQ</a>
                         <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('testimonials') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">Testimonials</a>
                     </div>
@@ -78,13 +78,13 @@
             <a href="#" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('portfolio') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Portfolio</a>
             <div class="block">
                 <button id="mobile-dropdown-toggle" class="w-full flex justify-between items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('team', 'faq', 'testimonials') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} focus:outline-none transition">
-                    <span>Pages</span>
+                    <span>Paginas</span>
                     <svg id="mobile-dropdown-arrow" class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
                 <div id="mobile-dropdown" class="hidden pl-6 mt-1 space-y-1">
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('team') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Team</a>
+                    <a href="/contacto" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('contacto') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Contacto</a>
                     <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('faq') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">FAQ</a>
                     <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('testimonials') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Testimonials</a>
                 </div>
