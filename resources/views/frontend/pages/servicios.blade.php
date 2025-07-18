@@ -58,6 +58,7 @@
         </div>
         @include('frontend.partials.divider')
         @include('frontend.partials.services')
+        @include('frontend.partials.subscriptionBanner')
         @include('frontend.partials.packages')
         @include('frontend.partials.eventCards')
     </section>

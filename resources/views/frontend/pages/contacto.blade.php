@@ -139,8 +139,10 @@
                 </ul>
             </div>
         </div>
+        @include('frontend.partials.contactForm')
+        @include('frontend.partials.subscriptionBanner')
+        @include('frontend.partials.faqs')
     </section>
-    @include('frontend.partials.contactForm')
 </main>
 @endsection
 

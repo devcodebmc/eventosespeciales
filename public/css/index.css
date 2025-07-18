@@ -38,3 +38,43 @@ body, p, h2, h3, h4, h5, h6, span, li, a, small, label, input, textarea, button 
     color: #fff;
     text-decoration: none;
 }
+
+.btn-action:active {
+    background-color: #F6BBA9;
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-action:disabled {
+    background-color: #F6BBA9;
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-action-dark {
+    background-color: transparent;
+    border: 1px solid #F6BBA9;
+    color: #F6BBA9;
+    transition: background-color 0.2s, color 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn-action-dark:hover,
+.btn-action-dark:focus {
+    background-color: #F6BBA9;
+    color: #2A4044;
+    text-decoration: none;
+}
+
+.btn-action-dark:active {
+    background-color: #F6BBA9;
+    color: #2A4044;
+    text-decoration: none;
+}
+
+/* Suavizar la curva de animación */
+.faq-content {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
