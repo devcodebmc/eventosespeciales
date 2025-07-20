@@ -1,15 +1,18 @@
 <nav class="bg-white shadow-sm overflow-hidden">
     <div class="max-w-7xl mx-auto py-4 px-2 sm:py-6 sm:px-4 lg:px-8">
         <div class="flex justify-between h-16 sm:h-20 items-center">
-            <!-- Logo -->
-            <div class="flex-shrink-0 flex flex-col items-start">
-                <span class="font-script text-lg sm:text-2xl text-gray-800">
-                    Eventos Especiales Lerma
-                </span>
-                <span class="text-[10px] sm:text-xs tracking-widest text-gray-500 mt-1">
-                    AGENCIAS DE EVENTOS
-                </span>
+            <!-- Contenedor del Logo con animación -->
+            <div class="flex justify-center animate-fade-in-out">
+                <a href="{{ route('welcome') }}" class="flex-shrink-0 flex flex-col items-center">
+                    <span class="font-script text-lg sm:text-2xl text-gray-800">
+                        Eventos Especiales Lerma
+                    </span>
+                    <span class="text-[10px] sm:text-xs tracking-widest text-gray-500 mt-1">
+                        AGENCIAS DE EVENTOS
+                    </span>
+                </a>
             </div>
+
             
             <!-- Desktop Menu -->
             <div class="hidden md:flex md:items-center md:space-x-6 lg:space-x-12">

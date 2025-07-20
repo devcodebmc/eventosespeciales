@@ -1,4 +1,4 @@
-<div id="contactFloating" class="fixed right-0 top-1/2 transform -translate-y-1/2 z-50 transition-all duration-500 ease-in-out">
+<div id="contactFloating" class="fixed right-0 top-1/2 transform -translate-y-1/2 z-50 transition-all duration-500 ease-in-out opacity-0">
     <div class="flex items-center">
         <!-- Opciones desplegables -->
         <div id="contactOptions" class="hidden flex-col space-y-2 mr-2">
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!isOpen) {
                 showFloatingButtonWithPulse();
             }
-        }, 10000);
+        }, 15000);
     }, 1000); // Pequeño delay para no competir con el scroll inicial
 
     // Mostrar opciones al hacer clic
