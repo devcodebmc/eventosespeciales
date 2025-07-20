@@ -1,6 +1,6 @@
-<section aria-labelledby="featured-posts-heading" class="py-8 px-1 max-w-full mx-auto transition-all duration-700" data-animate>
-    <h2 id="featured-posts-heading" class="sr-only">Publicaciones destacadas</h2>
-    
+<section aria-labelledby="publicaciones-destacadas" class="py-8 px-1 max-w-full mx-auto opacity-0 transition-opacity duration-700" data-animate>
+    <h2 id="publicaciones-destacadas" class="sr-only">Publicaciones destacadas</h2>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-1">
         @foreach($cards as $card)
             <article class="relative aspect-[4/5] group">
@@ -18,7 +18,7 @@
                             {{ date('Y-m-d', strtotime( $card->event_date)) }}
                         </time> • {{ $card->category->name }}
                     </span>
-                    <h3 class="text-lg font-medium text-white mb-2 leading-tight">
+                    <h3 class="text-lg font-script tracking-widest text-white mb-2 leading-tight">
                         {{ $card->title }}
                     </h3>
                     <div class="w-8 h-0.5 bg-rose-400 mb-3" aria-hidden="true"></div>

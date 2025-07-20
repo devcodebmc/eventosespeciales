@@ -91,7 +91,7 @@
                     </div>
                 </header>
 
-                <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#2A4044] text-left px-0 sm:px-2">
+                <h3 class="text-xl font-secondary sm:text-2xl md:text-3xl lg:text-4xl text-[#2A4044] text-left px-0 sm:px-2">
                     Contáctanos
                 </h3>
                 <p class="mt-2 sm:mt-4 text-sm sm:text-base md:text-lg text-gray-500 text-left px-0 sm:px-2">
