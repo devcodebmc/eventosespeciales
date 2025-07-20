@@ -115,7 +115,7 @@
 
     <!-- Botón Back to Top -->
     @include('frontend.partials.toTop')
-    
+    @include('frontend.components.contactFloating')
     <!-- Footer -->
     @include('frontend.components.footer')
     
@@ -201,7 +201,6 @@
             });
         });
     </script>
-
     @stack('js')
 </body>    
 </html>
