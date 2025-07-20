@@ -71,7 +71,7 @@ class FrontController extends Controller
         $events = Event::with(['category:id,name,slug'])
                     ->where('type', 'Event')
                     ->where('status', 'published')
-                    ->select('id', 'title', 'summary', 'event_date', 'image', 'slug', 'category_id')
+                    ->select('id', 'title', 'summary', 'event_date', 'image', 'slug', 'location', 'category_id')
                     ->limit(10)
                     ->get();
                 

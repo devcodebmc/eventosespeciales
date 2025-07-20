@@ -59,7 +59,7 @@
         </div>
         @include('frontend.partials.divider')
     </section>
-    <section class="relative py-12 md:py-20 bg-white"> <!-- Overflow-hidden eliminado -->
+    <section class="relative py-12 md:py-20 bg-white overflow-hidden"> <!-- Overflow-hidden eliminado -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <!-- Imagen (entra desde derecha) - Ajustes responsive -->
             <div class="relative h-64 sm:h-80 md:h-96 lg:h-[48rem] w-full overflow-hidden rounded-lg shadow-lg transform transition-all duration-1000 ease-[cubic-bezier(0.12,0.8,0.32,1)] translate-x-16 opacity-0" 
@@ -110,7 +110,7 @@
                                 </svg>
                             </div>
                             <!-- Texto alineado con el icono -->
-                            <span class="text-base sm:text-lg text-gray-800 mt-0 sm:mt-[2px]">728 281 35 14</span>
+                            <a href="tel:7282849074" class="text-sm lg:text-lg xl:text-xl text-gray-800 mt-0 sm:mt-[2px] hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">728 284 9074</a>
                         </div>
                     </li>
                     
@@ -122,7 +122,7 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
                                 </svg>
                             </div>
-                            <span class="text-base sm:text-lg text-gray-800 mt-0 sm:mt-[2px] break-words">info@eventosespecialeslerma.com</span>
+                            <a href="mailto:info@eventosespecialeslerma.com" class="text-sm lg:text-lg xl:text-xl text-gray-800 mt-0 sm:mt-[2px] break-words hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">info@eventosespecialeslerma.com</a>
                         </div>
                     </li>
                     
@@ -133,7 +133,8 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0 0v6M9.5 9A2.5 2.5 0 0 1 12 6.5"/>
                                 </svg>
                             </div>
-                            <span class="text-base sm:text-lg text-gray-800 mt-0 sm:mt-[2px]">Av. Circunvalación, 15, Lerma, Edo de México</span>
+                            <address class="text-sm lg:text-lg xl:text-xl text-gray-800 mt-0 sm:mt-[2px]"><a href="https://maps.app.goo.gl/tfa58NsRkB18Nypy9" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded" target="_blank" rel="noopener noreferrer">Av. Circunvalación #15 Col. Agricola Analco Lerma, Edo. De México</a>
+                            </address>
                         </div>
                     </li>
                 </ul>

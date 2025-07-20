@@ -112,6 +112,9 @@
 
     <!-- Content -->
     @yield('content')
+
+    <!-- Botón Back to Top -->
+    @include('frontend.partials.toTop')
     
     <!-- Footer -->
     @include('frontend.components.footer')
@@ -173,6 +176,28 @@
                 // Pequeño stagger manual
                 const delay = el.classList.contains('lg:ml-[-6rem]') ? 150 : 0;
                 setTimeout(() => imageObserver.observe(el), delay);
+            });
+        });
+
+        // Back to Top functionality
+        const backToTopButton = document.getElementById('backToTop');
+        // Mostrar/ocultar botón al hacer scroll
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+            
+        // Scroll suave al hacer clic
+        backToTopButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         });
     </script>

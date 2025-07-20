@@ -97,8 +97,8 @@
                                 <!-- Overlay con información -->
                                 <figcaption class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                                     <div class="text-white space-y-2">
-                                        <h3 class="text-xl font-bold leading-tight">{{ $event->title }}</h3>
-                                        
+                                        <h3 class="text-xl font-script leading-tight">{{ $event->title }}</h3>
+
                                         <div class="flex items-center space-x-2 text-sm">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -119,7 +119,7 @@
                                         @endif
                                         
                                         <div class="pt-2">
-                                            <span class="inline-block px-2 py-1 bg-primary-600 text-xs font-semibold rounded-full">
+                                            <span class="inline-block px-2 py-1 bg-primary-600 text-xs rounded-full">
                                                 {{ $event->category->name }}
                                             </span>
                                         </div>

@@ -15,12 +15,12 @@
         
         <!-- Redes sociales - Mejorado con accesibilidad -->
         <nav aria-label="Redes sociales" class="flex justify-center mt-6 space-x-3">
-            <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-gray-200 hover:border-[#4b8b97] transition-colors group focus:outline-none focus:ring-2 focus:ring-[#4b8b97]">
+            <a href="https://www.facebook.com/eventosespecialeslerma1/" aria-label="Facebook" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-gray-200 hover:border-[#4b8b97] transition-colors group focus:outline-none focus:ring-2 focus:ring-[#4b8b97]">
                 <svg class="w-6 h-6 text-gray-600 group-hover:text-[#4b8b97]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
                 </svg>
             </a>
-            <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-gray-200 hover:border-[#4b8b97] transition-colors group focus:outline-none focus:ring-2 focus:ring-[#4b8b97]">
+            <a href="https://www.instagram.com/eventosespeciales.lerma/" aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-gray-200 hover:border-[#4b8b97] transition-colors group focus:outline-none focus:ring-2 focus:ring-[#4b8b97]">
                 <svg class="w-6 h-6 text-gray-600 group-hover:text-[#4b8b97]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path fill="currentColor" fill-rule="evenodd" d="M3 8a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8Zm5-3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3H8Zm7.597 2.214a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2h-.01a1 1 0 0 1-1-1ZM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm-5 3a5 5 0 1 1 10 0 5 5 0 0 1-10 0Z" clip-rule="evenodd"/>
                 </svg>
@@ -51,11 +51,11 @@
                 </h3>
                 <nav aria-label="Enlaces rápidos">
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Home</a></li>
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">About Us</a></li>
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Services</a></li>
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Portfolio</a></li>
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Blog</a></li>
+                        <li><a href="{{ route('welcome') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Inicio</a></li>
+                        <li><a href="/sobre-nosotros" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Sobre Nosotros</a></li>
+                        <li><a href="/servicios" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Servicios</a></li>
+                        <li><a href="/portafolio" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Portafolio</a></li>
+                        <li><a href="/contacto" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Contacto</a></li>
                     </ul>
                 </nav>
             </section>
@@ -78,13 +78,14 @@
             <section aria-labelledby="contact-heading">
                 <h3 id="contact-heading" class="text-lg font-secondary tracking-wider text-[#2A4044] mb-4">Contacto</h3>
                 <address class="not-italic text-md space-y-2">
-                    <p>123 Wedding Street</p>
-                    <p>New York, NY 10001</p>
+                    <a href="https://maps.app.goo.gl/tfa58NsRkB18Nypy9" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded" target="_blank" rel="noopener noreferrer">Av. Circunvalación #15 Col. Agricola Analco Lerma, Edo. De México</a>
                     <p>
-                        <a href="mailto:hello@dreamweds.com" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">hello@dreamweds.com</a>
+                        <a href="mailto:info@eventosespecialeslerma.com" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">
+                            info@eventosespecialeslerma.com
+                        </a>
                     </p>
                     <p>
-                        <a href="tel:+11234567890" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">+1 (123) 456-7890</a>
+                        <a href="tel:7282849074" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">728 284 9074</a>
                     </p>
                 </address>
             </section>
