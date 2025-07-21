@@ -10,6 +10,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FetchTagController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SubscriptionController;
 
 
 /*
@@ -29,6 +30,9 @@ Route::get('/{slug}', [FrontController::class, 'category'])->name('category');
 
 // Contact form route
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// Subscription route
+Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
 
 
 // Route::get('/dashboard', function () {

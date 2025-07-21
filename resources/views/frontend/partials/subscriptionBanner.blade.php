@@ -15,23 +15,26 @@
                 <div class="lg:w-1/2 lg:pr-12 mb-10 lg:mb-0 mx-4 sm:mx-12">
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-secondary mb-6">Únete a Nosotros</h2>
                     <p class="text-base sm:text-xl lg:text-lg leading-relaxed opacity-90">
-                        Acompáñanos en este viaje y te mantendremos actualizado con las últimas noticias, tendencias e historias exclusivas.
+                        Acompáñanos en este viaje y te mantendremos actualizado con las mejores promociones, descuentos e historias de nuestros clientes.
                     </p>
                 </div>
 
                 <!-- Formulario de suscripción -->
                 <div class="lg:w-1/2 lg:pl-12 w-full">
-                    <form class="p-4 sm:p-8" aria-label="Formulario de suscripción">
+                    <form action="{{ route('subscribe') }}" method="POST" class="p-4 sm:p-8" aria-label="Formulario de suscripción">
+                        @csrf
                         <div class="mb-8">
                             <label for="email-suscripcion" class="sr-only">Correo electrónico</label>
                             <input 
                                 id="email-suscripcion"
+                                name="email"
                                 type="email" 
                                 placeholder="Ingresa tu correo electrónico" 
                                 class="w-full bg-transparent border-0 border-b-2 border-[#F6BBA9] text-white placeholder-gray-400 focus:border-white focus:outline-none focus:ring-0 px-0 py-3 transition-colors duration-300"
                                 required
                                 aria-required="true"
                                 oninput="this.value = this.value.toLowerCase()"
+                                value="{{ old('email') }}"
                             >
                         </div>
                         <button 
