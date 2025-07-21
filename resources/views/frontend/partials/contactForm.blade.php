@@ -29,31 +29,30 @@
 
         <!-- Formulario principal -->
         <div class="relative bg-white sm:border border-cyan-600 rounded-[40%] sm:rounded-[50%] w-full h-full flex items-center justify-center px-4 sm:px-10 py-6 sm:py-10">
-            <form method="POST" action="#" class="w-full max-w-md space-y-4 sm:space-y-6" aria-label="Formulario de contacto">
+            <form method="POST" action="{{ route('contact.store') }}" class="w-full max-w-md space-y-4 sm:space-y-6" aria-label="Formulario de contacto">
                 @csrf
                 <fieldset class="space-y-3 sm:space-y-4">
                     <legend class="sr-only">Información de contacto</legend>
-
                     <!-- Inputs -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <div class="sm:col-span-2">
                             <label for="name" class="block text-sm font-medium text-cyan-900">Nombre</label>
-                            <input type="text" name="name" id="name" required
+                            <input type="text" name="name" id="name" required value="{{ old('name') }}"
                                 class="w-full px-2 py-1 sm:px-0 sm:py-0 border-b border-cyan-600 bg-transparent focus:outline-none text-sm text-gray-700 placeholder-gray-400">
                         </div>
                         <div class="sm:col-span-2">
                             <label for="email" class="block text-sm font-medium text-cyan-900">Correo electrónico</label>
-                            <input type="email" name="email" id="email" required
+                            <input type="email" name="email" id="email" required value="{{ old('email') }}"
                                 class="w-full px-2 py-1 sm:px-0 sm:py-0 border-b border-cyan-600 bg-transparent focus:outline-none text-sm text-gray-700 placeholder-gray-400">
                         </div>
                         <div>
                             <label for="phone" class="block text-sm font-medium text-cyan-900">Teléfono</label>
-                            <input type="text" name="phone" id="phone"
+                            <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
                                 class="w-full px-2 py-1 sm:px-0 sm:py-0 border-b border-cyan-600 bg-transparent focus:outline-none text-sm text-gray-700 placeholder-gray-400">
                         </div>
                         <div>
                             <label for="subject" class="block text-sm font-medium text-cyan-900">Asunto</label>
-                            <input type="text" name="subject" id="subject"
+                            <input type="text" name="subject" id="subject" value="{{ old('subject') }}"
                                 class="w-full px-2 py-1 sm:px-0 sm:py-0 border-b border-cyan-600 bg-transparent focus:outline-none text-sm text-gray-700 placeholder-gray-400">
                         </div>
                     </div>
@@ -63,12 +62,12 @@
                         <label for="message" class="block text-sm font-medium text-cyan-900">Mensaje</label>
                         <textarea name="message" id="message" rows="3" sm:rows="4"
                             class="w-full px-2 py-1 sm:px-0 sm:py-0 border-b border-cyan-600 bg-transparent focus:outline-none text-sm text-gray-700 resize-none placeholder-gray-400"
-                            required></textarea>
+                            required>{{ old('message') }}</textarea>
                     </div>
 
                     <!-- Botón -->
                     <div class="flex justify-center pt-2 sm:pt-0">
-                        <button type="submit"
+                         <button type="submit"
                             class="btn-action px-8 py-4 sm:px-10 sm:py-5 border text-sm transition rounded-md">
                             Enviar Mensaje
                         </button>
@@ -78,3 +77,4 @@
         </div>
     </div>
 </section>
+

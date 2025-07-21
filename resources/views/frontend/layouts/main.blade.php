@@ -114,6 +114,7 @@
     @yield('content')
 
     <!-- Botón Back to Top -->
+    @include('frontend.components.alerts')
     @include('frontend.partials.toTop')
     @include('frontend.components.contactFloating')
     <!-- Footer -->

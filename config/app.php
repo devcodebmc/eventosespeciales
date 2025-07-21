@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Recetas-Caseras'),
+    'name' => env('APP_NAME', 'Eventos Especiales Lerma'),
 
     /*
     |--------------------------------------------------------------------------
