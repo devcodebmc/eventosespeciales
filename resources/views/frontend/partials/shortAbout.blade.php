@@ -17,18 +17,18 @@
       
       <!-- Encabezado decorativo -->
       <header class="flex flex-col sm:flex-row items-center justify-center my-6 w-full">
-        <div class="flex items-center justify-center w-full" aria-hidden="true">
-          <span class="hidden sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
-          <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" focusable="false">
-            <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
-          </svg>
-          <h2 id="nuestra-historia" class="text-base sm:text-lg md:text-xl text-gray-500 tracking-widest uppercase mx-0 sm:mx-4 text-center">
-            Nuestra Historia
-          </h2>
-          <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" focusable="false">
-            <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
-          </svg>
-          <span class="hidden sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+       <div class="flex items-center w-full justify-center">
+            <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+            <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+            </svg>
+            <h2 class="text-base sm:text-lg md:text-xl text-gray-500 tracking-widest uppercase mx-0 sm:mx-4 text-center">
+                Nuestra Historia
+            </h2>
+            <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+            </svg>
+            <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
         </div>
       </header>
 

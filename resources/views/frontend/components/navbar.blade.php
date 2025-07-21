@@ -15,7 +15,7 @@
 
             
             <!-- Desktop Menu -->
-            <div class="hidden md:flex md:items-center md:space-x-6 lg:space-x-12">
+            <div class="hidden md:flex md:items-center md:space-x-6 lg:space-x-8">
                 <a href="{{ route('welcome') }}" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
                     Inicio
                     <span class="{{ request()->is('/') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
@@ -32,6 +32,10 @@
                     Portafolio
                     <span class="{{ request()->is('portafolio') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
                 </a>
+                <a href="/contacto" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                    Contacto
+                    <span class="{{ request()->is('contacto') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                </a>
                 <div class="relative group flex flex-col items-center">
                     <button class="flex items-center text-gray-700 hover:text-[#65ABB7] font-medium focus:outline-none transition duration-300">
                         Paginas
@@ -42,9 +46,9 @@
                     <span class="{{ request()->is('team', 'faq', 'testimonials') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-2 w-40 sm:w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
-                        <a href="/contacto" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('contacto') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">Contacto</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('faq') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">FAQ</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('testimonials') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">Testimonials</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('salon-de-fiestas') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
+                            Salon de fiestas
+                        </a>
                     </div>
                 </div>
                 <a href="mailto:info@eventosespecialeslerma.com" class="flex items-center text-gray-700 hover:text-[#65ABB7] transition duration-300">
@@ -79,6 +83,8 @@
             <a href="/sobre-nosotros" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('sobre-nosotros') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Sobre Nosotros</a>
             <a href="/servicios" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('servicios') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Servicios</a>
             <a href="/portafolio" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('portafolio') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Portafolio</a>
+            <a href="/contacto" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('contacto') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Contacto</a>
+            <!-- Dropdown for mobile -->
             <div class="block">
                 <button id="mobile-dropdown-toggle" class="w-full flex justify-between items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('team', 'faq', 'testimonials') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} focus:outline-none transition">
                     <span>Paginas</span>
@@ -87,16 +93,15 @@
                     </svg>
                 </button>
                 <div id="mobile-dropdown" class="hidden pl-6 mt-1 space-y-1">
-                    <a href="/contacto" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('contacto') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Contacto</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('faq') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">FAQ</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('testimonials') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Testimonials</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('salon-de-fiestas') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Salon de fiestas</a>
                 </div>
             </div>
-            <a href="mailto:info@eventosespecialeslerma.com" class="flex items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">
+            <a href="#" class="flex items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">
+                <!-- Salon de fiestas icon (simple building) -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-[#65ABB7]">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5L12 4l9 6.5M4.5 10.5V19a.5.5 0 00.5.5h14a.5.5 0 00.5-.5v-8.5M9 21V14h6v7" />
                 </svg>
-                <span class="sm:inline">Contact Us</span>
+                <span class="sm:inline">Finca Isabela</span>
             </a>
         </div>
     </div>

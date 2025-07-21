@@ -65,7 +65,7 @@
             <div class="relative h-64 sm:h-80 md:h-96 lg:h-[48rem] w-full overflow-hidden rounded-lg shadow-lg transform transition-all duration-1000 ease-[cubic-bezier(0.12,0.8,0.32,1)] translate-x-16 opacity-0" 
                 data-animate-image
                 style="transition-property: transform, opacity; will-change: transform, opacity;">
-                <img src="{{ asset('images/montaje-vintage.jpg') }}" alt="Contacto"
+                <img src="{{ asset('images/mesa-elegante.jpg') }}" alt="Contacto"
                     class="w-full h-full object-cover object-center">
             </div>
 

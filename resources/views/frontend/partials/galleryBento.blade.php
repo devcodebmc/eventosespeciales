@@ -2,18 +2,18 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Encabezado mejorado -->
     <header class="mb-12 text-center">
-      <div class="flex items-center justify-center my-6">
-        <span class="hidden sm:block w-16 sm:w-24 border-t border-[#4b8b97] mx-2"></span>
-        <svg class="mx-0" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-          <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+      <div class="flex items-center w-full justify-center">
+        <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+        <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
         </svg>
-         <h2 class="text-base sm:text-lg md:text-xl text-gray-500 tracking-widest uppercase mx-0 sm:mx-4 text-center">
-          Galería de Eventos
+        <h2 class="text-base sm:text-lg md:text-xl text-gray-500 tracking-widest uppercase mx-0 sm:mx-4 text-center">
+            Galeria de Eventos
         </h2>
-        <svg class="mx-0" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-          <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+        <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
         </svg>
-        <span class="hidden sm:block w-16 sm:w-24 border-t border-[#4b8b97] mx-2"></span>
+        <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
       </div>
       <h3 class="max-w-5xl mx-auto text-base sm:text-lg md:text-xl lg:text-3xl text-[#2A4044] font-secondary text-center px-2">
         Descubre la magia que creamos en cada celebración. Momentos únicos, emociones eternas.
@@ -67,7 +67,7 @@
     <!-- Botón Ver Más (opcional si hay más imágenes) -->
     @if($smallGallery->count() > 6)
       <div class="mt-12 text-center">
-        <a href="#" class="btn-action inline-flex items-center px-6 py-2 sm:px-8 sm:py-3">
+        <a href="#" class="btn-action rounded-md inline-flex items-center px-6 py-2 sm:px-8 sm:py-3">
           Ver más momentos memorables
           <svg class="ml-2 -mr-1 w-4 h-4 sm:w-5 sm:h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
             <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
