@@ -16,7 +16,7 @@
       <!-- Encabezado decorativo -->
       <header class="flex flex-col sm:flex-row items-center justify-center my-6 w-full">
         <div class="flex items-center justify-center w-full">
-          <span class="hidden sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+          <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
           <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
           </svg>
@@ -26,7 +26,7 @@
           <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
           </svg>
-          <span class="hidden sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+          <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
         </div>
       </header>
 
