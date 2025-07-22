@@ -38,16 +38,18 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-         // Validate the request
+        // Validate the request
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'max:2048']
+            'image' => ['nullable', 'image', 'max:2048'],
+            'status' => ['nullable', 'in:published,draft'],
         ]);
 
         // Create a new service
         $service               = new Service;
         $service->name         = $request->name;
         $service->description  = $request->description;
+        $service->status       = $request->status ?? 'draft';
 
         // Handle image upload
         if ($request->hasFile('image')) {
@@ -57,7 +59,6 @@ class ServiceController extends Controller
 
         $service->save();
 
-        // Redirect to the services index
         return redirect()->route('services.index')->with('success', 'Servicio creado correctamente.');
     }
 
@@ -81,7 +82,8 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $service = Service::findorFail($id);
-        return view('services.edit', compact('service'));
+        $orderLimit = Service::count(); // Limit for order field
+        return view('services.edit', compact('service', 'orderLimit'));
     }
 
     /**
@@ -96,13 +98,20 @@ class ServiceController extends Controller
         // Validate the request
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'max:2048']
+            'image' => ['nullable', 'image', 'max:2048'],
+            'status' => ['nullable', 'in:published,draft'],
+            'order' => ['nullable', 'integer'],
         ]);
 
         // Update the specified service
         $service = Service::findOrFail($id);
+        $oldOrder = $service->order;
+        $newOrder = $request->order ?? $service->order;
+
         $service->name = $request->name;
         $service->description = $request->description;
+        $service->status = $request->status ?? $service->status;
+        $service->order = $newOrder;
 
         // Handle image upload and delete previous image if replaced
         if ($request->hasFile('image')) {
@@ -117,7 +126,17 @@ class ServiceController extends Controller
         $service->updated_at = now();
         $service->save();
 
-        // Redirect to the services index
+        // Si el order se actualizó y otro servicio ya lo tenía, reasignar el order anterior
+        if ($newOrder != $oldOrder) {
+            $otherService = Service::where('order', $newOrder)
+                ->where('id', '!=', $service->id)
+                ->first();
+            if ($otherService) {
+                $otherService->order = $oldOrder;
+                $otherService->save();
+            }
+        }
+
         return redirect()->route('services.index')->with('success', 'Servicio actualizado correctamente.');
     }
 

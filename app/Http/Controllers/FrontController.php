@@ -13,7 +13,9 @@ class FrontController extends Controller
 {
     public function index(Request $request)
     {
-        $services = Service::orderBy('created_at', 'DESC')->get();
+        $services = Service::where('status', 'published')
+                    ->orderBy('order', 'ASC')
+                    ->get();
 
         $packages = Event::select('id', 'title', 'summary', 'content', 'image', 'slug')
                     ->where('type', 'Package')
@@ -44,7 +46,9 @@ class FrontController extends Controller
     {
         $category = Category::where('slug', $slug)->firstOrFail();
 
-        $services = Service::orderBy('created_at', 'DESC')->get();
+        $services = Service::where('status', 'published')
+                    ->orderBy('order', 'ASC')
+                    ->get();
 
         $packages = Event::select('id', 'title', 'summary', 'content', 'image', 'slug')
                     ->where('type', 'Package')

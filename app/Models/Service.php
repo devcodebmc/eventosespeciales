@@ -10,13 +10,16 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description', 'image'];
+    protected $fillable = ['name', 'slug', 'description', 'image', 'status', 'order'];
 
     protected static function boot()
     {
         parent::boot();
+        
         static::creating(function ($service) {
             $service->slug = Str::slug($service->name);
+            // Asignar el siguiente número de orden al crear
+            $service->order = static::max('order') + 1;
         });
 
         static::updating(function ($service) {
@@ -30,4 +33,13 @@ class Service extends Model
                      ->orWhereRaw('LOWER(name) like ?', ['%' . strtolower($search) . '%']);
     }
 
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('order');
+    }
 }

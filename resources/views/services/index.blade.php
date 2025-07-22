@@ -82,13 +82,16 @@
                                     Nombre
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Slug
-                                </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Descripción
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Imagen
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Estado
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Orden
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Fecha de creación
@@ -108,9 +111,6 @@
                                         {{ $service->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ $service->slug }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
                                         {{ (strlen($service->description) > 50) ? substr($service->description, 0, 20) . '...' : (string)$service->description }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -119,6 +119,14 @@
                                         @else
                                             Sin imagen
                                         @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $service->status == 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                            {{ $service->status == 'published' ? 'Publicado' : 'Borrador' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                                        {{ $service->order }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ $service->created_at->diffForHumans() }}

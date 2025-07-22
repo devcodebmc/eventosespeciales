@@ -5,7 +5,6 @@
         </h2>
     </x-slot>
 
-    {{-- Formulario para la creación de Servicios --}}
     <div class="py-6">
         <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -21,6 +20,7 @@
                                 </label>
                                 <input id="name" type="text" name="name" value="{{ old('name') }}" required class="mt-1 block w-full border border-gray-300 rounded-md pl-3 text-sm" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"/>
                             </div>
+                            
                             {{-- Descripción del Servicio --}}
                             <div class="col-span-1">
                                 <label for="description" class="block text-sm font-medium text-gray-700">
@@ -28,6 +28,19 @@
                                 </label>
                                 <textarea id="description" name="description" class="mt-1 block w-full border border-gray-300 rounded-md pl-3 text-sm resize-none h-32" rows="4" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)">{{ old('description') }}</textarea>
                             </div>
+                            
+                            {{-- Estado del Servicio --}}
+                            <div class="col-span-1">
+                                <label for="status" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Estado
+                                </label>
+                                <select id="status" name="status"
+                                    class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-sm shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition duration-150 ease-in-out">
+                                    <option value="draft" {{ old('status', 'draft') == 'draft' ? 'selected' : '' }}>Borrador</option>
+                                    <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>Publicado</option>
+                                </select>
+                            </div>
+                            
                             <div class="col-span-1">
                                 <label for="image" class="block text-sm font-medium text-gray-700">
                                     Imagen
@@ -53,8 +66,8 @@
                             </button>
                         </div>
                         <div class="flex items-center mt-4">
-                            <a href="{{ route('categories.index') }}" class="text-blue-500 hover:underline">
-                                Volver a Servicio
+                            <a href="{{ route('services.index') }}" class="text-blue-500 hover:underline">
+                                Volver a Servicios
                             </a>
                         </div>
                         @error('name')
