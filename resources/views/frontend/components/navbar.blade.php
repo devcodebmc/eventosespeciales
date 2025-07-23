@@ -46,8 +46,11 @@
                     <span class="{{ request()->is('team', 'faq', 'testimonials') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-2 w-40 sm:w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('salon-de-fiestas') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
-                            Salon de fiestas
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('finca-isabela') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
+                            Finca Isabela
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('mobiliario') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
+                            Mobiliario
                         </a>
                     </div>
                 </div>
@@ -92,16 +95,17 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
+                <!-- Dropdown content -->
                 <div id="mobile-dropdown" class="hidden pl-6 mt-1 space-y-1">
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('salon-de-fiestas') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Salon de fiestas</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('finca-isabela') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Finca Isabela</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('mobiliario') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Mobiliario</a>
                 </div>
             </div>
             <a href="#" class="flex items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">
-                <!-- Salon de fiestas icon (simple building) -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-[#65ABB7]">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5L12 4l9 6.5M4.5 10.5V19a.5.5 0 00.5.5h14a.5.5 0 00.5-.5v-8.5M9 21V14h6v7" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                 </svg>
-                <span class="sm:inline">Finca Isabela</span>
+                <span class="sm:inline">Contactanos</span>
             </a>
         </div>
     </div>
