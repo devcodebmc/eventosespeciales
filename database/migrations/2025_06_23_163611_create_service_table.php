@@ -17,7 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('description')->nullable();
+            $table->string('description', 500)->nullable();
             $table->string('image')->nullable();
             $table->enum('status', ['published', 'draft'])->default('draft');
             $table->unsignedInteger('order')->default(0);
