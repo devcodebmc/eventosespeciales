@@ -3,19 +3,33 @@
         <!-- Galería de imágenes -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
             @foreach($post->images->take(6) as $index => $image)
-            <figure class="aspect-square rounded-xl overflow-hidden shadow-md border border-gray-200 bg-white group">
+            <figure class="aspect-square rounded-xl overflow-hidden shadow-md border border-gray-200 bg-white group relative">
                 <button 
                     type="button"
                     class="w-full h-full open-lightbox-btn focus:outline-none"
                     data-index="{{ $index }}"
                     aria-label="Ver imagen ampliada"
                 >
-                    <img src="{{ asset($image->image_path) }}" alt="Imagen relacionada al servicio" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" decoding="async" loading="lazy">
+                    <!-- Preload de imágenes -->
+                    <link rel="preload" as="image" href="{{ asset($image->image_path) }}">
+                    <!-- Imagen con carga prioritaria -->
+                    <img 
+                        src="{{ asset($image->image_path) }}" 
+                        alt="Imagen relacionada al servicio" 
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+                        decoding="async" 
+                        loading="eager"  <!-- Cambiado de lazy a eager -->
+                        width="300"       <!-- Añadido para CLS -->
+                        height="300"      <!-- Añadido para CLS -->
+                    >
                 </button>
                 <figcaption class="sr-only">Imagen relacionada al servicio</figcaption>
+                <!-- Efecto de carga suave -->
+                <div class="absolute inset-0 bg-gray-100 animate-pulse opacity-0 transition-opacity duration-300 pointer-events-none image-loading-placeholder"></div>
             </figure>
             @endforeach
         </div>
+        
         <!-- Lightbox Modal -->
         <dialog id="lightbox-modal" class="fixed inset-0 z-90 bg-black/90 flex items-center justify-center w-full h-full p-0 m-0 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out" aria-modal="true" aria-labelledby="lightbox-title">
             <div class="relative max-w-4xl w-full mx-4 bg-transparent flex flex-col items-center transition-opacity duration-300 ease-in-out">
@@ -27,7 +41,16 @@
                 </button>
                 
                 <figure class="w-full flex flex-col items-center transition-opacity duration-300 ease-in-out">
-                    <img id="lightbox-image" src="" alt="Imagen ampliada" class="w-full h-auto rounded-lg shadow-lg object-contain max-h-[80vh] mx-auto transition-opacity duration-300 ease-in-out">
+                    <!-- Precargar imagen del lightbox -->
+                    <div id="lightbox-preloader" class="hidden"></div>
+                    <img 
+                        id="lightbox-image" 
+                        src="" 
+                        alt="Imagen ampliada" 
+                        class="w-full h-auto rounded-lg shadow-lg object-contain max-h-[80vh] mx-auto transition-opacity duration-300 ease-in-out"
+                        width="1200" 
+                        height="800"
+                    >
                     <figcaption id="lightbox-title" class="sr-only">Imagen ampliada</figcaption>
                 </figure>
                 
@@ -58,17 +81,54 @@
         document.addEventListener('DOMContentLoaded', function () {
             const images = @json($post->images->take(6)->pluck('image_path'));
             const modal = document.getElementById('lightbox-modal');
-            const modalContent = modal.querySelector('div'); // Contenedor del contenido
+            const modalContent = modal.querySelector('div');
             const modalImg = document.getElementById('lightbox-image');
             const closeBtn = document.getElementById('lightbox-close');
             const prevBtn = document.getElementById('lightbox-prev');
             const nextBtn = document.getElementById('lightbox-next');
             const thumbs = document.getElementById('lightbox-thumbs');
+            const preloader = document.getElementById('lightbox-preloader');
             let currentIndex = 0;
+
+            // Precargar imágenes en segundo plano
+            function preloadImages() {
+                images.forEach(img => {
+                    const preloadImg = new Image();
+                    preloadImg.src = '{{ asset('') }}' + img.replace(/^\/+/, '');
+                    preloadImg.style.display = 'none';
+                    preloader.appendChild(preloadImg);
+                });
+            }
+            
+            // Ocultar placeholders cuando las imágenes cargan
+            function hidePlaceholders() {
+                document.querySelectorAll('.image-loading-placeholder').forEach(el => {
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 300); // Coincide con la duración de la transición
+                });
+            }
+            
+            // Verificar si las imágenes ya están cargadas
+            function checkImagesLoaded() {
+                let allLoaded = true;
+                document.querySelectorAll('img[loading="eager"]').forEach(img => {
+                    if (!img.complete) allLoaded = false;
+                });
+                
+                if (allLoaded) {
+                    hidePlaceholders();
+                } else {
+                    window.addEventListener('load', hidePlaceholders);
+                }
+            }
+            
+            preloadImages();
+            checkImagesLoaded();
 
             function openModal(index) {
                 currentIndex = index;
-                modalImg.src = images[index] ? '{{ asset('') }}' + images[index].replace(/^\/+/, '') : '';
+                const imgPath = images[index] ? '{{ asset('') }}' + images[index].replace(/^\/+/, '') : '';
+                modalImg.src = imgPath;
                 
                 // Resetear opacidades
                 modal.style.opacity = '0';
@@ -93,18 +153,15 @@
             }
 
             function closeModal() {
-                // Ocultar todo simultáneamente
                 modal.style.opacity = '0';
                 modalContent.style.opacity = '0';
                 modalImg.style.opacity = '0';
                 
-                // Esperar a que termine la transición antes de ocultar completamente
                 setTimeout(() => {
                     modal.classList.add('pointer-events-none');
                     modal.removeAttribute('open');
-                    modalImg.src = '';
                     document.body.style.overflow = '';
-                }, 300); // Debe coincidir con la duración de la transición (300ms)
+                }, 300);
             }
 
             function showImage(index) {
@@ -112,10 +169,13 @@
                 if (index >= images.length) index = 0;
                 currentIndex = index;
                 
-                // Transición suave al cambiar imágenes
+                // Precargar siguiente/anterior imagen
+                const nextImg = new Image();
+                nextImg.src = images[index] ? '{{ asset('') }}' + images[index].replace(/^\/+/, '') : '';
+                
                 modalImg.style.opacity = '0';
                 setTimeout(() => {
-                    modalImg.src = images[index] ? '{{ asset('') }}' + images[index].replace(/^\/+/, '') : '';
+                    modalImg.src = nextImg.src;
                     modalImg.style.opacity = '1';
                 }, 200);
                 

@@ -45,7 +45,7 @@
                 <figcaption class="sr-only">Imagen decorativa del servicio</figcaption>
             </figure>
             <figure class="w-full max-w-6xl mt-4 mb-8">
-                <img src="{{ asset($post->image) }}" alt="{{ $post->title }}" class="w-full h-auto object-cover rounded-lg" decoding="async" loading="lazy">
+                <img src="{{ asset($post->image) }}" alt="{{ $post->title }}" class="w-full h-auto object-cover rounded-lg" decoding="async" loading="eager">
                 <figcaption class="sr-only">{{ $post->title }}</figcaption>
             </figure>
             <header class="w-full max-w-4xl mx-auto px-2 flex flex-col items-start">
