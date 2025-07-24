@@ -59,7 +59,7 @@
         </section>
         @include('frontend.partials.lightbox')
         <section class="bg-white w-full mx-auto px-2 my-8 prose prose-lg prose-blue text-center">
-            <div class="w-full max-w-4xl mx-auto text-left">
+            <div class="w-full max-w-4xl mx-auto px-2 text-left">
             {!! $post->content !!}
             </div>
         </section>

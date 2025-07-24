@@ -10,7 +10,7 @@
                     data-index="{{ $index }}"
                     aria-label="Ver imagen ampliada"
                 >
-                    <img src="{{ asset($image->image_path) }}" alt="Imagen relacionada al servicio" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                    <img src="{{ asset($image->image_path) }}" alt="Imagen relacionada al servicio" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" decoding="async" loading="lazy">
                 </button>
                 <figcaption class="sr-only">Imagen relacionada al servicio</figcaption>
             </figure>
