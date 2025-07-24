@@ -59,7 +59,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::patch('/events/{event}/update-status', [EventController::class, 'updateStatus'])
     ->name('events.update-status');
     Route::get('/fetch-tags', [FetchTagController::class, 'index'])->name('fetch-tags.index');
-    Route::delete('/events/images/{eventImage}', [EventImageController::class, 'destroy'])->name('events.images.destroy');
+    Route::delete('/events/images/{eventImage}', [EventImageController::class, 'destroy'])->name('event.images.destroy');
   
     // Recyclebin routes
     Route::get('/recyclebin', [App\Http\Controllers\RecyclebinController::class, 'index'])->name('recyclebin.index');
