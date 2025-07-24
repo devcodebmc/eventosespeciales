@@ -28,6 +28,9 @@ Route::get('/', [FrontController::class, 'index'])->name('welcome');
 
 Route::get('/{slug}', [FrontController::class, 'category'])->name('category');
 
+// Service route
+Route::get('/servicios/{slug}', [FrontController::class, 'showService'])->name('services.showService');
+
 // Contact form route
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 

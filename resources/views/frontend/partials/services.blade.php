@@ -30,7 +30,7 @@
                     <h3 class="text-2xl font-secondary text-[#2A4044] mb-3">{{ $service->name }}</h3>
                 </header>
                 <p class="text-gray-500 mb-6">{{ $service->description }}</p>
-                <a href="{{ route('services.show', $service->id) }}" class="relative inline-block text-gray-400  transition-colors duration-200 hover:text-gray-600 group">
+                <a href="{{ route('services.showService', $service->slug) }}" class="relative inline-block text-gray-400  transition-colors duration-200 hover:text-gray-600 group">
                     Ver Más
                     <span class="block mx-auto w-6 h-0.5 bg-[#4b8b97] opacity-0 group-hover:opacity-100 transition-opacity duration-700 mt-1"></span>
                 </a>

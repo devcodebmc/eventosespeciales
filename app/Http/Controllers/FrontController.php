@@ -82,5 +82,39 @@ class FrontController extends Controller
         return view('frontend.pages.'. $slug, compact('category', 'services', 'packages', 'cards', 'smallGallery', 'events'));
     }
 
+    public function showService($slug)
+    {
+        // Obtener l aimagen del servicio por slug
+        $serviceImage = Service::where('slug', $slug)
+                    ->where('status', 'published')
+                    ->select('image')
+                    ->firstOrFail();
+
+        // Obtener el post
+        $post = Event::where('slug', $slug)
+                ->with([
+                'category:id,name,slug',
+                'images' => function($query) {
+                    $query->select('id', 'image_path', 'order', 'event_id')
+                      ->orderBy('order');
+                }
+                ])
+                ->where('type', 'Service')
+                ->where('status', 'published')
+                ->firstOrFail();
+
+        $smallGallery = EventImage::select('id', 'image_path', 'event_id', 'order')
+                ->whereHas('event', function($query) {
+                    $query->where('type', 'Gallery')
+                          ->where('status', 'published');
+                })
+                ->with(['event:id,title']) // Carga mínima de datos del evento
+                ->orderBy('order')
+                ->limit(7)
+                ->get();
+
+        return view('frontend.posts.service', compact('serviceImage', 'post', 'smallGallery'));
+    }
+
    
 }
