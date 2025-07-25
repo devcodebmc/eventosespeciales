@@ -94,6 +94,7 @@ class FrontController extends Controller
         $post = Event::where('slug', $slug)
                 ->with([
                 'category:id,name,slug',
+                'tags:id,name,slug',
                 'images' => function($query) {
                     $query->select('id', 'image_path', 'order', 'event_id')
                       ->orderBy('order');

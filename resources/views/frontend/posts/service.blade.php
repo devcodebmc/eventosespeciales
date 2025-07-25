@@ -1,5 +1,20 @@
 @extends('frontend.layouts.main')
 
+@section('title', $post->title . ' | ' . config('app.name'))
+@section('description', $post->summary)
+@section('keywords', implode(', ', $post->tags->pluck('name')->toArray()))
+@section('canonical', url()->current())
+
+@section('ogtitle', $post->title . ' | ' . config('app.name'))
+@section('ogdescription', $post->summary)
+@section('ogurl', url()->current())
+@section('ogimage', asset('storage/' . $serviceImage->image))
+@section('ogimage:secure_url', asset('storage/' . $serviceImage->image))
+
+@section('twittertitle', $post->title . ' | ' . config('app.name'))
+@section('twitterdescription', $post->summary)
+@section('twitterimage', asset('storage/' . $serviceImage->image))
+
 @section('content')
 <main>
     <section class="bg-white relative overflow-hidden" aria-labelledby="acerca-de-nosotros">
@@ -40,12 +55,32 @@
         </div>
         @include('frontend.partials.divider')
         <section class="bg-white relative overflow-hidden flex flex-col items-center opacity-0 translate-y-4 transition-all duration-700 px-4 sm:px-6 lg:px-0" data-animate>
-            <figure>
-                <img src="{{ asset('storage/' . $serviceImage->image) }}" alt="" class="w-40 h-40 object-contain" aria-hidden="true" decoding="async" loading="lazy">
+            <!-- Imagen decorativa del servicio -->
+            <figure 
+                class="w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:h-32 rounded-full border-2 border-gray-300 flex items-center justify-center overflow-hidden bg-white shadow-md"
+            >
+                <img 
+                    src="{{ asset('storage/' . $serviceImage->image) }}" 
+                    alt="" 
+                    width="80" height="80" 
+                    class="w-10 h-10 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain" 
+                    aria-hidden="true" 
+                    decoding="async" 
+                    loading="lazy"
+                >
                 <figcaption class="sr-only">Imagen decorativa del servicio</figcaption>
             </figure>
+
+            <!-- Imagen principal del post -->
             <figure class="w-full max-w-6xl mt-4 mb-8">
-                <img src="{{ asset($post->image) }}" alt="{{ $post->title }}" class="w-full h-auto object-cover rounded-lg" decoding="async" loading="eager">
+                <img 
+                    src="{{ asset($post->image) }}" 
+                    alt="{{ $post->title }}" 
+                    width="1200" height="675" 
+                    class="w-full h-auto object-cover rounded-lg" 
+                    decoding="async" 
+                    loading="eager"
+                >
                 <figcaption class="sr-only">{{ $post->title }}</figcaption>
             </figure>
             <header class="w-full max-w-4xl mx-auto px-2 flex flex-col items-start">
