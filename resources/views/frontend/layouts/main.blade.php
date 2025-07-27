@@ -16,8 +16,8 @@
     <link rel="shortcut icon" href="{{asset('images/Logo-white.png')}}" type="image/x-icon">
     
     <!-- Primary Meta Tags -->
-    <title>@yield('title', 'Eventos Especiales Lerma - Organización de Eventos en Lerma')</title>
-    <meta name="description" content="@yield('description', 'Agencia profesional de organización de eventos en Lerma. Bodas, fiestas, eventos corporativos y más. Servicios completos para hacer tu evento memorable.')">
+    <title>@yield('title', 'Eventos Especiales Lerma - Organización de Eventos')</title>
+    <meta name="description" content="@yield('description', 'Renta de carpas, domos, lonas, mesas y sillas para todo tipo de eventos. Especialistas en bodas, fiestas, eventos corporativos y más. Servicios integrales para que tu celebración sea inolvidable.')">
     <meta name="keywords" content="@yield('keywords', 'eventos Lerma, organización de eventos, bodas Lerma, fiestas Lerma, eventos corporativos, catering Lerma, decoración eventos, agencia eventos')">
     <meta name="author" content="Eventos Especiales Lerma">
     <meta name="copyright" content="Eventos Especiales Lerma">

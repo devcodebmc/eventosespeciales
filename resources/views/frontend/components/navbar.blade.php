@@ -1,56 +1,58 @@
 <nav class="bg-white shadow-sm overflow-hidden">
     <div class="max-w-7xl mx-auto py-4 px-2 sm:py-6 sm:px-4 lg:px-8">
         <div class="flex justify-between h-16 sm:h-20 items-center">
-            <!-- Contenedor del Logo con animación -->
-            <div class="flex justify-center animate-fade-in-out">
-                <a href="{{ route('welcome') }}" class="flex-shrink-0 flex flex-col items-center">
-                    <span class="font-script text-lg sm:text-2xl text-gray-800">
+            <!-- Contenedor del Logo con animación y espaciado responsive -->
+            <div class="flex justify-center animate-fade-in-out px-4 md:px-8 lg:px-0 xl:px-0 mt-2 lg:mt-0 max-w-[90vw] md:max-w-[700px] lg:max-w-full mx-auto">
+                <a href="{{ route('welcome') }}" class="flex-shrink-0 flex flex-col items-center text-center">
+                    <span class="font-script text-xs sm:text-sm md:text-base lg:text-lg xl:text-2xl text-gray-800 leading-tight">
                         Eventos Especiales Lerma
                     </span>
-                    <span class="text-[10px] sm:text-xs tracking-widest text-gray-500 mt-1">
+                    <span class="text-[9px] sm:text-[10px] md:text-xs tracking-widest text-gray-500 mt-1">
                         AGENCIAS DE EVENTOS
                     </span>
                 </a>
             </div>
 
-            
             <!-- Desktop Menu -->
-            <div class="hidden md:flex md:items-center md:space-x-6 lg:space-x-8">
-                <a href="{{ route('welcome') }}" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+            <div class="hidden md:flex md:items-center space-x-1 md:space-x-2 lg:space-x-4">
+                <a href="{{ route('welcome') }}" class="px-2 py-2 text-sm lg:text-base text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center relative">
                     Inicio
-                    <span class="{{ request()->is('/') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                    <span class="{{ request()->is('/') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1 transition-all duration-300' : 'hidden' }}"></span>
                 </a>
-                <a href="/sobre-nosotros" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                <a href="/sobre-nosotros" class="px-2 py-2 text-sm lg:text-base text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center relative">
                     Sobre Nosotros
-                    <span class="{{ request()->is('sobre-nosotros') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                    <span class="{{ request()->is('sobre-nosotros') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1 transition-all duration-300' : 'hidden' }}"></span>
                 </a>
-                <a href="/servicios" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                <a href="/servicios" class="px-2 py-2 text-sm lg:text-base text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center relative">
                     Servicios
-                    <span class="{{ request()->is('servicios') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                    <span class="{{ request()->is('servicios') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1 transition-all duration-300' : 'hidden' }}"></span>
                 </a>
-                <a href="/portafolio" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                <a href="/portafolio" class="px-2 py-2 text-sm lg:text-base text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center relative">
                     Portafolio
-                    <span class="{{ request()->is('portafolio') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                    <span class="{{ request()->is('portafolio') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1 transition-all duration-300' : 'hidden' }}"></span>
                 </a>
-                <a href="/contacto" class="text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center">
+                <a href="/contacto" class="px-2 py-2 text-sm lg:text-base text-gray-700 hover:text-[#65ABB7] font-medium transition duration-300 flex flex-col items-center relative">
                     Contacto
-                    <span class="{{ request()->is('contacto') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
+                    <span class="{{ request()->is('contacto') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1 transition-all duration-300' : 'hidden' }}"></span>
                 </a>
-                <div class="relative group flex flex-col items-center">
-                    <button class="flex items-center text-gray-700 hover:text-[#65ABB7] font-medium focus:outline-none transition duration-300">
-                        Paginas
+                
+                <!-- Dropdown Desktop -->
+                <div class="relative group">
+                    <button class="px-2 py-2 flex items-center text-sm lg:text-base text-gray-700 hover:text-[#65ABB7] font-medium focus:outline-none transition duration-300">
+                        <span>Paginas</span>
                         <svg class="ml-1 w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                    <span class="{{ request()->is('team', 'faq', 'testimonials') ? 'w-6 h-0.5 bg-[#65ABB7] mt-1' : 'w-0 h-0.5 bg-transparent mt-1' }} transition-all duration-300"></span>
-                    <!-- Dropdown -->
-                    <div class="absolute left-0 mt-2 w-40 sm:w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('finca-isabela') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-white rounded-md py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 origin-top border border-gray-100">
+                        <a href="/finca-isabela" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('finca-isabela') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
                             Finca Isabela
                         </a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('mobiliario') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
+                        <a href="/mobiliario" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('mobiliario') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
                             Mobiliario
+                        </a>
+                        <a href="/temazcal" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('temazcal') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
+                            Temazcal
                         </a>
                     </div>
                 </div>
@@ -97,8 +99,9 @@
                 </button>
                 <!-- Dropdown content -->
                 <div id="mobile-dropdown" class="hidden pl-6 mt-1 space-y-1">
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('finca-isabela') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Finca Isabela</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('mobiliario') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Mobiliario</a>
+                    <a href="/finca-isabela" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('finca-isabela') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Finca Isabela</a>
+                    <a href="/mobiliario" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('mobiliario') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Mobiliario</a>
+                    <a href="/temazcal" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('temazcal') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Temazcal</a>
                 </div>
             </div>
             <a href="#" class="flex items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">
