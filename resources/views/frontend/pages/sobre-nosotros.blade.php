@@ -1,6 +1,6 @@
 @extends('frontend.layouts.main')
 
-@section('title', 'Sobre Nosotros | Eventos Especiales Lerma')
+@section('title', 'Sobre Nosotros - Eventos Especiales Lerma')
 
 @section('description', 'Agencia profesional de organización de eventos en Lerma. Bodas, fiestas, eventos corporativos y más. Servicios completos para hacer tu evento memorable.')
 
@@ -8,13 +8,13 @@
 
 @section('canonical', 'https://eventosespecialeslerma.com/sobre-nosotros')
 
-@section('ogtitle', 'Sobre Nosotros | Eventos Especiales Lerma')
+@section('ogtitle', 'Sobre Nosotros - Eventos Especiales Lerma')
 @section('ogdescription', 'Agencia profesional de organización de eventos en Lerma. Creamos experiencias únicas para bodas, fiestas y eventos corporativos.')
 @section('ogurl', 'https://eventosespecialeslerma.com/sobre-nosotros')
 @section('ogimage', asset('images/Logo-white.png'))
 @section('ogimage:secure_url', asset('ogimage', asset('images/Logo-white.png')))
 
-@section('twittertitle', 'Sobre Nosotros | Eventos Especiales Lerma')
+@section('twittertitle', 'Sobre Nosotros - Eventos Especiales Lerma')
 @section('twitterdescription', 'Agencia profesional de organización de eventos en Lerma. Creamos experiencias únicas para bodas, fiestas y eventos corporativos.')
 @section('twitterimage', asset('images/Logo-white.png'))
 

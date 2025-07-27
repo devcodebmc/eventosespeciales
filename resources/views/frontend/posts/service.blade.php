@@ -1,17 +1,17 @@
 @extends('frontend.layouts.main')
 
-@section('title', $post->title . ' | ' . config('app.name'))
+@section('title', $post->title . ' - ' . config('app.name'))
 @section('description', $post->summary)
 @section('keywords', implode(', ', $post->tags->pluck('name')->toArray()))
 @section('canonical', url()->current())
 
-@section('ogtitle', $post->title . ' | ' . config('app.name'))
+@section('ogtitle', $post->title . ' - ' . config('app.name'))
 @section('ogdescription', $post->summary)
 @section('ogurl', url()->current())
 @section('ogimage', asset('storage/' . $serviceImage->image))
 @section('ogimage:secure_url', asset('storage/' . $serviceImage->image))
 
-@section('twittertitle', $post->title . ' | ' . config('app.name'))
+@section('twittertitle', $post->title . ' - ' . config('app.name'))
 @section('twitterdescription', $post->summary)
 @section('twitterimage', asset('storage/' . $serviceImage->image))
 

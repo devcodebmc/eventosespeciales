@@ -4,6 +4,13 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
             @foreach($post->images->take(6) as $index => $image)
             <figure class="aspect-square rounded-xl overflow-hidden shadow-md border border-gray-200 bg-white group relative">
+                <!-- Ícono de expandir visible al hacer hover -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
+                    <svg class="h-8 w-8 text-white drop-shadow-lg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"/>
+                    </svg>
+                </div>
+                
                 <button 
                     type="button"
                     class="w-full h-full open-lightbox-btn focus:outline-none"
@@ -35,8 +42,8 @@
             <div class="relative max-w-4xl w-full mx-4 bg-transparent flex flex-col items-center transition-opacity duration-300 ease-in-out">
                 <!-- Botón de cerrar -->
                 <button id="lightbox-close" class="absolute top-4 right-4 text-white hover:text-gray-300 focus:outline-none transition-colors duration-200 ease-in-out" aria-label="Cerrar lightbox" style="z-index:2;">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    <svg class="h-8 w-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9h4m0 0V5m0 4L4 4m15 5h-4m0 0V5m0 4 5-5M5 15h4m0 0v4m0-4-5 5m15-5h-4m0 0v4m0-4 5 5"/>
                     </svg>
                 </button>
                 
