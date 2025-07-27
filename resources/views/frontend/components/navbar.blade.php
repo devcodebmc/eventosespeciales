@@ -1,4 +1,4 @@
-<nav class="bg-white shadow-sm overflow-hidden">
+<nav class="bg-white w-full z-50">
     <div class="max-w-7xl mx-auto py-4 px-2 sm:py-6 sm:px-4 lg:px-8">
         <div class="flex justify-between h-16 sm:h-20 items-center">
             <!-- Contenedor del Logo con animación y espaciado responsive -->
