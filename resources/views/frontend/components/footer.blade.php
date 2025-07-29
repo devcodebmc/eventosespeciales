@@ -61,16 +61,14 @@
                 </nav>
             </section>
 
-            <!-- Columna 2 - Otros links -->
+            <!-- Columna 2 - Otras Paginas -->
             <section aria-labelledby="other-links-heading">
-                <h3 id="other-links-heading" class="text-lg font-secondary tracking-wider text-[#2A4044] mb-4">Otros Links</h3>
+                <h3 id="other-links-heading" class="text-lg font-secondary tracking-wider text-[#2A4044] mb-4">Otras Páginas</h3>
                 <nav aria-label="Otros enlaces">
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">About Us</a></li>
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Services</a></li>
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Portfolio</a></li>
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Blog</a></li>
-                        <li><a href="#" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Contact</a></li>
+                        <li><a href="{{ url('finca-isabela') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Finca Isabela</a></li>
+                        <li><a href="{{ url('mobiliario') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Mobiliario</a></li>
+                        <li><a href="{{ url('temazcal') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Temazcal</a></li>
                     </ul>
                 </nav>
             </section>
