@@ -35,6 +35,7 @@
                                 aria-required="true"
                                 oninput="this.value = this.value.toLowerCase()"
                                 value="{{ old('email') }}"
+                                autocomplete="email"
                             >
                         </div>
                         <button 

@@ -101,6 +101,5 @@
         @include('frontend.partials.subscriptionBanner')
         @include('frontend.partials.faqs')
     </section>
-    
 </main>
 @endsection
