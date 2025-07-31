@@ -11,6 +11,9 @@
     <meta http-equiv="Last-Modified" content="0">
     <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
     <meta http-equiv="Pragma" content="no-cache">
+
+    <!-- Google Analytics -->
+    <meta name="google-site-verification" content="1KUpafnalBiXTMl-3E2KezSAe-38pASniw9ba4aqutc" />
     
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('images/Logo-white.png')}}" type="image/x-icon">
