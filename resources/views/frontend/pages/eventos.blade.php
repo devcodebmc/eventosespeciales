@@ -1,20 +1,20 @@
 @extends('frontend.layouts.main')
 
-@section('title', 'Portafolio - Eventos Especiales Lerma')
+@section('title', 'Eventos - Eventos Especiales Lerma')
 
 @section('description', 'Agencia profesional de organización de eventos en Lerma. Bodas, fiestas, eventos corporativos y más. Servicios completos para hacer tu evento memorable.')
 
 @section('keywords', 'eventos Lerma, organización de eventos, bodas Lerma, fiestas Lerma, eventos corporativos, catering Lerma, decoración eventos, agencia eventos')
 
-@section('canonical', 'https://eventosespecialeslerma.com/portafolio')
+@section('canonical', 'https://eventosespecialeslerma.com/eventos')
 
-@section('ogtitle', 'Portafolio - Eventos Especiales Lerma')
+@section('ogtitle', 'Eventos - Eventos Especiales Lerma')
 @section('ogdescription', 'Agencia profesional de organización de eventos en Lerma. Creamos experiencias únicas para bodas, fiestas y eventos corporativos.')
-@section('ogurl', 'https://eventosespecialeslerma.com/portafolio')
+@section('ogurl', 'https://eventosespecialeslerma.com/eventos')
 @section('ogimage', asset('images/Logo-white.png'))
 @section('ogimage:secure_url', asset('ogimage', asset('images/Logo-white.png')))
 
-@section('twittertitle', 'Portafolio - Eventos Especiales Lerma')
+@section('twittertitle', 'Eventos - Eventos Especiales Lerma')
 @section('twitterdescription', 'Agencia profesional de organización de eventos en Lerma. Creamos experiencias únicas para bodas, fiestas y eventos corporativos.')
 @section('twitterimage', asset('images/Logo-white.png'))
 
@@ -52,7 +52,7 @@
                     <span class="w-24 sm:w-36 border-t border-[#4b8b97] mx-2"></span>
                 </div>
                 <h1 id="acerca-de-nosotros" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl text-[#2A4044] font-secondary text-center mt-8 px-4">
-                    Portafolio
+                    Eventos
                 </h1>
             </article>
         </div>

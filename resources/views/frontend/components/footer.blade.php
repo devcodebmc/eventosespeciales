@@ -53,10 +53,10 @@
                 <nav aria-label="Enlaces rápidos">
                     <ul class="space-y-2">
                         <li><a href="{{ route('welcome') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Inicio</a></li>
-                        <li><a href="/sobre-nosotros" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Sobre Nosotros</a></li>
-                        <li><a href="/servicios" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Servicios</a></li>
-                        <li><a href="/portafolio" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Portafolio</a></li>
-                        <li><a href="/contacto" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Contacto</a></li>
+                        <li><a href="{{ url('sobre-nosotros') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Sobre Nosotros</a></li>
+                        <li><a href="{{ url('servicios') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Servicios</a></li>
+                        <li><a href="{{ url('eventos') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Eventos</a></li>
+                        <li><a href="{{ url('contacto') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Contacto</a></li>
                     </ul>
                 </nav>
             </section>
