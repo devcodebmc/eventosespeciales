@@ -4,7 +4,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-1">
         @foreach($cards as $index => $card)
             <article class="relative aspect-[4/5] group overflow-hidden">
-                <a href="{{ $card->category->slug . '/' . $card->slug }}" class="absolute inset-0 z-10" aria-label="Leer más sobre {{ $card->title }}"></a>
+                <a href="{{'eventos/' . $card->slug }}" class="absolute inset-0 z-10" aria-label="Leer más sobre {{ $card->title }}"></a>
 
                 <!-- Fondo oscuro por defecto -->
                 <div class="absolute inset-0 bg-[#263238] z-0"></div>
