@@ -28,6 +28,9 @@ Route::get('/', [FrontController::class, 'index'])->name('welcome');
 
 Route::get('/{slug}', [FrontController::class, 'category'])->name('category');
 
+// Event route
+Route::get('/eventos/{slug}', [FrontController::class, 'showEvent'])->name('events.showEvent');
+
 // Service route
 Route::get('/servicios/{slug}', [FrontController::class, 'showService'])->name('services.showService');
 

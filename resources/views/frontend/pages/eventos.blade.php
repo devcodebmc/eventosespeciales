@@ -85,7 +85,7 @@
             <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
                 @foreach($events as $event)
                     <article class="group relative break-inside-avoid overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mb-6">
-                        <a href="{{ route('events.show', $event->id) }}" class="block h-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg">
+                        <a href="{{ route('events.showEvent', $event->slug) }}" class="block h-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg">
                             <figure class="relative w-full">
                                 <img 
                                     src="{{ asset($event->image) }}" 

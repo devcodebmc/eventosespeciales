@@ -107,6 +107,7 @@
     
     <!-- Preload important resources -->
     <link rel="preload" href="{{ asset('css/index.css') }}" as="style">
+    @stack('styles')
     <link rel="preload" href="{{asset('images/Logo-white.png')}}" as="image">
 </head>
 <body class="bg-gray-100">

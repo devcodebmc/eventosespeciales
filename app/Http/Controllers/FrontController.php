@@ -30,6 +30,7 @@ class FrontController extends Controller
                     ->where('type', 'Event')
                     ->where('status', 'published')
                     ->select('id', 'title', 'summary', 'event_date', 'image', 'slug', 'location', 'category_id')
+                    ->orderBy('event_date', 'asc')
                     ->limit(10)
                     ->get();
 
@@ -68,6 +69,27 @@ class FrontController extends Controller
 
         return view('frontend.posts.service', [
             'serviceImage' => $serviceImage,
+            'post' => $post,
+            'smallGallery' => $this->getSmallGallery()
+        ]);
+    }
+
+    public function showEvent($slug)
+    {
+        $post = Event::where('slug', $slug)
+                ->with([
+                'category:id,name,slug',
+                'tags:id,name,slug',
+                'images' => function($query) {
+                    $query->select('id', 'image_path', 'order', 'event_id')
+                      ->orderBy('order');
+                }
+                ])
+                ->where('type', 'Event')
+                ->where('status', 'published')
+                ->firstOrFail();
+                
+        return view('frontend.posts.event', [
             'post' => $post,
             'smallGallery' => $this->getSmallGallery()
         ]);
