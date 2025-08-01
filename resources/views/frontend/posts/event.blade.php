@@ -79,7 +79,7 @@
                 </section>
 
                 <!-- Caja de detalles -->
-                <footer class="relative flex flex-col items-center bg-gray-100 rounded-full px-8 py-8 overflow-hidden">
+                <footer class="relative flex flex-col items-center bg-gray-100 rounded-sm lg:rounded-sm xl:rounded-full px-8 py-8 overflow-hidden">
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-8 text-center sm:text-left">
                         <!-- Imagen decorativa más grande y centrada -->
                         <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 shrink-0 overflow-hidden">
