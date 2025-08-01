@@ -24,6 +24,7 @@ return new class extends Migration
             $table->dateTime('event_date')->nullable(); // Fecha y hora del evento
             $table->string('location')->nullable(); // Lugar del evento
             $table->string('organizer')->nullable(); // Organizador del evento
+            $table->string('client')->nullable(); // Cliente del evento
             $table->string('image')->nullable(); // Imagen principal
             $table->string('video_url')->nullable(); // URL del video (opcional)
             $table->enum('status', ['draft', 'published'])->default('draft'); // Estado del evento

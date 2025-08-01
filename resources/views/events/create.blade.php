@@ -89,6 +89,14 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+                    <!-- Cliente -->
+                    <div>
+                        <label for="client" class="block text-sm font-medium text-gray-700 mb-2">Cliente</label>
+                         <input type="text" name="client" id="client" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition duration-200" placeholder="Nombre del cliente" value="{{ old('client') }}">
+                        @error('client')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <!-- Imagen principal -->
                     <div>
                         <label for="image" class="block text-sm font-medium text-gray-700 mb-2">

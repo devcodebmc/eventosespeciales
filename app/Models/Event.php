@@ -20,6 +20,7 @@ class Event extends Model
         'event_date',
         'location',
         'organizer',
+        'client',
         'image',
         'video_url',
         'status',
