@@ -17,7 +17,7 @@
 
 @section('content')
 <main>
-    <section class="bg-white relative overflow-hidden" aria-labelledby="acerca-de-nosotros">
+    <section class="bg-white relative overflow-hidden" aria-labelledby="titulo-del-evento">
         <!-- Flores decorativas - Visibles en todas las resoluciones -->
         <div role="presentation" class="pointer-events-none select-none absolute -left-2 top-10 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 2xl:w-96 2xl:h-96 opacity-0 transition-all duration-700 z-0" data-animate>
             <img src="{{ asset('images/flor-izquierda.png') }}" alt="" 
@@ -48,7 +48,7 @@
                     </svg>
                     <span class="w-24 sm:w-36 border-t border-[#4b8b97] mx-2"></span>
                 </div>
-                <h1 id="acerca-de-nosotros" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl text-[#2A4044] font-secondary text-center mt-8 px-4">
+                <h1 id="titulo-del-evento" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl text-[#2A4044] font-secondary text-center mt-8 px-4">
                     {{ $post->title }}
                 </h1>
             </article>
@@ -121,6 +121,31 @@
        <!-- Grid de imágenes responsive con lightbox -->
        @include('frontend.partials.specialLightbox')
     </section>
+    <section class="flex flex-col items-center opacity-0 translate-y-4 transition-all duration-700 px-4 sm:px-6 lg:px-0 mt-8 bg-gray-100" data-animate>
+        <header class="flex flex-col sm:flex-row items-center justify-center my-8 w-full">
+            <div class="flex items-center w-full justify-center mt-12">
+                <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+                <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+                </svg>
+                <h2 class="text-base sm:text-lg md:text-xl text-gray-500 tracking-widest uppercase mx-0 sm:mx-4 text-center">
+                    Momentos Especiales
+                </h2>
+                <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+                </svg>
+                <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+            </div>
+        </header>
+        <h3 class="max-w-5xl mx-auto text-base sm:text-lg md:text-xl lg:text-3xl text-[#2A4044] font-secondary text-center px-2">
+            {{ $post->title }}
+        </h3>
+    </section>
+    <!-- video del evento $post->video_url -->
+    @include('frontend.partials.videoLightbox', [
+        'image' => $post->image,
+        'videoUrl' => $post->video_url
+    ])
     
 </main>
 @endsection
