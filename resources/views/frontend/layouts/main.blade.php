@@ -14,6 +14,16 @@
 
     <!-- Google Analytics -->
     <meta name="google-site-verification" content="1KUpafnalBiXTMl-3E2KezSAe-38pASniw9ba4aqutc" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MG0KR16K3J"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-MG0KR16K3J');
+    </script>
     
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('images/Logo-white.png')}}" type="image/x-icon">
