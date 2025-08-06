@@ -1,119 +1,153 @@
 @props(['image' => null, 'videoUrl' => null])
-
-@if($videoUrl)
-<article class="flex flex-col items-center opacity-0 translate-y-4 transition-all duration-700 px-4 sm:px-6 lg:px-0 mt-8" data-animate>
-    <figure class="relative max-w-xs mx-auto my-10 group cursor-pointer transition-all duration-500 ease-in-out hover:-rotate-3 hover:scale-110"
-        onclick="openVideoLightbox('{{ $videoUrl }}')">
-        
-        <!-- Marco de postal fotográfica con sombra y bordes -->
-        <div class="overflow-hidden rounded-lg shadow-2xl border-8 border-white bg-white p-1 transform rotate-1 group-hover:rotate-0 transition-transform duration-500">
-            <img src="{{ $image ?? asset('images/example.jpg') }}"
-                alt="Miniatura del video"
-                class="w-full h-72 sm:h-80 md:h-96 object-cover transition-all duration-500 ease-in-out" 
-                loading="lazy" />
+<section class="flex flex-col items-center opacity-0 translate-y-4 transition-all duration-700 py-4 px-4 sm:px-6 lg:px-0 mt-8 bg-white" data-animate>
+    <header class="flex flex-col sm:flex-row items-center justify-center my-8 w-full">
+        <div class="flex items-center w-full justify-center mt-12">
+            <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+            <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+            </svg>
+            <h2 class="text-base sm:text-lg md:text-xl text-gray-500 tracking-widest uppercase mx-0 sm:mx-4 text-center">
+                Momentos Especiales
+            </h2>
+            <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+            </svg>
+            <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
         </div>
-
-        <!-- Ícono de play minimalista blanco -->
-        <figcaption class="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div class="w-16 h-16 bg-transparent border-2 border-white rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 group-hover:scale-110">
-                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M6 4l10 6-10 6V4z" />
-                </svg>
+    </header>
+    <h3 class="max-w-5xl mx-auto text-base sm:text-lg md:text-xl lg:text-3xl text-[#2A4044] font-secondary text-center px-2">
+        {{ $post->title }}
+    </h3>
+    @if($videoUrl)
+    <article class="flex flex-col items-center opacity-0 translate-y-4 transition-all duration-700 px-4 sm:px-6 lg:px-0 mt-8" data-animate>
+        <figure class="relative max-w-xs mx-auto my-10 group cursor-pointer transition-all duration-500 ease-in-out hover:-rotate-3 hover:scale-105"
+            onclick="openEmbedLightbox('{{ $videoUrl }}')">
+            
+            <!-- Marco de postal fotográfica con sombra y bordes -->
+            <div class="overflow-hidden rounded-lg shadow-2xl border-8 border-white bg-white p-1 transform rotate-1 group-hover:rotate-0 transition-transform duration-500">
+                @if($image)
+                    <div class="relative">
+                        <img src="{{ $image }}" 
+                            alt="Miniatura del video"
+                            class="w-full h-72 sm:h-80 md:h-96 object-cover transition-all duration-500 ease-in-out blur-sm group-hover:blur-none" 
+                            loading="lazy" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-70 group-hover:opacity-30 transition-opacity duration-300"></div>
+                    </div>
+                @else
+                    <div class="w-full h-72 sm:h-80 md:h-96 bg-gradient-to-r from-gray-200 to-gray-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                @endif
             </div>
-        </figcaption>
-    </figure>
-</article>
 
-<!-- Lightbox mejorado -->
-<aside id="videoLightbox" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden items-center justify-center p-4" aria-hidden="true" aria-labelledby="lightboxTitle">
-    <div class="relative w-full max-w-6xl">
-        <header class="flex justify-end mb-2">
-            <button onclick="closeVideoLightbox()" 
-                    class="text-white hover:text-gray-300 transition-colors"
-                    aria-label="Cerrar reproductor de video">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </header>
-        
-        <main class="bg-black rounded-lg overflow-hidden shadow-2xl">
-            <video id="lightboxVideo" class="w-full h-auto max-h-[80vh]" controls autoplay playsinline aria-labelledby="lightboxTitle">
-                <source src="" type="video/mp4">
-                Tu navegador no soporta el elemento de video.
-            </video>
-        </main>
-        
-        <footer class="mt-2 text-center text-white text-sm opacity-75">
-            Presiona ESC para salir
-        </footer>
+            <!-- Ícono de play con efecto de iluminación -->
+            <figcaption class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="w-16 h-16 bg-black/30 backdrop-blur-sm border-2 border-white/80 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-black/50 group-hover:border-white group-hover:backdrop-blur-md">
+                    <svg class="w-6 h-6 text-white/90 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M6 4l10 6-10 6V4z" />
+                    </svg>
+                </div>
+            </figcaption>
+        </figure>
+    </article>
+</section>
+
+
+<!-- Lightbox mejorado para videos embebidos -->
+<aside id="embedLightbox" class="fixed inset-0 bg-black/95 z-90 hidden items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="relative w-full h-full flex flex-col items-center justify-center p-4">
+        <div class="w-full max-w-4xl mx-auto flex flex-col items-center relative">
+            <header class="flex justify-end w-full mb-2">
+                <button onclick="closeEmbedLightbox()" 
+                        class="text-white hover:text-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full hover:scale-110 transform transition-transform"
+                        aria-label="Cerrar reproductor de video">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </header>
+            
+            <main class="w-full bg-black rounded-xl overflow-hidden shadow-2xl aspect-video relative">
+                <div id="embedContent" class="w-full h-full flex items-center justify-center">
+                    <!-- Contenido se insertará dinámicamente -->
+                </div>
+            </main>
+        </div>
     </div>
 </aside>
 @endif
 
 @push('js')
 <script>
-    function openVideoLightbox(videoUrl) {
-        const lightbox = document.getElementById('videoLightbox');
-        const video = document.getElementById('lightboxVideo');
-        const source = video.querySelector('source');
+    function openEmbedLightbox(videoUrl) {
+        const lightbox = document.getElementById('embedLightbox');
+        const contentDiv = document.getElementById('embedContent');
         
-        // Cargar el video
-        source.src = videoUrl;
-        video.load();
-        source.type = getVideoType(videoUrl);
+        // Mostrar loader
+        contentDiv.innerHTML = `
+            <div class="flex flex-col items-center justify-center space-y-4">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white/50"></div>
+                <p class="text-white/70 text-sm">Cargando video...</p>
+            </div>
+        `;
         
         // Mostrar lightbox
         lightbox.classList.remove('hidden');
-        lightbox.classList.add('flex');
-        lightbox.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
+        setTimeout(() => {
+            lightbox.classList.add('opacity-100');
+            document.body.classList.add('overflow-hidden');
+            
+            // Crear iframe después de mostrar el lightbox
+            setTimeout(() => {
+                contentDiv.innerHTML = '';
+                
+                const iframe = document.createElement('iframe');
+                iframe.className = 'w-full h-full';
+                iframe.setAttribute('allow', 'autoplay; fullscreen');
+                iframe.setAttribute('frameborder', '0');
+                
+                // Procesar URL
+                if (videoUrl.includes('youtube.com/watch')) {
+                    const videoId = videoUrl.split('v=')[1].split('&')[0];
+                    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+                } else if (videoUrl.includes('youtu.be/')) {
+                    const videoId = videoUrl.split('youtu.be/')[1];
+                    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+                } else if (videoUrl.includes('vimeo.com')) {
+                    const videoId = videoUrl.split('vimeo.com/')[1];
+                    iframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&title=0&byline=0`;
+                } else {
+                    iframe.src = videoUrl;
+                }
+                
+                contentDiv.appendChild(iframe);
+            }, 300);
+        }, 10);
+    }
+
+    function closeEmbedLightbox() {
+        const lightbox = document.getElementById('embedLightbox');
+        lightbox.classList.remove('opacity-100');
         
-        // Intentar reproducción automática (con mute para evitar bloqueos)
-        video.muted = true;
-        const playPromise = video.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.catch(e => {
-                console.log("Autoplay bloqueado:", e);
-                video.controls = true;
-            }).then(() => {
-                // Si se reproduce con éxito, quitar mute si el usuario interactúa
-                video.addEventListener('click', () => video.muted = false, { once: true });
-            });
+        setTimeout(() => {
+            lightbox.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            document.getElementById('embedContent').innerHTML = '';
+        }, 300);
+    }
+
+    // Event listeners
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !document.getElementById('embedLightbox').classList.contains('hidden')) {
+            closeEmbedLightbox();
         }
-    }
-
-    function closeVideoLightbox() {
-        const lightbox = document.getElementById('videoLightbox');
-        const video = document.getElementById('lightboxVideo');
-        
-        video.pause();
-        video.currentTime = 0;
-        lightbox.classList.remove('flex');
-        lightbox.classList.add('hidden');
-        lightbox.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        document.documentElement.style.paddingRight = '';
-    }
-
-    function getVideoType(url) {
-        const extension = url.split('.').pop().split(/#|\?/)[0].toLowerCase();
-        return {
-            'mp4': 'video/mp4',
-            'webm': 'video/webm',
-            'ogg': 'video/ogg',
-            'mov': 'video/quicktime'
-        }[extension] || 'video/mp4';
-    }
-
-    // Event listeners mejorados
-    document.addEventListener('keydown', (e) => e.key === 'Escape' && closeVideoLightbox());
+    });
     
-    document.getElementById('videoLightbox')?.addEventListener('click', (e) => {
-        if (e.target === e.currentTarget || e.target.classList.contains('close-lightbox')) {
-            closeVideoLightbox();
+    document.getElementById('embedLightbox')?.addEventListener('click', function(e) {
+        if (e.target === e.currentTarget) {
+            closeEmbedLightbox();
         }
     });
 </script>

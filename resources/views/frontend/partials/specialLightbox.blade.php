@@ -1,5 +1,5 @@
 <!-- Componente de Galería Cinematográfica -->
-<section class="px-4 py-8 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto relative">
+<section class="px-4 py-4 sm:px-4 md:px-10 lg:px-16 max-w-7xl mx-auto relative">
     <h2 class="sr-only">Galería de imágenes</h2>
     
     <!-- Grid de imágenes con hover mejorado -->

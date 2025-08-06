@@ -91,6 +91,8 @@ class FrontController extends Controller
                 
         return view('frontend.posts.event', [
             'post' => $post,
+            'packages' => $this->getPackages(),
+            'cards' => $this->getCards(),
             'smallGallery' => $this->getSmallGallery()
         ]);
     }

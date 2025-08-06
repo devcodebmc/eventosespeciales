@@ -23,7 +23,7 @@ trait FrontDataTrait
             ->get();
     }
 
-    protected function getCards($limit = 5)
+    protected function getCards($limit = 6)
     {
         return Event::with(['category:id,name,slug'])
             ->where('type', 'Event')
