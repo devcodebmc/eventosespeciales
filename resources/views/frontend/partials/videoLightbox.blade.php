@@ -55,25 +55,24 @@
 </section>
 
 
-<!-- Lightbox mejorado para videos embebidos -->
-<aside id="embedLightbox" class="fixed inset-0 bg-black/95 z-90 hidden items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
-    <div class="relative w-full h-full flex flex-col items-center justify-center p-4">
-        <div class="w-full max-w-4xl mx-auto flex flex-col items-center relative">
-            <header class="flex justify-end w-full mb-2">
-                <button onclick="closeEmbedLightbox()" 
-                        class="text-white hover:text-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full hover:scale-110 transform transition-transform"
-                        aria-label="Cerrar reproductor de video">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </header>
-            
-            <main class="w-full bg-black rounded-xl overflow-hidden shadow-2xl aspect-video relative">
-                <div id="embedContent" class="w-full h-full flex items-center justify-center">
-                    <!-- Contenido se insertará dinámicamente -->
-                </div>
-            </main>
+<!-- Lightbox rediseñado para móviles -->
+<aside id="embedLightbox" class="fixed inset-0 bg-black/95 z-[9999] hidden items-center justify-center p-0 sm:p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="relative w-full h-full flex flex-col items-center justify-center">
+        <!-- Botón de cerrar mejor posicionado -->
+        <button onclick="closeEmbedLightbox()" 
+                class="absolute top-2 right-2 sm:top-4 sm:right-4 text-white hover:text-gray-300 p-2 z-50 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full hover:scale-110 transform transition-transform"
+                aria-label="Cerrar reproductor de video">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        
+        <!-- Contenedor del video rediseñado -->
+        <div class="w-full h-full sm:max-w-4xl sm:max-h-[90vh] sm:rounded-xl bg-black overflow-hidden relative">
+            <div id="embedContent" class="w-full h-full flex items-center justify-center relative">
+                <!-- Espacio reservado para controles móviles -->
+                <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/80 to-transparent pointer-events-none sm:hidden"></div>
+            </div>
         </div>
     </div>
 </aside>
@@ -93,36 +92,57 @@
             </div>
         `;
         
-        // Mostrar lightbox
+        // Mostrar lightbox (sin padding en móviles)
         lightbox.classList.remove('hidden');
         setTimeout(() => {
             lightbox.classList.add('opacity-100');
             document.body.classList.add('overflow-hidden');
             
-            // Crear iframe después de mostrar el lightbox
+            // Crear iframe optimizado para móviles
             setTimeout(() => {
                 contentDiv.innerHTML = '';
                 
                 const iframe = document.createElement('iframe');
-                iframe.className = 'w-full h-full';
-                iframe.setAttribute('allow', 'autoplay; fullscreen');
+                iframe.className = 'w-full h-full absolute top-0 left-0';
+                iframe.setAttribute('allow', 'autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture');
                 iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allowfullscreen', '');
                 
-                // Procesar URL
-                if (videoUrl.includes('youtube.com/watch')) {
-                    const videoId = videoUrl.split('v=')[1].split('&')[0];
-                    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
-                } else if (videoUrl.includes('youtu.be/')) {
-                    const videoId = videoUrl.split('youtu.be/')[1];
-                    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+                // Atributos críticos para controles en móviles
+                iframe.setAttribute('playsinline', 'true');
+                iframe.setAttribute('webkit-playsinline', 'true');
+                iframe.setAttribute('controlsList', 'nodownload');
+                
+                // Ajustar el viewport para móviles
+                const metaViewport = document.createElement('meta');
+                metaViewport.name = 'viewport';
+                metaViewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+                document.head.appendChild(metaViewport);
+                
+                // Procesar URL con parámetros para controles móviles
+                if (videoUrl.includes('youtube.com/watch') || videoUrl.includes('youtu.be/')) {
+                    const videoId = videoUrl.includes('youtube.com/watch') ? 
+                        videoUrl.split('v=')[1].split('&')[0] : 
+                        videoUrl.split('youtu.be/')[1];
+                    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1&controls=1&showinfo=0`;
                 } else if (videoUrl.includes('vimeo.com')) {
                     const videoId = videoUrl.split('vimeo.com/')[1];
-                    iframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&title=0&byline=0`;
+                    iframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0&playsinline=1&controls=1`;
                 } else {
                     iframe.src = videoUrl;
                 }
                 
+                // Asegurar espacio para controles en móviles
+                if (window.innerWidth < 640) {
+                    iframe.style.height = 'calc(100% - 60px)'; // Espacio para controles
+                }
+                
                 contentDiv.appendChild(iframe);
+                
+                // Forzar redimensionamiento en iOS
+                setTimeout(() => {
+                    iframe.style.height = iframe.offsetHeight + 'px';
+                }, 500);
             }, 300);
         }, 10);
     }
@@ -131,6 +151,12 @@
         const lightbox = document.getElementById('embedLightbox');
         lightbox.classList.remove('opacity-100');
         
+        // Restaurar el viewport
+        const metaViewport = document.querySelector('meta[name="viewport"]');
+        if (metaViewport) {
+            metaViewport.content = 'width=device-width, initial-scale=1.0';
+        }
+        
         setTimeout(() => {
             lightbox.classList.add('hidden');
             document.body.classList.remove('overflow-hidden');
@@ -138,7 +164,7 @@
         }, 300);
     }
 
-    // Event listeners
+    // Event listeners (mantén los existentes)
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && !document.getElementById('embedLightbox').classList.contains('hidden')) {
             closeEmbedLightbox();
@@ -148,6 +174,16 @@
     document.getElementById('embedLightbox')?.addEventListener('click', function(e) {
         if (e.target === e.currentTarget) {
             closeEmbedLightbox();
+        }
+    });
+    
+    // Ajustar el iframe al cambiar orientación
+    window.addEventListener('resize', function() {
+        const iframe = document.querySelector('#embedContent iframe');
+        if (iframe && window.innerWidth < 640) {
+            iframe.style.height = 'calc(100% - 60px)';
+        } else if (iframe) {
+            iframe.style.height = '100%';
         }
     });
 </script>
