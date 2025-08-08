@@ -60,7 +60,7 @@
     <div class="relative w-full h-full flex flex-col items-center justify-center">
         <!-- Botón de cerrar mejor posicionado -->
         <button onclick="closeEmbedLightbox()" 
-                class="absolute top-2 right-2 sm:top-4 sm:right-4 text-white hover:text-gray-300 p-2 z-50 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full hover:scale-110 transform transition-transform"
+                class="absolute top-2 left-2 sm:top-4 sm:left-4 text-white hover:text-gray-300 p-2 z-50 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full hover:scale-110 transform transition-transform"
                 aria-label="Cerrar reproductor de video">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

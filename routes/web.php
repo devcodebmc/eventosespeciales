@@ -8,6 +8,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventImageController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\FurnitureController;
 use App\Http\Controllers\FetchTagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SubscriptionController;
@@ -56,6 +57,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('categories', CategoryController::class);
     Route::resource('services', ServiceController::class);
+    Route::resource('furnitures', FurnitureController::class);
     Route::resource('tags', TagController::class);
 
     Route::resource('events', EventController::class);
