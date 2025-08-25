@@ -29,7 +29,8 @@ class FurnitureController extends Controller
      */
     public function create()
     {
-        return view('furnitures.create');
+        $services = Service::select('id', 'name')->get();
+        return view('furnitures.create', compact('services'));
     }
 
     /**
@@ -90,7 +91,8 @@ class FurnitureController extends Controller
     {
         $furniture = Furniture::findorFail($id);
         $orderLimit = Furniture::count(); // Limit for order field
-        return view('furnitures.edit', compact('furniture', 'orderLimit'));
+        $services = Service::select('id', 'name')->get();
+        return view('furnitures.edit', compact('furniture', 'orderLimit', 'services'));
     }
 
     /**

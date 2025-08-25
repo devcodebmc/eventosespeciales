@@ -32,17 +32,14 @@
         <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="flex flex-col sm:flex-row justify-between items-center py-6 px-4 sm:px-6 space-y-4 sm:space-y-0">
-                    <form method="POST" action="{{ route('furnitures.store') }}" class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                    {{-- <form method="POST" action="{{ route('furnitures.store') }}" class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
                         @csrf
-                        <!-- Nombre del Mobiliario -->
                         <div class="flex items-center space-x-2 w-full sm:w-auto">
                             <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Nueva Mobiliario" required class="block w-full border border-gray-300 rounded-md pl-3 text-sm" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"/>
                         </div>
-                        {{-- Descripcion del Mobiliario --}}
                         <div class="flex items-center space-x-2 w-full sm:w-auto">
                             <input id="description" type="text" name="description" value="{{ old('description') }}" placeholder="Descripción (opcional)" class="block w-full border border-gray-300 rounded-md pl-3 text-sm" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"/>
                         </div>
-                        <!-- Servicio del Mobiliario -->
                         <div class="flex items-center space-x-2 w-full sm:w-auto">
                             <select id="service_id" name="service_id" class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-sm shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition duration-150 ease-in-out">
                                 <option value="">Seleccione un Servicio</option>
@@ -57,7 +54,7 @@
                         @error('name')
                         <div class="text-red-500 mt-2">{{ $message }}</div>
                         @enderror
-                    </form>
+                    </form> --}}
                     <form method="GET" action="{{ route('furnitures.index') }}" class="flex flex-col sm:flex-row items-stretch w-full sm:w-auto">
                         <div class="flex flex-col sm:flex-row flex-grow space-y-4 sm:space-y-0 sm:space-x-4">
                             <div class="flex-grow relative">
