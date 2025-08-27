@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\Service;
 use App\Models\Event;
 use App\Models\EventImage;
+use App\Models\Furniture;
 
 trait FrontDataTrait
 {
@@ -31,6 +32,15 @@ trait FrontDataTrait
             ->select('id', 'title', 'summary', 'event_date', 'image', 'slug', 'category_id')
             ->orderBy('event_date', 'asc')
             ->limit($limit)
+            ->get();
+    }
+
+    protected function getFurnitures()
+    {
+        return Furniture::with(['service:id,name,slug'])
+            ->where('status', 'published')
+            ->select('id', 'name', 'slug', 'description', 'image', 'status', 'order', 'service_id')
+            ->orderBy('order', 'asc')
             ->get();
     }
 

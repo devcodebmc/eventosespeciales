@@ -55,5 +55,8 @@
         </div>
         @include('frontend.partials.divider')
     </section>
+    <section class="bg-white relative overflow-hidden" aria-labelledby="mobiliario-eventos">
+        @include('frontend.partials.furnitureCards')
+    </section>
 </main>
 @endsection
