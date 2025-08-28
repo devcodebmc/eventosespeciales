@@ -37,11 +37,13 @@ trait FrontDataTrait
 
     protected function getFurnitures()
     {
-        return Furniture::with(['service:id,name,slug'])
+        $furnitures = Furniture::with(['service:id,name,slug'])
             ->where('status', 'published')
             ->select('id', 'name', 'slug', 'description', 'image', 'status', 'order', 'service_id')
             ->orderBy('order', 'asc')
             ->get();
+
+        return $furnitures->groupBy('service.name');
     }
 
     protected function getSmallGallery($limit = 6)
