@@ -87,9 +87,9 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Nombre
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {{-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Descripción
-                                </th>
+                                </th> --}}
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Imagen
                                 </th>
@@ -119,9 +119,9 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ $furniture->name }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    {{-- <td class="px-6 py-4 whitespace-nowrap">
                                         {{ (strlen($furniture->description) > 50) ? substr($furniture->description, 0, 20) . '...' : (string)$furniture->description }}
-                                    </td>
+                                    </td> --}}
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if ($furniture->image)
                                             <img src="{{ asset('storage/' . $furniture->image) }}" alt="Imagen actual" class="w-12 h-12 object-cover rounded-md border border-gray-200">

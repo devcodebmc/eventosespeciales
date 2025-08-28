@@ -1,5 +1,5 @@
-<section aria-labelledby="publicaciones-destacadas" class="py-8 px-1 max-w-full mx-auto">
-    <h2 id="publicaciones-destacadas" class="sr-only">Publicaciones destacadas</h2>
+<section aria-labelledby="mobiliario-destacado" class="py-8 px-1 max-w-full mx-auto">
+    <h2 id="mobiliario-destacado" class="sr-only">Mobiliario destacado</h2>
 
     <header class="flex flex-col sm:flex-row items-center justify-center my-6 w-full">
         <div class="flex items-center w-full justify-center">
