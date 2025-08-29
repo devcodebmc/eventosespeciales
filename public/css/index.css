@@ -107,8 +107,8 @@ body, p, h2, h3, h4, h5, h6, span, li, a, small, label, input, textarea, button 
     z-index: 90;
 }
 
-.prose h3 span {
+/* .prose h3 span {
     font-family: 'Merriweather', sans-serif;
     font-size: 1.25rem;
     line-height: 1.5rem;
-}
+} */
