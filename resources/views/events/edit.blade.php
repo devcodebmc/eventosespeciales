@@ -42,8 +42,8 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <!-- Contenido con Quill -->
-                    @include('components.quillEditor', ['content' => old('content', $event->content)])
+                    <!-- Contenido con richEditor -->
+                    @include('components.richEditor', ['content' => old('content', $event->content)])
 
                 </div>
                 <!-- Columna Derecha -->

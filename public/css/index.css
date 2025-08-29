@@ -34,6 +34,18 @@ body, p, h2, h3, h4, h5, h6, span, li, a, small, label, input, textarea, button 
     font-family: 'Identidad', sans-serif;
 }
 
+.rich-content h1 {
+    font-family: 'Dancing Script', cursive;
+}
+
+.rich-content h2 > span,
+.rich-content h3 > span,
+.rich-content h4 > span,
+.rich-content h5 > span,
+.rich-content h6 > span {
+    font-family: 'Merriweather', sans-serif;
+}
+
 .btn-action {
     background-color: #fff;
     border: 1px solid #F6BBA9;

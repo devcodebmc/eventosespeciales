@@ -115,7 +115,7 @@
                 </footer>
             </section>
         </article>
-        <article class="prose prose-lg prose-gray bg-white overflow-hidden transition-all duration-300 ease-in-out px-4 py-6 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto">
+        <article class="prose prose-lg prose-gray bg-white overflow-hidden transition-all duration-300 ease-in-out px-4 py-6 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto rich-content">
             {!! $post->content !!}
         </article>
        <!-- Grid de imágenes responsive con lightbox -->
