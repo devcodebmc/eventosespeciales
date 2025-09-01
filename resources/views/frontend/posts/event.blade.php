@@ -172,7 +172,7 @@
             </section>
         </article>
         
-        <article class="prose prose-lg prose-gray bg-white overflow-hidden transition-all duration-300 ease-in-out px-4 py-6 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto rich-content">
+        <article class="prose prose-lg prose-gray bg-white overflow-hidden transition-all duration-300 ease-in-out px-4 py-6 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto rich-content" data-animate>
             {!! $post->content !!}
         </article>
        <!-- Grid de imágenes responsive con lightbox -->
@@ -182,6 +182,7 @@
             'image' => $post->image,
             'videoUrl' => $post->video_url
         ])
+        @include('frontend.partials.generalTags', ['tags' => $post->tags->pluck('slug')])
         <section class="py-8">
             @include('frontend.partials.divider')
         </section>
