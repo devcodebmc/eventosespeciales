@@ -91,7 +91,7 @@
                             <div class="flex items-center gap-2">
                                 <dt class="font-secondary text-[#2A4044] w-20 text-start">Cliente</dt>
                                 <span class="text-[#2A4044] font-semibold">:</span>
-                                <dd class="text-gray-900 flex-1">{{ $post->client ?? 'Pendiente' }}</dd>
+                                <dd class="text-gray-900 flex-1">{{ $post->client ?? 'General' }}</dd>
                             </div>
                             <div class="flex items-center gap-2">
                                 <dt class="font-secondary text-[#2A4044] w-20 text-start">Lugar</dt>

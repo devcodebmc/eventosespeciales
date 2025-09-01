@@ -30,7 +30,7 @@ trait FrontDataTrait
             ->where('type', 'Event')
             ->where('status', 'published')
             ->select('id', 'title', 'summary', 'event_date', 'image', 'slug', 'category_id')
-            ->orderBy('event_date', 'asc')
+            ->orderBy('event_date', 'desc')
             ->limit($limit)
             ->get();
     }

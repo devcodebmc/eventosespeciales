@@ -30,7 +30,7 @@ class FrontController extends Controller
                     ->where('type', 'Event')
                     ->where('status', 'published')
                     ->select('id', 'title', 'summary', 'event_date', 'image', 'slug', 'location', 'category_id')
-                    ->orderBy('event_date', 'asc')
+                    ->orderBy('event_date', 'desc')
                     ->limit(10)
                     ->get();
 
