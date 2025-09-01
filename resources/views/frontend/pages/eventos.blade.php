@@ -58,44 +58,47 @@
         </div>
         @include('frontend.partials.divider')
         <section class="flex flex-col items-center opacity-0 translate-y-4 transition-all duration-700 px-4 sm:px-6 lg:px-0" data-animate>
-            <header class="flex flex-col sm:flex-row items-center justify-center my-6 w-full">
-                <div class="flex items-center w-full justify-center">
-                    <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
-                    <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                        <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
-                    </svg>
-                    <h2 class="text-base sm:text-lg md:text-xl text-gray-500 tracking-widest uppercase mx-0 sm:mx-4 text-center">
-                        El Mejor Recuerdo
-                    </h2>
-                    <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                        <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
-                    </svg>
-                    <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
-                </div>
-            </header>
-            <h3 class="max-w-5xl mx-auto text-base sm:text-lg md:text-xl lg:text-3xl text-[#2A4044] font-secondary text-center px-2">
-                Cada evento es un recuerdo inolvidable.
-            </h3>
-            <p class="max-w-5xl mx-auto mt-4 text-sm sm:text-base md:text-lg text-gray-500 text-center px-2">
-                Nuestro compromiso es crear momentos con significado y amor en cada minuto de su evento, dejando un recuerdo inolvidable para toda la vida.
-            </p>
-        </section>
-        <section class="max-w-7xl mx-auto px-4 py-12">
+                    <header class="flex flex-col sm:flex-row items-center justify-center my-6 w-full">
+                        <div class="flex items-center w-full justify-center">
+                            <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+                            <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+                            </svg>
+                            <h2 class="text-base sm:text-lg md:text-xl text-gray-500 tracking-widest uppercase mx-0 sm:mx-4 text-center">
+                                El Mejor Recuerdo
+                            </h2>
+                            <svg class="mx-0 sm:block" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                <polygon points="10,3 17,10 10,17 3,10" stroke="#4b8b97" stroke-width="1.5" fill="none"/>
+                            </svg>
+                            <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
+                        </div>
+                    </header>
+                    <h3 class="max-w-5xl mx-auto text-base sm:text-lg md:text-xl lg:text-3xl text-[#2A4044] font-secondary text-center px-2">
+                        Cada evento es un recuerdo inolvidable.
+                    </h3>
+                    <p class="max-w-5xl mx-auto mt-4 text-sm sm:text-base md:text-lg text-gray-500 text-center px-2">
+                        Nuestro compromiso es crear momentos con significado y amor en cada minuto de su evento, dejando un recuerdo inolvidable para toda la vida.
+                    </p>
+                </section>
+                <section class="max-w-7xl mx-auto px-4 py-12">
             <h2 class="sr-only">Eventos destacados</h2>
-            <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+            <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
                 @foreach($events as $event)
                     <article class="group relative break-inside-avoid overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mb-6">
                         <a href="{{ route('events.showEvent', $event->slug) }}" class="block h-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg">
-                            <figure class="relative w-full">
+                            <figure class="relative w-full h-64 md:h-80 lg:h-full overflow-hidden">
                                 <img 
                                     src="{{ asset($event->image) }}" 
                                     alt="{{ $event->title }}" 
-                                    class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     loading="lazy"
                                 >
                                 
                                 <!-- Overlay con información -->
-                                <figcaption class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <figcaption 
+                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent 
+                                        opacity-100 md:opacity-0 md:group-hover:opacity-100 
+                                        transition-opacity duration-300 flex flex-col justify-end p-6">
                                     <div class="text-white space-y-2">
                                         <h3 class="text-xl font-script leading-tight tracking-wider">{{ $event->title }}</h3>
 
@@ -123,13 +126,6 @@
                                                 {{ $event->category->name }}
                                             </span>
                                         </div>
-                                    </div>
-                                                                
-                                    <!-- Icono de categoría (original) -->
-                                    <div class="absolute top-4 right-4 transition-all duration-300 opacity-80 group-hover:opacity-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" />
-                                        </svg>
                                     </div>
                                 </figcaption>
                             </figure>
