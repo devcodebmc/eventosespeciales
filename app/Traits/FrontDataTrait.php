@@ -58,4 +58,22 @@ trait FrontDataTrait
             ->limit($limit)
             ->get();
     }
+
+    protected function getEvents($limit = 4)
+    {
+        return Event::with([
+            'category:id,name', 
+            'tags:id,name',
+            'images' => function($query) {
+                $query->select('id', 'image_path', 'order', 'event_id')
+                      ->orderBy('order');
+            }
+            ])
+            ->where('type', 'Event')
+            ->where('status', 'published')
+            ->select('id', 'title', 'slug', 'category_id', 'image')
+            ->orderBy('event_date', 'desc')
+            ->limit($limit)
+            ->get();
+    }
 }

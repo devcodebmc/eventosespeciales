@@ -18,7 +18,8 @@ class FrontController extends Controller
             'services' => $this->getServices(),
             'packages' => $this->getPackages(),
             'cards' => $this->getCards(),
-            'smallGallery' => $this->getSmallGallery()
+            'smallGallery' => $this->getSmallGallery(),
+            'moments' => $this->getEvents()
         ]);
     }
 

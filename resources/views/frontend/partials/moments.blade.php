@@ -20,96 +20,44 @@
 </section>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-6 lg:gap-4 mt-12 justify-center items-stretch w-full px-8 md:px-6 lg:px-4 place-items-center">
-    <!-- Card 1: Cumpleaños -->
-    <div class="flex flex-col flex-1 max-w-md w-full" data-animate-scale>
-        <div class="grid grid-cols-2 sm:grid-cols-3 grid-rows-2 gap-2">
-            <div class="col-span-2 sm:col-span-2 row-span-2 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGZpZXN0YXxlbnwwfHwwfHx8MA%3D%3D" alt="Cumpleaños" class="w-full h-full object-cover"/>
+    @foreach ($moments as $moment)
+        <div class="flex flex-col flex-1 max-w-md w-full py-4" data-animate-scale>
+            <div class="grid grid-cols-2 sm:grid-cols-3 grid-rows-2 gap-2">
+                @if (count($moment->images) > 0)
+                    @foreach ($moment->images as $index => $image)
+                        @if ($index == 0)
+                            <div class="col-span-2 sm:col-span-2 row-span-2 rounded-xl overflow-hidden">
+                                <img src="{{ asset($image->image_path) }}" alt="Ilustración 1 del momento - {{ $moment->title }}" class="w-full h-full object-cover"/>
+                            </div>
+                        @elseif ($index == 1)
+                            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
+                                <img src="{{ asset($image->image_path) }}" alt="Ilustración 2 del momento - {{ $moment->title }}" class="w-full h-full object-cover"/>
+                            </div>
+                        @elseif ($index == 2)
+                            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
+                                <img src="{{ asset($image->image_path) }}" alt="Ilustración 3 del momento - {{ $moment->title }}" class="w-full h-full object-cover"/>
+                            </div>
+                        @endif
+                    @endforeach
+                @else
+                    <div class="col-span-2 sm:col-span-2 row-span-2 rounded-xl overflow-hidden">
+                        <img src="{{ asset($moment->image) }}" alt="Imagen principal del momento - {{ $moment->title }}" class="w-full h-full object-cover"/>
+                    </div>
+                @endif
             </div>
-            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGFzdGVsfGVufDB8fDB8fHww" alt="Pastel de cumpleaños" class="w-full h-full object-cover"/>
-            </div>
-            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJvZGF8ZW58MHx8MHx8fDA%3D" alt="Decoración de fiesta" class="w-full h-full object-cover"/>
-            </div>
-        </div>
-        <div class="mt-6">
-            <h4 class="text-xl sm:text-2xl font-secondary text-[#2A4044]">Cumpleaños</h4>
-            <p class="text-gray-500 mt-1 text-sm sm:text-base">Celebraciones inolvidables para todas las edades</p>
-            <div class="flex flex-wrap gap-2 mt-4">
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Fiesta</span>
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Cumpleaños</span>
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Decoración</span>
-            </div>
-        </div>
-    </div>
-    <!-- Card 2: Boda -->
-    <div class="flex flex-col flex-1 max-w-md w-full" data-animate-scale>
-        <div class="grid grid-cols-2 sm:grid-cols-3 grid-rows-2 gap-2">
-            <div class="col-span-2 sm:col-span-2 row-span-2 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGJvZGF8ZW58MHx8MHx8fDA%3D" alt="Boda" class="w-full h-full object-cover"/>
-            </div>
-            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                <img src="https://plus.unsplash.com/premium_photo-1664530452596-e1c17e342876?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Ym9kYXxlbnwwfHwwfHx8MA%3D%3D" alt="Pareja de novios" class="w-full h-full object-cover"/>
-            </div>
-            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                <img src="https://plus.unsplash.com/premium_photo-1675719847698-6c8a924b2a7a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGJvZGF8ZW58MHx8MHx8fDA%3D" alt="Decoración de boda" class="w-full h-full object-cover"/>
-            </div>
-        </div>
-        <div class="mt-6">
-            <h4 class="text-xl sm:text-2xl font-secondary text-[#2A4044]">Boda</h4>
-            <p class="text-gray-500 mt-1 text-sm sm:text-base">El día más especial para celebrar el amor</p>
-            <div class="flex flex-wrap gap-2 mt-4">
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Boda</span>
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Novios</span>
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Celebración</span>
+            <div class="mt-6">
+                <h4 class="text-xl sm:text-2xl font-secondary text-[#2A4044]">
+                    {{ $moment->category->name }}
+                </h4>
+                <a href="{{ route('events.showEvent', $moment->slug) }}" class="text-gray-500 mt-1 text-sm sm:text-base">
+                    {{ $moment->title }}
+                </a>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    @foreach ($moment->tags->take(3) as $tag)
+                        <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">{{ $tag->name }}</span>
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Card 3: Aniversario -->
-    <div class="flex flex-col flex-1 max-w-md w-full" data-animate-scale>
-        <div class="grid grid-cols-2 sm:grid-cols-3 grid-rows-2 gap-2">
-            <div class="col-span-2 sm:col-span-2 row-span-2 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1633102467628-6511a5129a03?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8QW5pdmVyc2FyaW98ZW58MHx8MHx8fDA%3D" alt="Aniversario" class="w-full h-full object-cover"/>
-            </div>
-            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cGFzdGVsfGVufDB8fDB8fHww" alt="Pastel de aniversario" class="w-full h-full object-cover"/>
-            </div>
-            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1485700281629-290c5a704409?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGFycmVnbG8lMjBmbG9yYWx8ZW58MHx8MHx8fDA%3D" alt="Flores de aniversario" class="w-full h-full object-cover"/>
-            </div>
-        </div>
-        <div class="mt-6">
-            <h4 class="text-xl sm:text-2xl font-secondary text-[#2A4044]">Aniversario</h4>
-            <p class="text-gray-500 mt-1 text-sm sm:text-base">Celebra años de amor y recuerdos juntos</p>
-            <div class="flex flex-wrap gap-2 mt-4">
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Aniversario</span>
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Pareja</span>
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Recuerdos</span>
-            </div>
-        </div>
-    </div>
-    <!-- Card 4: Baby Shower -->
-    <div class="flex flex-col flex-1 max-w-md w-full" data-animate-scale>
-        <div class="grid grid-cols-2 sm:grid-cols-3 grid-rows-2 gap-2">
-            <div class="col-span-2 sm:col-span-2 row-span-2 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1568065574407-60ffd4bc32ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJhYnklMjBzaG93ZXJ8ZW58MHx8MHx8fDA%3D" alt="Baby Shower" class="w-full h-full object-cover"/>
-            </div>
-            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1622290319146-7b63df48a635?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFieSUyMHNob3dlcnxlbnwwfHwwfHx8MA%3D%3D" alt="Regalos de baby shower" class="w-full h-full object-cover"/>
-            </div>
-            <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1697539093652-c7716caeceb1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGJhYnklMjBzaG93ZXJ8ZW58MHx8MHx8fDA%3D" alt="Decoración de baby shower" class="w-full h-full object-cover"/>
-            </div>
-        </div>
-        <div class="mt-6">
-            <h4 class="text-xl sm:text-2xl font-secondary text-[#2A4044]">Baby Shower</h4>
-            <p class="text-gray-500 mt-1 text-sm sm:text-base">Dale la bienvenida al nuevo integrante de la familia</p>
-            <div class="flex flex-wrap gap-2 mt-4">
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Baby Shower</span>
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Bebé</span>
-                <span class="bg-[#fbeee6] text-[#2A4044] px-3 py-1 rounded-md text-sm sm:text-base">Familia</span>
-            </div>
-        </div>
-    </div>
+    @endforeach
 </div>
