@@ -25,7 +25,13 @@
 @include('frontend.partials.collageSection')
 
 <div class="flex items-center justify-center mt-8">
-    <a href="#" class="btn-action text-lg py-5 px-10 transition rounded-md">
-        Cotizar Ahora
-    </a>
+  <a 
+    href="https://wa.me/527293353878?text=Hola,%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20Eventos%20Especiales%20Lerma." 
+    class="btn-action text-lg py-5 px-10 transition-colors duration-300 ease-in-out rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F6BBA9]"
+    aria-label="Cotizar eventos especiales por WhatsApp"
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    Cotizar Ahora
+  </a>
 </div>
