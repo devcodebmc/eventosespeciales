@@ -35,8 +35,12 @@ class Event extends Model
     {
         parent::boot();
 
-        static::creating(function ($recipe) {
-            $recipe->slug = Str::slug($recipe->title);
+        static::creating(function ($event) {
+            $event->slug = Str::slug($event->title);
+        });
+
+        static::updating(function ($event) {
+            $event->slug = Str::slug($event->title);
         });
     }
 
