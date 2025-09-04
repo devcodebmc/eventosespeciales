@@ -7,6 +7,7 @@
 @section('keywords', 'eventos Lerma, organización de eventos, bodas Lerma, fiestas Lerma, eventos corporativos, catering Lerma, decoración eventos, agencia eventos')
 
 @section('canonical', 'https://eventosespecialeslerma.com/eventos')
+@section('alternate', 'https://eventosespecialeslerma.com/eventos')
 
 @section('ogtitle', 'Eventos - Eventos Especiales Lerma')
 @section('ogdescription', 'Agencia profesional de organización de eventos en Lerma. Creamos experiencias únicas para bodas, fiestas y eventos corporativos.')

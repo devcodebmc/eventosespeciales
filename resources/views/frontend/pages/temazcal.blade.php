@@ -4,6 +4,7 @@
 @section('description', 'Descubre la experiencia única del temazcal en Eventos Especiales Lerma. Un ritual ancestral para la purificación y renovación espiritual. Ideal para eventos especiales y retiros de bienestar.')
 @section('keywords', 'temazcal, eventos especiales, bienestar, ritual ancestral, purificación, renovación espiritual, eventos Lerma, retiros de bienestar')
 @section('canonical', 'https://eventosespecialeslerma.com/temazcal')
+@section('alternate', 'https://eventosespecialeslerma.com/temazcal')
 
 @section('ogtitle', 'Temazcal - Eventos Especiales Lerma')
 @section('ogdescription', 'Descubre la experiencia única del temazcal en Eventos Especiales Lerma. Un ritual ancestral para la purificación y renovación espiritual. Ideal para eventos especiales y retiros de bienestar.')

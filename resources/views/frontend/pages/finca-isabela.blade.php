@@ -3,7 +3,8 @@
 @section('title', 'Finca Isabela - Eventos Especiales Lerma')
 @section('description', 'Descubre Finca Isabela, un lugar mágico para tus eventos en Lerma. Perfecto para bodas, fiestas y eventos corporativos. Espacios únicos y servicios personalizados para una celebración inolvidable.')
 @section('keywords', 'Finca Isabela, eventos Lerma, organización de eventos, bodas Lerma, fiestas Lerma, eventos corporativos, catering Lerma, decoración eventos, agencia eventos')
-@section('canonical', 'https://eventosespecialeslerma.com/finca-isabela')  
+@section('canonical', 'https://eventosespecialeslerma.com/finca-isabela')
+@section('alternate', 'https://eventosespecialeslerma.com/finca-isabela')  
 
 @section('ogtitle', 'Finca Isabela - Eventos Especiales Lerma')
 @section('ogdescription', 'Descubre Finca Isabela, un lugar mágico para tus eventos en Lerma. Perfecto para bodas, fiestas y eventos corporativos. Espacios únicos y servicios personalizados para una celebración inolvidable.')

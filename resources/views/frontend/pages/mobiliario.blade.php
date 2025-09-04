@@ -4,6 +4,7 @@
 @section('description', 'Descubre nuestro mobiliario exclusivo para eventos en Eventos Especiales Lerma. Ofrecemos una amplia gama de muebles y decoraciones para bodas, fiestas y eventos corporativos. Personaliza tu celebración con estilo y elegancia.')
 @section('keywords', 'mobiliario, eventos especiales, decoración, bodas, fiestas, eventos corporativos, muebles para eventos, alquiler de mobiliario, decoración de eventos')
 @section('canonical', 'https://eventosespecialeslerma.com/mobiliario')
+@section('alternate', 'https://eventosespecialeslerma.com/mobiliario')
 
 @section('ogtitle', 'Mobiliario - Eventos Especiales Lerma')
 @section('ogdescription', 'Descubre nuestro mobiliario exclusivo para eventos en Eventos Especiales Lerma. Ofrecemos una amplia gama de muebles y decoraciones para bodas, fiestas y eventos corporativos. Personaliza tu celebración con estilo y elegancia.')

@@ -4,6 +4,7 @@
 @section('description', $post->summary)
 @section('keywords', implode(', ', $post->tags->pluck('name')->toArray()))
 @section('canonical', url()->current())
+@section('alternate', url()->current())
 
 @section('ogtitle', $post->title . ' - ' . config('app.name'))
 @section('ogdescription', $post->summary)

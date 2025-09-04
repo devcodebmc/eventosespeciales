@@ -38,7 +38,7 @@
     
     <!-- Canonical & Alternate URLs -->
     <link rel="canonical" href="@yield('canonical', 'https://eventosespecialeslerma.com/')">
-    <link rel="alternate" href="https://eventosespecialeslerma.com/" hreflang="es-mx"/>
+    <link rel="alternate" href="@yield('alternate', 'https://eventosespecialeslerma.com/')" hreflang="es-mx"/>
     
     <!-- Theme Color -->
     <meta name="msapplication-TileColor" content="#4b8b97">
