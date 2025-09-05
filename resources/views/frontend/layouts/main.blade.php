@@ -24,6 +24,9 @@
 
     gtag('config', 'G-MG0KR16K3J');
     </script>
+
+    <!-- Bing verification -->
+    <meta name="msvalidate.01" content="EC6D419D1D30203494CF447D4D712D9E" />
     
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('images/Logo-white.png')}}" type="image/x-icon">
