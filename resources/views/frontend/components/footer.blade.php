@@ -129,7 +129,7 @@
             <p>&copy; 2025 Eventos Especiales Lerma. Todos los derechos reservados.</p>
             <nav aria-label="Enlaces legales" class="flex flex-wrap justify-center gap-4 mt-4 md:mt-0">
                 <a href="{{ url('politica-de-privacidad') }}" class="hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Política de Privacidad</a>
-                <a href="#" class="hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Términos de Servicio</a>
+                <a href="{{ url('terminos-de-servicio') }}" class="hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Términos de Servicio</a>
             </nav>
             <p>
                 Hecho con 
