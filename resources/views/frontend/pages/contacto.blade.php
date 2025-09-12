@@ -156,7 +156,17 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0 0v6M9.5 9A2.5 2.5 0 0 1 12 6.5"/>
                                 </svg>
                             </div>
-                            <address class="text-sm lg:text-lg xl:text-xl text-gray-800 mt-0 sm:mt-[2px]"><a href="https://maps.app.goo.gl/tfa58NsRkB18Nypy9" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded" target="_blank" rel="noopener noreferrer">Av. Circunvalación #15 Col. Agricola Analco Lerma, Edo. De México</a>
+                            <address class="text-sm lg:text-lg xl:text-md text-gray-800 mt-0 sm:mt-[2px]">
+                                 <b class="block text-base font-secondary">Sucursal Lerma: </b>
+                                <a href="https://maps.app.goo.gl/tfa58NsRkB18Nypy9" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded" target="_blank" rel="noopener noreferrer">
+                               Av. Circunvalación #15 Col. Agricola Analco Lerma, Edo. De México</a>
+                            </address>
+                            {{-- Nueva sucursal --}}
+                            <address class="text-sm lg:text-lg xl:text-md text-gray-800 mt-0 sm:mt-[2px]">
+                                <b class="block text-base font-secondary">Sucursal Querétaro: </b>
+                                <a href="https://maps.app.goo.gl/GciF2zAedTbF46U58" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded" target="_blank" rel="noopener noreferrer">
+                                    Bernardo Quintana #76903 Candiles, Querétaro, Qro.
+                                </a>
                             </address>
                         </div>
                     </li>
