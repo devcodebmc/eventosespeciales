@@ -54,6 +54,9 @@
                         <a href="{{ url('temazcal') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('temazcal') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
                             Temazcal
                         </a>
+                        <a href="{{ url('sucursal-queretaro') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('sucursal-queretaro') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
+                            Sucursal Querétaro
+                        </a>
                     </div>
                 </div>
                 <a href="mailto:info@eventosespecialeslerma.com" class="flex items-center text-gray-700 hover:text-[#65ABB7] transition duration-300">
@@ -102,6 +105,7 @@
                     <a href="{{ url('finca-isabela') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('finca-isabela') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Finca Isabela</a>
                     <a href="{{ url('mobiliario') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('mobiliario') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Mobiliario</a>
                     <a href="{{ url('temazcal') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('temazcal') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Temazcal</a>
+                    <a href="{{ url('sucursal-queretaro') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('sucursal-queretaro') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Sucursal Querétaro</a>
                 </div>
             </div>
             <a href="#" class="flex items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">

@@ -75,6 +75,7 @@
                         <li><a href="{{ url('finca-isabela') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Finca Isabela</a></li>
                         <li><a href="{{ url('mobiliario') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Mobiliario</a></li>
                         <li><a href="{{ url('temazcal') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Temazcal</a></li>
+                        <li><a href="{{ url('sucursal-queretaro') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Sucursal Querétaro</a></li>
                     </ul>
                 </nav>
             </section>
