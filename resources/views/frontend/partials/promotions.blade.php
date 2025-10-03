@@ -90,8 +90,11 @@
                         {{ $promotions->count() === 2 ? 'grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto' : '' }}
                         {{ $promotions->count() >= 3 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : '' }}">
                 @foreach ($promotions as $promotion)
-                        <div class="relative w-full group cursor-pointer" 
-                             onclick="expandImage('{{ asset('storage/' . $promotion->image) }}', '{{ $promotion->title }}', '{{ addslashes($promotion->description ?? '') }}')">
+                      <div class="relative w-full group cursor-pointer"
+     data-image="{{ asset('storage/' . $promotion->image) }}"
+     data-title="{{ $promotion->title }}"
+     data-description="{{ $promotion->description }}"
+     onclick="expandImage(this.dataset.image, this.dataset.title, this.dataset.description)">
                             <!-- Contenedor cuadrado con bordes elegantes -->
                             <div class="relative w-full aspect-square rounded-2xl overflow-hidden 
                                         shadow-lg hover:shadow-2xl transition-all duration-500 
@@ -290,7 +293,52 @@
     </div>
 </div>
 
-<script>
+@push('styles')
+    <style>
+#imageModal {
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom scrollbar para la descripción */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(75, 139, 151, 0.6);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(75, 139, 151, 0.8);
+}
+</style>
+@endpush
+
+
+@push('js')
+    <script>
 let isFlipped = false;
 
 function expandImage(imageUrl, title, description) {
@@ -361,44 +409,5 @@ document.addEventListener('keydown', function(event) {
     }
 });
 </script>
+@endpush
 
-<style>
-#imageModal {
-    transition: opacity 0.3s ease-in-out;
-    opacity: 0;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.5;
-        transform: scale(1.1);
-    }
-}
-
-.animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Custom scrollbar para la descripción */
-.custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(75, 139, 151, 0.6);
-    border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(75, 139, 151, 0.8);
-}
-</style>
