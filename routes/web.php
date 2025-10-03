@@ -12,6 +12,7 @@ use App\Http\Controllers\FurnitureController;
 use App\Http\Controllers\FetchTagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\PromotionController;
 
 
 /*
@@ -59,6 +60,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::resource('services', ServiceController::class);
     Route::resource('furnitures', FurnitureController::class);
     Route::resource('tags', TagController::class);
+    Route::resource('promotions', PromotionController::class);
 
     Route::resource('events', EventController::class);
     Route::patch('/events/{event}/update-status', [EventController::class, 'updateStatus'])

@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('furnitures.index')" :active="request()->is('furnitures*')">
                         {{ __('Mobiliario') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('promotions.index')" :active="request()->is('promotions*')">
+                        {{ __('Promociones') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('events.index')" :active="request()->is('events*')">
                         {{ __('Eventos') }}
                     </x-nav-link>
@@ -99,6 +102,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link  :href="route('furnitures.index')" :active="request()->is('furnitures*')">
                 {{ __('Mobiliario') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link  :href="route('promotions.index')" :active="request()->is('promotions*')">
+                {{ __('Promociones') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link  :href="route('events.index')" :active="request()->is('events*')">
                 {{ __('Eventos') }}
