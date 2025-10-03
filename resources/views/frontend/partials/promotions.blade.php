@@ -23,7 +23,7 @@
     <!-- Flor izquierda -->
     <img src="{{ asset('images/flor-izquierda.png') }}" 
          alt="Flor izquierda" 
-         class="absolute left-0 top-0 w-24 md:w-32 opacity-0 pointer-events-none z-0" 
+         class="absolute left-0 top-0 w-24 md:w-32 opacity-0 pointer-events-none z-20 rounded-md" 
          data-animate />
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
@@ -91,10 +91,10 @@
                         {{ $promotions->count() >= 3 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : '' }}">
                 @foreach ($promotions as $promotion)
                       <div class="relative w-full group cursor-pointer"
-     data-image="{{ asset('storage/' . $promotion->image) }}"
-     data-title="{{ $promotion->title }}"
-     data-description="{{ $promotion->description }}"
-     onclick="expandImage(this.dataset.image, this.dataset.title, this.dataset.description)">
+                            data-image="{{ asset('storage/' . $promotion->image) }}"
+                            data-title="{{ $promotion->title }}"
+                            data-description="{{ $promotion->description }}"
+                            onclick="expandImage(this.dataset.image, this.dataset.title, this.dataset.description)">
                             <!-- Contenedor cuadrado con bordes elegantes -->
                             <div class="relative w-full aspect-square rounded-2xl overflow-hidden 
                                         shadow-lg hover:shadow-2xl transition-all duration-500 
@@ -166,7 +166,7 @@
     <!-- Flor derecha -->
     <img src="{{ asset('images/flor-derecha.png') }}" 
          alt="Flor derecha" 
-         class="absolute right-0 bottom-0 w-24 md:w-32 opacity-0 pointer-events-none z-0 rounded-md" 
+         class="absolute right-0 bottom-0 w-24 md:w-32 opacity-0 pointer-events-none z-20 rounded-md" 
          data-animate />
 </section>
 
