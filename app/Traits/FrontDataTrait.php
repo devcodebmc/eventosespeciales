@@ -6,6 +6,7 @@ use App\Models\Service;
 use App\Models\Event;
 use App\Models\EventImage;
 use App\Models\Furniture;
+use App\Models\Promotion;
 
 trait FrontDataTrait
 {
@@ -21,6 +22,21 @@ trait FrontDataTrait
         return Event::select('id', 'title', 'summary', 'content', 'image', 'slug')
             ->where('type', 'Package')
             ->where('status', 'published')
+            ->get();
+    }
+
+    protected function getPromotions()
+    {
+        return Promotion::where('is_active', true)
+            ->where(function($query) {
+                $query->whereNull('starts_at')
+                      ->orWhere('starts_at', '<=', now());
+            })
+            ->where(function($query) {
+                $query->whereNull('ends_at')
+                      ->orWhere('ends_at', '>=', now());
+            })
+            ->orderBy('order', 'asc')
             ->get();
     }
 

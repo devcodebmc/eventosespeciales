@@ -16,7 +16,7 @@ class FrontController extends Controller
     {
         return view('welcome', [
             'services' => $this->getServices(),
-            'packages' => $this->getPackages(),
+            'promotions' => $this->getPromotions(),
             'cards' => $this->getCards(),
             'smallGallery' => $this->getSmallGallery(),
             'moments' => $this->getEvents()

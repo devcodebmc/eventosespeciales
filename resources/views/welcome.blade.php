@@ -48,7 +48,7 @@
     @include('frontend.partials.shortHistory')
     @include('frontend.partials.moments')
     @include('frontend.partials.subscriptionBanner')
-    @include('frontend.partials.packages')
+    @include('frontend.partials.promotions')
     @include('frontend.partials.shortDescription')
     @include('frontend.partials.team')
     @include('frontend.partials.contactForm')

@@ -58,7 +58,7 @@
                                     <option value="">Seleccionar tipo</option>
                                     <option value="discount" {{ old('type', $promotion->type) == 'discount' ? 'selected' : '' }}>Descuento</option>
                                     <option value="banner" {{ old('type', $promotion->type) == 'banner' ? 'selected' : '' }}>Banner</option>
-                                    <option value="offer" {{ old('type', $promotion->type) == 'offer' ? 'selected' : '' }}>Oferta</option>
+                                    <option value="popup" {{ old('type', $promotion->type) == 'popup' ? 'selected' : '' }}>Popup</option>
                                 </select>
                                 @error('type')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
