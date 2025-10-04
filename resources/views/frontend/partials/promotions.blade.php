@@ -107,35 +107,54 @@
                                             transition-transform duration-700 group-hover:scale-105 
                                             rounded-2xl" />
                                 
-                                <!-- Overlay gradient elegante -->
+                                <!-- Overlay gradient elegante - Siempre visible en móvil -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent 
-                                            opacity-0 group-hover:opacity-100 transition-opacity duration-500 
+                                            opacity-0 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-500 
                                             rounded-2xl"></div>
                                 
-                                <!-- Contenedor de icono centrado con animación mejorada -->
+                                <!-- Contenedor de icono centrado - Siempre visible en móvil -->
                                 <div class="absolute inset-0 flex items-center justify-center 
-                                            opacity-0 group-hover:opacity-100 
-                                            transition-all duration-500 z-20">
+                                            opacity-0 sm:opacity-0 group-hover:opacity-100 
+                                            transition-all duration-500 z-20
+                                            sm:group-hover:opacity-100">
                                     <!-- Icono de expandir elegante con efecto glassmorphism -->
                                     <div class="relative">
-                                        <!-- Círculo de fondo con blur -->
+                                        <!-- Círculo de fondo con blur - Siempre visible en móvil -->
                                         <div class="absolute inset-0 bg-white/20 backdrop-blur-md rounded-full 
-                                                    transform scale-0 group-hover:scale-100 
-                                                    transition-transform duration-500"></div>
+                                                    transform scale-0 sm:scale-0 group-hover:scale-100 
+                                                    transition-transform duration-500
+                                                    sm:group-hover:scale-100"></div>
                                         
-                                        <!-- Icono SVG -->
-                                        <div class="relative p-4 transform scale-90 group-hover:scale-100 
-                                                    transition-all duration-300">
+                                        <!-- Icono SVG - Siempre visible en móvil -->
+                                        <div class="relative p-4 transform scale-90 sm:scale-90 group-hover:scale-100 
+                                                    transition-all duration-300
+                                                    sm:group-hover:scale-100">
                                             <svg class="w-8 h-8 md:w-10 md:h-10 text-white drop-shadow-lg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
                                             </svg>
                                         </div>
                                         
-                                        <!-- Anillo decorativo animado -->
+                                        <!-- Anillo decorativo animado - Siempre visible en móvil -->
                                         <div class="absolute inset-0 border-2 border-white/40 rounded-full 
-                                                    transform scale-100 group-hover:scale-125 
-                                                    opacity-100 group-hover:opacity-0
-                                                    transition-all duration-500"></div>
+                                                    transform scale-100 sm:scale-100 group-hover:scale-125 
+                                                    opacity-100 sm:opacity-100 group-hover:opacity-0
+                                                    transition-all duration-500
+                                                    sm:group-hover:opacity-0"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Versión móvil: Icono siempre visible -->
+                                <div class="absolute inset-0 flex items-center justify-center z-20
+                                            sm:hidden">
+                                    <!-- Icono de lupa para móvil -->
+                                    <div class="relative">
+                                        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-full 
+                                                    transform scale-100"></div>
+                                        <div class="relative p-3">
+                                            <svg class="w-6 h-6 text-white drop-shadow-lg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -333,6 +352,17 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(75, 139, 151, 0.8);
 }
+
+/* Mejoras para móvil */
+@media (max-width: 640px) {
+    .flip-card-container {
+        perspective: 1000px;
+    }
+    
+    .flip-card-inner {
+        transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+}
 </style>
 @endpush
 
@@ -408,6 +438,15 @@ document.addEventListener('keydown', function(event) {
         closeModal();
     }
 });
+
+// Detectar si es dispositivo táctil
+function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+}
+
+// Opcional: Añadir clase touch-device al body para CSS específico
+if (isTouchDevice()) {
+    document.body.classList.add('touch-device');
+}
 </script>
 @endpush
-
