@@ -189,8 +189,8 @@
         </section>
         <section>
             @include('frontend.partials.blockquote')
-            @include('frontend.partials.packages')
-            @include('frontend.partials.contactForm')
+            @include('frontend.partials.promotions')
+            @include('frontend.components.cardContact')
             @include('frontend.partials.eventCards', ['excludeId' => $post->id])
         </section>
     </section>

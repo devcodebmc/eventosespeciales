@@ -60,7 +60,8 @@
         @include('frontend.partials.divider')
         @include('frontend.partials.services')
         @include('frontend.partials.subscriptionBanner')
-        @include('frontend.partials.packages')
+        @include('frontend.partials.promotions')
+        @include('frontend.components.cardContact')
         @include('frontend.partials.eventCards')
     </section>
 </main>

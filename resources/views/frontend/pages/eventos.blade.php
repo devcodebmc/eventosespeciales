@@ -135,6 +135,7 @@
                 @endforeach
             </div>
         </section>
+        @include('frontend.partials.subscriptionBanner')
     </section>
 </main>
 @endsection

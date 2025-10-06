@@ -85,7 +85,7 @@
                 <!-- Secciones de contenido -->
                 <div class="space-y-12 text-left">
                     <section class="max-w-3xl mx-auto">
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#2A4044] font-script text-center mb-6">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#2A4044] font-secondary text-start mb-6">
                             Información que Recopilamos
                         </h2>
                         <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
@@ -94,7 +94,7 @@
                     </section>
 
                     <section class="max-w-3xl mx-auto">
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#2A4044] font-script text-center mb-6">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#2A4044] font-secondary text-start mb-6">
                             Uso de la Información
                         </h2>
                         <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
@@ -103,7 +103,7 @@
                     </section>
 
                     <section class="max-w-3xl mx-auto">
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#2A4044] font-script text-center mb-6">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#2A4044] font-secondary text-start mb-6">
                             Seguridad de los Datos
                         </h2>
                         <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
@@ -112,7 +112,7 @@
                     </section>
 
                     <section class="max-w-3xl mx-auto">
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#2A4044] font-script text-center mb-6">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#2A4044] font-secondary text-start mb-6">
                             Tus Derechos
                         </h2>
                         <p class="text-base sm:text-lg text-gray-700 leading-relaxed">

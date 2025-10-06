@@ -3,7 +3,7 @@
         <!-- Opciones desplegables -->
         <div id="contactOptions" class="hidden flex-col space-y-2 mr-2">
             <!-- WhatsApp -->
-            <a href="https://wa.me/527293353878?text=Hola,%20quiero%20más%20información%20sobre%20eventos%20especiales" target="_blank" rel="noopener noreferrer"
+            <a href="https://wa.me/527222259365?text=Hola,%20quiero%20más%20información%20sobre%20eventos%20especiales" target="_blank" rel="noopener noreferrer"
                class="bg-white hover:bg-gray-50 text-gray-800 rounded-l-lg py-2 px-3 shadow-sm flex items-center transition-all duration-200 hover:translate-x-1 border border-gray-200"
                title="Contactar por WhatsApp">
                 <svg class="w-5 h-5 text-green-500" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -24,7 +24,7 @@
             </a>
 
             <!-- Teléfono -->
-            <a href="tel:+527293353878"
+            <a href="tel:+527222259365"
                class="bg-white hover:bg-gray-50 text-gray-800 rounded-l-lg py-2 px-3 shadow-sm flex items-center transition-all duration-200 hover:translate-x-1 border border-gray-200"
                title="Llamar por teléfono">
                 <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">

@@ -58,7 +58,7 @@
     </section>
     <section class="bg-white relative overflow-hidden" aria-labelledby="mobiliario-eventos">
         @include('frontend.partials.furnitureCards')
-        @include('frontend.partials.cardContact')
+        @include('frontend.components.cardContact')
     </section>
 </main>
 @endsection

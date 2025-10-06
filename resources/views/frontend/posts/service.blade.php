@@ -99,6 +99,7 @@
             {!! $post->content !!}
             </div>
         </section>
+        @include('frontend.components.cardContact')
         @include('frontend.partials.subscriptionBanner')
         @include('frontend.partials.faqs')
     </section>

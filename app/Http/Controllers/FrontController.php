@@ -39,7 +39,7 @@ class FrontController extends Controller
             'category' => $category,
             'events' => $events,
             'services' => $this->getServices(),
-            'packages' => $this->getPackages(),
+            'promotions' => $this->getPromotions(),
             'cards' => $this->getCards(),
             'furnitures' => $this->getFurnitures(),
             'smallGallery' => $this->getSmallGallery()
@@ -93,7 +93,7 @@ class FrontController extends Controller
                 
         return view('frontend.posts.event', [
             'post' => $post,
-            'packages' => $this->getPackages(),
+            'promotions' => $this->getPromotions(),
             'cards' => $this->getCards(),
             'smallGallery' => $this->getSmallGallery()
         ]);
