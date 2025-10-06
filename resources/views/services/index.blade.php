@@ -111,7 +111,7 @@
                                         {{ $service->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ (strlen($service->description) > 50) ? substr($service->description, 0, 20) . '...' : (string)$service->description }}
+                                        {{ Str::limit($service->description, 20) }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if ($service->image)
