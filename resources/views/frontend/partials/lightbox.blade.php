@@ -22,7 +22,7 @@
                     <!-- Imagen con carga prioritaria -->
                     <img 
                         src="{{ asset($image->image_path) }}" 
-                        alt="Imagen ilustrativa ({{ $index + 1 }}) del servicio {{ $post->title }}" 
+                        alt="Imagen ilustrativa ({{ isset($index) ? $index + 1 : '' }}) del servicio {{ $post->title ?? '' }}" 
                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
                         decoding="async" 
                         loading="eager"
@@ -66,7 +66,7 @@
                     <img 
                         id="lightbox-image" 
                         src="" 
-                        alt="Imagen ampliada ({{ $index + 1 }}) del servicio {{ $post->title }}" 
+                        alt="Imagen ampliada ({{ isset($index) ? $index + 1 : '' }}) del servicio {{ $post->title ?? '' }}" 
                         class="w-full h-auto rounded-lg shadow-lg object-contain max-h-[80vh] mx-auto transition-opacity duration-300 ease-in-out"
                         width="1200" 
                         height="800"
