@@ -21,14 +21,14 @@
     <section class="bg-white relative overflow-hidden" aria-labelledby="acerca-de-nosotros">
         <!-- Flores decorativas - Visibles en todas las resoluciones -->
         <div role="presentation" class="pointer-events-none select-none absolute -left-2 top-10 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 2xl:w-96 2xl:h-96 opacity-0 transition-all duration-700 z-0" data-animate>
-            <img src="{{ asset('images/flor-izquierda.png') }}" alt="" 
+            <img src="{{ asset('images/flor-izquierda.png') }}" alt="Imagen decorativa de flor izquierda" 
                  class="w-full h-full object-contain object-left-top"
                  style="clip-path: inset(0 0 20% 0);" 
                  aria-hidden="true" decoding="async" loading="lazy">
         </div>
         
         <div role="presentation" class="pointer-events-none select-none absolute -right-2 top-10 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-64 lg:h-64 xl:w-80 xl:h-80 2xl:w-96 2xl:h-96 opacity-0 transition-all duration-700 z-0" data-animate>
-            <img src="{{ asset('images/flor-derecha.png') }}" alt="" 
+            <img src="{{ asset('images/flor-derecha.png') }}" alt="Imagen decorativa de flor derecha" 
                  class="w-full h-full object-contain object-right-top"
                  style="clip-path: inset(0 0 20% 0);" 
                  aria-hidden="true" decoding="async" loading="lazy">
@@ -62,7 +62,7 @@
             >
                 <img 
                     src="{{ asset('storage/' . $serviceImage->image) }}" 
-                    alt="" 
+                    alt="Imagen decorativa del servicio" 
                     width="80" height="80" 
                     class="w-10 h-10 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain" 
                     aria-hidden="true" 

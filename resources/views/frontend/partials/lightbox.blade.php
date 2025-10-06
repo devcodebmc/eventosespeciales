@@ -2,7 +2,7 @@
     <div class="w-full max-w-4xl mx-auto mt-10 relative">
         <!-- Galería de imágenes -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            @foreach($post->images->take(6) as $index => $image)
+            @foreach($post->images as $index => $image)
             <figure class="aspect-square rounded-xl overflow-hidden shadow-md border border-gray-200 bg-white group relative">
                 <!-- Ícono de expandir visible al hacer hover -->
                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
@@ -22,12 +22,12 @@
                     <!-- Imagen con carga prioritaria -->
                     <img 
                         src="{{ asset($image->image_path) }}" 
-                        alt="Imagen relacionada al servicio" 
+                        alt="Imagen ilustrativa ({{ $index + 1 }}) del servicio {{ $post->title }}" 
                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
                         decoding="async" 
-                        loading="eager"  <!-- Cambiado de lazy a eager -->
-                        width="300"       <!-- Añadido para CLS -->
-                        height="300"      <!-- Añadido para CLS -->
+                        loading="eager"
+                        width="300"       
+                        height="300"   
                     >
                 </button>
                 <figcaption class="sr-only">Imagen relacionada al servicio</figcaption>
@@ -40,12 +40,25 @@
         <!-- Lightbox Modal -->
         <dialog id="lightbox-modal" class="fixed inset-0 z-90 bg-black/90 flex items-center justify-center w-full h-full p-0 m-0 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out" aria-modal="true" aria-labelledby="lightbox-title">
             <div class="relative max-w-4xl w-full mx-4 bg-transparent flex flex-col items-center transition-opacity duration-300 ease-in-out">
-                <!-- Botón de cerrar -->
-                <button id="lightbox-close" class="absolute top-4 right-4 text-white hover:text-gray-300 focus:outline-none transition-colors duration-200 ease-in-out" aria-label="Cerrar lightbox" style="z-index:2;">
-                    <svg class="h-8 w-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9h4m0 0V5m0 4L4 4m15 5h-4m0 0V5m0 4 5-5M5 15h4m0 0v4m0-4-5 5m15-5h-4m0 0v4m0-4 5 5"/>
-                    </svg>
-                </button>
+                <!-- Controles superiores -->
+                <div class="absolute top-4 right-4 flex gap-2" style="z-index:2;">
+                    <!-- Botón Play/Pause -->
+                    <button id="lightbox-play-pause" class="text-white hover:text-gray-300 focus:outline-none transition-colors duration-200 ease-in-out" aria-label="Play/Pause presentación">
+                        <svg id="play-icon" class="h-8 w-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
+                        </svg>
+                        <svg id="pause-icon" class="h-8 w-8 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M8 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H8Zm7 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1Z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Botón de cerrar -->
+                    <button id="lightbox-close" class="text-white hover:text-gray-300 focus:outline-none transition-colors duration-200 ease-in-out" aria-label="Cerrar lightbox">
+                        <svg class="h-8 w-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9h4m0 0V5m0 4L4 4m15 5h-4m0 0V5m0 4 5-5M5 15h4m0 0v4m0-4-5 5m15-5h-4m0 0v4m0-4 5 5"/>
+                        </svg>
+                    </button>
+                </div>
                 
                 <figure class="w-full flex flex-col items-center transition-opacity duration-300 ease-in-out">
                     <!-- Precargar imagen del lightbox -->
@@ -53,7 +66,7 @@
                     <img 
                         id="lightbox-image" 
                         src="" 
-                        alt="Imagen ampliada" 
+                        alt="Imagen ampliada ({{ $index + 1 }}) del servicio {{ $post->title }}" 
                         class="w-full h-auto rounded-lg shadow-lg object-contain max-h-[80vh] mx-auto transition-opacity duration-300 ease-in-out"
                         width="1200" 
                         height="800"
@@ -93,9 +106,16 @@
             const closeBtn = document.getElementById('lightbox-close');
             const prevBtn = document.getElementById('lightbox-prev');
             const nextBtn = document.getElementById('lightbox-next');
+            const playPauseBtn = document.getElementById('lightbox-play-pause');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
             const thumbs = document.getElementById('lightbox-thumbs');
             const preloader = document.getElementById('lightbox-preloader');
+            
             let currentIndex = 0;
+            let isPlaying = false;
+            let slideInterval = null;
+            const slideDelay = 2000; // 3 segundos entre imágenes
 
             // Precargar imágenes en segundo plano
             function preloadImages() {
@@ -111,7 +131,7 @@
             function hidePlaceholders() {
                 document.querySelectorAll('.image-loading-placeholder').forEach(el => {
                     el.style.opacity = '0';
-                    setTimeout(() => el.remove(), 300); // Coincide con la duración de la transición
+                    setTimeout(() => el.remove(), 300);
                 });
             }
             
@@ -131,6 +151,42 @@
             
             preloadImages();
             checkImagesLoaded();
+
+            // Función para iniciar reproducción automática
+            function startSlideshow() {
+                if (slideInterval) clearInterval(slideInterval);
+                
+                slideInterval = setInterval(() => {
+                    showImage(currentIndex + 1);
+                }, slideDelay);
+                
+                isPlaying = true;
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                playPauseBtn.setAttribute('aria-label', 'Pausar presentación');
+            }
+
+            // Función para detener reproducción automática
+            function stopSlideshow() {
+                if (slideInterval) {
+                    clearInterval(slideInterval);
+                    slideInterval = null;
+                }
+                
+                isPlaying = false;
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                playPauseBtn.setAttribute('aria-label', 'Reproducir presentación');
+            }
+
+            // Toggle play/pause
+            function togglePlayPause() {
+                if (isPlaying) {
+                    stopSlideshow();
+                } else {
+                    startSlideshow();
+                }
+            }
 
             function openModal(index) {
                 currentIndex = index;
@@ -157,9 +213,14 @@
                 
                 renderThumbs();
                 document.body.style.overflow = 'hidden';
+                
+                // Detener reproducción al abrir
+                stopSlideshow();
             }
 
             function closeModal() {
+                stopSlideshow(); // Detener reproducción al cerrar
+                
                 modal.style.opacity = '0';
                 modalContent.style.opacity = '0';
                 modalImg.style.opacity = '0';
@@ -197,18 +258,32 @@
                     thumb.alt = 'Miniatura ' + (idx + 1);
                     thumb.className = 'w-12 h-12 object-cover rounded cursor-pointer border-2 transition-all duration-200 ' + 
                                       (idx === currentIndex ? 'border-[#4b8b97] scale-105' : 'border-transparent hover:border-gray-300');
-                    thumb.onclick = () => showImage(idx);
+                    thumb.onclick = () => {
+                        stopSlideshow(); // Detener reproducción al hacer clic manual
+                        showImage(idx);
+                    };
                     thumbs.appendChild(thumb);
                 });
             }
 
+            // Event Listeners
             document.querySelectorAll('.open-lightbox-btn').forEach((btn, idx) => {
                 btn.addEventListener('click', () => openModal(idx));
             });
 
             closeBtn.addEventListener('click', closeModal);
-            prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
-            nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+            
+            prevBtn.addEventListener('click', () => {
+                stopSlideshow(); // Detener al navegar manualmente
+                showImage(currentIndex - 1);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                stopSlideshow(); // Detener al navegar manualmente
+                showImage(currentIndex + 1);
+            });
+
+            playPauseBtn.addEventListener('click', togglePlayPause);
 
             modal.addEventListener('click', function (e) {
                 if (e.target === modal) closeModal();
@@ -217,8 +292,18 @@
             document.addEventListener('keydown', function (e) {
                 if (modal.hasAttribute('open')) {
                     if (e.key === 'Escape') closeModal();
-                    if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
-                    if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+                    if (e.key === 'ArrowLeft') {
+                        stopSlideshow();
+                        showImage(currentIndex - 1);
+                    }
+                    if (e.key === 'ArrowRight') {
+                        stopSlideshow();
+                        showImage(currentIndex + 1);
+                    }
+                    if (e.key === ' ') { // Espacio para play/pause
+                        e.preventDefault();
+                        togglePlayPause();
+                    }
                 }
             });
         });

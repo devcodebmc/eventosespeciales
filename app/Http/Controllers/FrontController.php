@@ -62,7 +62,7 @@ class FrontController extends Controller
                 'tags:id,name,slug',
                 'images' => function($query) {
                     $query->select('id', 'image_path', 'order', 'event_id')
-                      ->orderBy('order');
+                      ->orderBy('order', 'desc');
                 }
                 ])
                 ->where('type', 'Service')
