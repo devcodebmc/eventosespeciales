@@ -46,7 +46,13 @@
                             class="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out z-0 group-hover:scale-105"
                             data-bg-reveal
                             style="background-image: url('{{ asset('storage/' . $card->image) }}'); transition-delay: {{ $index * 100 }}ms;"
-                            aria-hidden="true">
+                            aria-hidden="true"
+                            role="img"
+                            title="{{ $card->service->name ?? 'Servicio' }}"
+                            data-name="{{ $card->name }}"
+                            data-service="{{ $card->service->name ?? 'Servicio' }}"
+                            data-description="{{ Str::limit($card->description, 80) }}"
+                        >
                         </div>
 
                         <!-- Capa de gradiente siempre visible en móvil, solo en hover en desktop -->
@@ -330,7 +336,7 @@
 
         // WhatsApp integration
         document.getElementById('modal-availability-btn').addEventListener('click', function() {
-            const phoneNumber = '527293353878';
+            const phoneNumber = '527222259365'; 
             const message = encodeURIComponent(`Hola, estoy interesado en el mobiliario "${modalName.textContent}" que vi en su sitio web. ¿Podrían proporcionarme más información?`);
             const url = `https://wa.me/${phoneNumber}?text=${message}`;
             window.open(url, '_blank');
