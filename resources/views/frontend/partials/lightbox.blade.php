@@ -99,7 +99,7 @@
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const images = @json($post->images->take(6)->pluck('image_path'));
+            const images = @json($post->images->pluck('image_path'));
             const modal = document.getElementById('lightbox-modal');
             const modalContent = modal.querySelector('div');
             const modalImg = document.getElementById('lightbox-image');
