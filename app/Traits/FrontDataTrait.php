@@ -79,7 +79,7 @@ trait FrontDataTrait
                      ->where('e.status', 'published');
             })
             ->with(['event:id,title'])
-            ->orderBy('event_images.order')
+            ->orderBy('event_id')
             ->limit($limit)
             ->get();
     }

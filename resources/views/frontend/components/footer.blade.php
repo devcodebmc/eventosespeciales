@@ -100,7 +100,7 @@
             <section aria-labelledby="gallery-heading" class="mb-8">
                 <h3 id="gallery-heading" class="text-lg font-secondary tracking-wider text-[#2A4044] mb-4">Galería</h3>
                 <div class="grid grid-cols-3 gap-2" id="gallery-container">
-                    @foreach ($smallGallery->sortBy('order') as $gallery)
+                    @foreach ($smallGallery->sortBy('created_at') as $gallery)
                         <button 
                             class="gallery-thumbnail focus:outline-none focus:ring-2 focus:ring-[#4b8b97] rounded overflow-hidden"
                             data-index="{{ $loop->index }}"
