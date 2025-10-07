@@ -20,18 +20,21 @@
                     <div class="absolute inset-0 bg-[#263238] z-0"></div>
 
                     <!-- Imagen revelada con scroll -->
-                    <div
-                        class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-1000 ease-out z-0"
+                    <img
+                        src="{{ $card->image }}"
+                        alt="{{ $card->title }}"
+                        decoding="async"
+                        loading="lazy"
+                        fetchpriority="low"
+                        class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-out z-0"
                         data-bg-reveal
-                        style="background-image: url('{{ $card->image }}'); transition-delay: {{ $index * 100 }}ms;"
                         aria-hidden="true"
                         data-event-title="{{ $card->title }}"
                         data-event-date="{{ date('Y-m-d', strtotime($card->event_date)) }}"
                         data-event-category="{{ $card->category->name }}"
                         data-event-slug="{{ $card->slug }}"
+                        style="transition-delay: {{ $index * 100 }}ms;"
                     >
-                    </div>
-
                     <!-- Capa oscura para legibilidad -->
                     <div class="absolute inset-0 bg-black/50 z-[1]"></div>
 

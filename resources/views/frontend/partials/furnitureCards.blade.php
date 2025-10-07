@@ -42,18 +42,22 @@
                         <div class="absolute inset-0 bg-[#263238] z-0"></div>
 
                         <!-- Imagen de fondo -->
-                        <div
-                            class="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out z-0 group-hover:scale-105"
-                            data-bg-reveal
-                            style="background-image: url('{{ asset('storage/' . $card->image) }}'); transition-delay: {{ $index * 100 }}ms;"
-                            aria-hidden="true"
-                            role="img"
-                            title="{{ $card->service->name ?? 'Servicio' }}"
-                            data-name="{{ $card->name }}"
-                            data-service="{{ $card->service->name ?? 'Servicio' }}"
-                            data-description="{{ Str::limit($card->description, 80) }}"
-                        >
-                        </div>
+                        <figure class="absolute inset-0 z-0 w-full h-full overflow-hidden">
+                            <img
+                                src="{{ asset('storage/' . $card->image) }}"
+                                alt="{{ $card->name }}"
+                                class="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 opacity-0"
+                                loading="{{ $index < 2 ? 'eager' : 'lazy' }}"
+                                fetchpriority="{{ $index < 2 ? 'high' : 'auto' }}"
+                                data-bg-reveal
+                                style="transition-delay: {{ $index * 100 }}ms;"
+                                title="{{ $card->service->name ?? 'Servicio' }}"
+                                data-name="{{ $card->name }}"
+                                data-service="{{ $card->service->name ?? 'Servicio' }}"
+                                data-description="{{ Str::limit($card->description, 80) }}"
+                                onload="this.classList.add('opacity-100')"
+                            >
+                        </figure>
 
                         <!-- Capa de gradiente siempre visible en móvil, solo en hover en desktop -->
                         <div class="absolute inset-0 bg-black/50 z-[1]"></div>
