@@ -122,6 +122,14 @@
     <link rel="preload" href="{{ asset('css/index.css') }}" as="style">
     @stack('styles')
     <link rel="preload" href="{{asset('images/Logo-white.png')}}" as="image">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.cdnfonts.com/css/identidad" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.cdnfonts.com/css/merriweather-2" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap">
+      <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/identidad">
+      <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/merriweather-2">
+    </noscript>
 </head>
 <body class="bg-gray-100">
     <!-- Navbar -->
