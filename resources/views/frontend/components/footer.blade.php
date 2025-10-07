@@ -127,33 +127,35 @@
 
         <!-- Sección inferior del footer -->
         <div class="flex flex-col md:flex-row justify-between items-center text-sm">
-            <p>&copy; 2025 Eventos Especiales Lerma. Todos los derechos reservados.</p>
+            <p class="font-secondary">&copy; 2025 Eventos Especiales Lerma. Todos los derechos reservados.</p>
             <nav aria-label="Enlaces legales" class="flex flex-wrap justify-center gap-4 mt-4 md:mt-0">
-                <a href="{{ url('politica-de-privacidad') }}" class="hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Política de Privacidad</a>
-                <a href="{{ url('terminos-de-servicio') }}" class="hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Términos de Servicio</a>
+                <a href="{{ url('politica-de-privacidad') }}" class="font-secondary hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Política de Privacidad</a>
+                <a href="{{ url('terminos-de-servicio') }}" class="font-secondary hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded px-4">Términos de Servicio</a>
             </nav>
-            <p>
+            <span aria-label="Créditos del sitio" class="flex items-center gap-1 font-secondary">
                 Hecho con 
                 <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="inline-block w-6 h-6 text-[#4b8b97] mx-1 animate-pulse"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="inline-block w-6 h-6 text-[#4b8b97] mx-1 animate-pulse"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
                 >
-                <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                <path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" />
-                <path d="M12.5 15.5l2 2" />
-                <path d="M15 13l2 2" />
+                    <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                    <path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" />
+                    <path d="M12.5 15.5l2 2" />
+                    <path d="M15 13l2 2" />
                 </svg>
                 por
-                <a href="https://www.bydsolutions.com/" target="_blank" rel="noopener noreferrer" class="text-[#4b8b97] hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">
+                <a href="https://www.bydsolutions.com/" target="_blank" rel="noopener noreferrer" class="text-xl text-[#25636b] hover:text-[#111] font-semibold font-script transition-colors focus:outline-none focus:ring-2 focus:ring-[#25636b] focus:ring-offset-2 focus:ring-offset-gray-100 rounded px-2">
                     B&D Solutions
                 </a>
-            </p>
+            </span>
         </div>
     </div>
 </footer>
