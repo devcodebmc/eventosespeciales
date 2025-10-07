@@ -27,21 +27,21 @@
                     @foreach ($moment->images as $index => $image)
                         @if ($index == 0)
                             <div class="col-span-2 sm:col-span-2 row-span-2 rounded-xl overflow-hidden">
-                                <img src="{{ asset($image->image_path) }}" alt="Ilustración 1 del momento - {{ $moment->title }}" class="w-full h-full object-cover" loading="lazy" decoding="async"/>
+                                <img src="{{ asset($image->image_path) }}" alt="Ilustración 1 del momento - {{ $moment->title }}" class="w-full h-full object-cover" loading="lazy" decoding="async" fetchpriority="low"/>
                             </div>
                         @elseif ($index == 1)
                             <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                                <img src="{{ asset($image->image_path) }}" alt="Ilustración 2 del momento - {{ $moment->title }}" class="w-full h-full object-cover" loading="lazy" decoding="async"/>
+                                <img src="{{ asset($image->image_path) }}" alt="Ilustración 2 del momento - {{ $moment->title }}" class="w-full h-full object-cover" loading="lazy" decoding="async" fetchpriority="low"/>
                             </div>
                         @elseif ($index == 2)
                             <div class="col-span-1 row-span-1 rounded-xl overflow-hidden">
-                                <img src="{{ asset($image->image_path) }}" alt="Ilustración 3 del momento - {{ $moment->title }}" class="w-full h-full object-cover" loading="lazy" decoding="async"/>
+                                <img src="{{ asset($image->image_path) }}" alt="Ilustración 3 del momento - {{ $moment->title }}" class="w-full h-full object-cover" loading="lazy" decoding="async" fetchpriority="low"/>
                             </div>
                         @endif
                     @endforeach
                 @else
                     <div class="col-span-2 sm:col-span-2 row-span-2 rounded-xl overflow-hidden">
-                        <img src="{{ asset($moment->image) }}" alt="Imagen principal del momento - {{ $moment->title }}" class="w-full h-full object-cover" loading="lazy" decoding="async"/>
+                        <img src="{{ asset($moment->image) }}" alt="Imagen principal del momento - {{ $moment->title }}" class="w-full h-full object-cover" loading="lazy" decoding="async" fetchpriority="low"/>
                     </div>
                 @endif
             </div>
