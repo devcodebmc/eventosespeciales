@@ -53,24 +53,33 @@ trait FrontDataTrait
 
     protected function getFurnitures()
     {
-        $furnitures = Furniture::with(['service:id,name,slug'])
-            ->where('status', 'published')
+        return Furniture::query()
             ->select('id', 'name', 'slug', 'description', 'image', 'status', 'order', 'service_id')
+            ->where('status', 'published')
+            ->with(['service:id,name'])
             ->orderBy('order', 'asc')
-            ->get();
-
-        return $furnitures->groupBy('service.name');
+            ->get()
+            ->groupBy(function ($item) {
+                return optional($item->service)->name;
+            });
     }
 
     protected function getSmallGallery($limit = 6)
     {
-        return EventImage::select('id', 'image_path', 'event_id', 'order')
-            ->whereHas('event', function($query) {
-                $query->where('type', 'Gallery')
-                    ->where('status', 'published');
+        return EventImage::query()
+            ->select(
+                'event_images.id',
+                'event_images.image_path',
+                'event_images.event_id',
+                'event_images.order'
+            )
+            ->join('events as e', function($join) {
+                $join->on('event_images.event_id', '=', 'e.id')
+                     ->where('e.type', 'Gallery')
+                     ->where('e.status', 'published');
             })
             ->with(['event:id,title'])
-            ->orderBy('order')
+            ->orderBy('event_images.order')
             ->limit($limit)
             ->get();
     }
@@ -78,17 +87,16 @@ trait FrontDataTrait
     protected function getEvents($limit = 4)
     {
         return Event::with([
-            'category:id,name', 
-            'tags:id,name',
-            'images' => function($query) {
-                $query->select('id', 'image_path', 'order', 'event_id')
-                      ->orderBy('order');
-            }
+                'category:id,name',
+                'tags:id,name',
+                'images:id,image_path,order,event_id' 
             ])
-            ->where('type', 'Event')
-            ->where('status', 'published')
-            ->select('id', 'title', 'slug', 'category_id', 'image')
-            ->orderBy('event_date', 'desc')
+            ->where([
+                ['type', '=', 'Event'],
+                ['status', '=', 'published']
+            ])
+            ->select('id', 'title', 'slug', 'category_id', 'image', 'event_date')
+            ->orderByDesc('event_date')
             ->limit($limit)
             ->get();
     }

@@ -24,7 +24,12 @@
                         class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-1000 ease-out z-0"
                         data-bg-reveal
                         style="background-image: url('{{ $card->image }}'); transition-delay: {{ $index * 100 }}ms;"
-                        aria-hidden="true">
+                        aria-hidden="true"
+                        data-event-title="{{ $card->title }}"
+                        data-event-date="{{ date('Y-m-d', strtotime($card->event_date)) }}"
+                        data-event-category="{{ $card->category->name }}"
+                        data-event-slug="{{ $card->slug }}"
+                    >
                     </div>
 
                     <!-- Capa oscura para legibilidad -->

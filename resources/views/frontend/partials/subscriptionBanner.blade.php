@@ -2,10 +2,10 @@
     <section class="relative bg-[#263238] text-white rounded-2xl md:rounded-3xl lg:rounded-full py-12 sm:py-16 lg:py-20 max-w-7xl mx-auto overflow-hidden shadow-lg">
         <!-- Decoraciones de esquina -->
         <div class="absolute bottom-0 left-0 w-48 sm:w-64 opacity-40 pointer-events-none">
-            <img src="{{ asset('images/flower-pattern.png') }}" alt="Detalles florales decorativos" class="w-full">
+            <img src="{{ asset('images/flower-pattern.png') }}" alt="Detalles florales decorativos" class="w-full" loading="lazy" decoding="async">
         </div>
         <div class="absolute bottom-0 right-0 w-48 sm:w-64 opacity-40 pointer-events-none">
-            <img src="{{ asset('images/pointers-pattern.png') }}" alt="Elementos decorativos geométricos" class="w-full">
+            <img src="{{ asset('images/pointers-pattern.png') }}" alt="Elementos decorativos geométricos" class="w-full" loading="lazy" decoding="async">
         </div>
 
         <!-- Contenido principal -->

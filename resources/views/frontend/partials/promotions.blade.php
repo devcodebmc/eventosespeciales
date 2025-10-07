@@ -24,7 +24,9 @@
     <img src="{{ asset('images/flor-izquierda.png') }}" 
          alt="Flor izquierda" 
          class="absolute left-0 top-0 w-24 md:w-32 opacity-0 pointer-events-none z-20 rounded-md" 
-         data-animate />
+         data-animate 
+         loading="lazy" 
+         decoding="async"/>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         @if($promotions->isEmpty())
@@ -105,7 +107,9 @@
                                      alt="{{ $promotion->title }}"
                                      class="absolute inset-0 w-full h-full object-cover 
                                             transition-transform duration-700 group-hover:scale-105 
-                                            rounded-2xl" />
+                                            rounded-2xl" 
+                                     loading="lazy" 
+                                     decoding="async"/>
                                 
                                 <!-- Overlay gradient elegante - Siempre visible en móvil -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent 
@@ -186,7 +190,9 @@
     <img src="{{ asset('images/flor-derecha.png') }}" 
          alt="Flor derecha" 
          class="absolute right-0 bottom-0 w-24 md:w-32 opacity-0 pointer-events-none z-20 rounded-md" 
-         data-animate />
+         data-animate 
+         loading="lazy" 
+         decoding="async"/>
 </section>
 
 <!-- Modal elegante con Flip Card -->
@@ -216,7 +222,9 @@
                         <img id="modalImage" 
                              src="" 
                              alt="" 
-                             class="w-full h-auto max-h-[70vh] md:max-h-[75vh] object-contain rounded-2xl">
+                             class="w-full h-auto max-h-[70vh] md:max-h-[75vh] object-contain rounded-2xl"
+                             loading="lazy" 
+                             decoding="async">
                         
                         <p id="modalTitle" 
                            class="text-white text-center mt-4 md:mt-6 text-base md:text-2xl font-script 

@@ -50,7 +50,7 @@
     @include('frontend.partials.subscriptionBanner')
     @include('frontend.partials.promotions')
     @include('frontend.partials.shortDescription')
-    @include('frontend.partials.team')
+    {{-- @include('frontend.partials.team') --}}
     @include('frontend.partials.contactForm')
     @include('frontend.partials.eventCards')
 </section> 

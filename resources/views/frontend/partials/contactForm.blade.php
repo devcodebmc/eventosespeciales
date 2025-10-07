@@ -1,19 +1,23 @@
 <section class="flex justify-center items-center py-12 md:py-24 px-4 bg-white relative overflow-hidden opacity-0" data-animate>
     <!-- Decoración superior para móvil -->
-    <img src="{{ asset('images/contact-left-leaf.png') }}" alt="Flor decorativa"
-        class="sm:hidden absolute top-0 left-1/2 -translate-x-1/2 max-w-[120px] rotate-90 z-20 pointer-events-none">
+    <img src="{{ asset('images/contact-left-leaf.png') }}" alt="Flor decorativa formulario contacto superior"
+        class="sm:hidden absolute top-0 left-1/2 -translate-x-1/2 max-w-[120px] rotate-90 z-20 pointer-events-none" 
+        loading="lazy" decoding="async">
 
     <!-- Decoración inferior para móvil -->
-    <img src="{{ asset('images/contact-right-leaf.png') }}" alt="Flor decorativa"
-        class="sm:hidden absolute -bottom-3 left-1/3 -translate-x-1/2 max-w-[120px] -rotate-90 z-10 pointer-events-none">
+    <img src="{{ asset('images/contact-right-leaf.png') }}" alt="Flor decorativa formulario contacto inferior"
+        class="sm:hidden absolute -bottom-3 left-1/3 -translate-x-1/2 max-w-[120px] -rotate-90 z-10 pointer-events-none"
+        loading="lazy" decoding="async">
 
     <!-- Decoración izquierda para desktop -->
-    <img src="{{ asset('images/contact-left-leaf.png') }}" alt="Flor izquierda"
-        class="hidden sm:block absolute left-0 sm:left-40 top-1/2 -translate-y-1/2 max-w-[100px] sm:max-w-[220px] z-0 pointer-events-none">
+    <img src="{{ asset('images/contact-left-leaf.png') }}" alt="Flor izquierda para desktop"
+        class="hidden sm:block absolute left-0 sm:left-40 top-1/2 -translate-y-1/2 max-w-[100px] sm:max-w-[220px] z-0 pointer-events-none"
+        loading="lazy" decoding="async">
 
     <!-- Decoración derecha para desktop -->
-    <img src="{{ asset('images/contact-right-leaf.png') }}" alt="Flor derecha"
-        class="hidden sm:block absolute right-0 sm:right-40 top-1/2 -translate-y-1/2 max-w-[100px] sm:max-w-[220px] z-0 pointer-events-none">
+    <img src="{{ asset('images/contact-right-leaf.png') }}" alt="Flor derecha para desktop"
+        class="hidden sm:block absolute right-0 sm:right-40 top-1/2 -translate-y-1/2 max-w-[100px] sm:max-w-[220px] z-0 pointer-events-none"
+        loading="lazy" decoding="async">
 
     <!-- Contenedor ovalado -->
     <div class="relative w-[90vw] max-w-xl aspect-[4/5] sm:aspect-square flex items-center justify-center z-10 mt-10 sm:mt-0 mb-10 sm:mb-0">

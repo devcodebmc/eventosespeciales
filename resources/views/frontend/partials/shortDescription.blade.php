@@ -6,7 +6,9 @@
       <div class="w-80 h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] rounded-full overflow-hidden shadow-lg">
         <img src="{{ asset('images/montage.jpg') }}"
              alt="Montage en restaurante con sillas y mesas crossback"
-             class="w-full h-full object-cover" />
+             class="w-full h-full object-cover" 
+             loading="lazy" 
+             decoding="async"/>
       </div>
     </div>
 
