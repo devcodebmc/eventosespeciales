@@ -24,7 +24,8 @@
         @foreach($services as $service)
             <article class="flex-1 p-8 flex flex-col items-center text-center" aria-label="{{ $service->name }}">
                 <figure>
-                    <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->name }}" class="w-40 h-40 object-cover mb-4">
+                    <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->name }}" class="w-40 h-40 object-cover mb-4" decoding="async" loading="eager"
+                    fetchpriority="high">
                 </figure>
                 <header>
                     <h3 class="text-2xl font-secondary text-[#2A4044] mb-3">{{ $service->name }}</h3>
