@@ -15,25 +15,25 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Inicio') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('categories.index')" :active="request()->is('categories*')">
+                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
                         {{ __('Categorías') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('tags.index')" :active="request()->is('tags*')">
+                    <x-nav-link :href="route('tags.index')" :active="request()->routeIs('tags.*')">
                         {{ __('Etiquetas') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('services.index')" :active="request()->is('services*')">
+                    <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
                         {{ __('Servicios') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('furnitures.index')" :active="request()->is('furnitures*')">
+                    <x-nav-link :href="route('furnitures.index')" :active="request()->routeIs('furnitures.*')">
                         {{ __('Mobiliario') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('promotions.index')" :active="request()->is('promotions*')">
+                    <x-nav-link :href="route('promotions.index')" :active="request()->routeIs('promotions.*')">
                         {{ __('Promociones') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('events.index')" :active="request()->is('events*')">
+                    <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
                         {{ __('Eventos') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('recyclebin.index')" :active="request()->is('recyclebin*')">
+                    <x-nav-link :href="route('recyclebin.index')" :active="request()->routeIs('recyclebin.*')">
                         {{ __('Papelera') }}
                     </x-nav-link>
                 </div>
