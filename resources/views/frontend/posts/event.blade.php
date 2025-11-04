@@ -184,11 +184,12 @@
             </div>  
         </section>       
     </article>
-    <article class="prose prose-lg prose-gray bg-white overflow-hidden transition-all duration-300 ease-in-out px-4 py-6 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto rich-content" data-animate>
+    <article class="prose prose-lg prose-gray bg-white overflow-hidden transition-all duration-300 ease-in-out px-4 py-6 sm:px-6 md:px-10 lg:px-16 max-w-8xl mx-auto rich-content" data-animate>
         {!! $post->content !!}
-    </article>
-    <!-- Grid de imágenes responsive con lightbox -->
+            <!-- Grid de imágenes responsive con lightbox -->
     @include('frontend.partials.specialLightbox')
+    </article>
+
     <!-- video del evento $post->video_url -->
     @include('frontend.partials.videoLightbox', [
         'image' => $post->image,

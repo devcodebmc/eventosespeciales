@@ -1,5 +1,5 @@
 @props(['image' => null, 'videoUrl' => null])
-<section class="flex flex-col items-center opacity-0 translate-y-4 transition-all duration-700 py-4 px-4 sm:px-6 lg:px-0 mt-8 bg-white" data-animate>
+<section class="flex flex-col items-center opacity-0 translate-y-4 transition-all duration-700 py-4 px-4 sm:px-6 lg:px-0 mt-0 bg-white" data-animate>
     <header class="flex flex-col sm:flex-row items-center justify-center my-8 w-full">
         <div class="flex items-center w-full justify-center mt-12">
             <span class="sm:block w-10 border-t border-[#4b8b97] mx-2"></span>
