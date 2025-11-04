@@ -61,11 +61,11 @@
                             <a href="https://wa.me/527222259365" target="_blank" rel="noopener noreferrer" class="text-sm lg:text-lg xl:text-xl text-gray-800 hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">
                                 +52 722 225 9365
                             </a>
-                            <a href="https://wa.me/527226475479" target="_blank" rel="noopener noreferrer" class="text-sm lg:text-lg xl:text-xl text-gray-800 hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">
-                                +52 722 647 5479
-                            </a>
                             <a href="https://wa.me/527293353878" target="_blank" rel="noopener noreferrer" class="text-sm lg:text-lg xl:text-xl text-gray-800 hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">
                                 +52 729 335 3878
+                            </a>
+                            <a href="https://wa.me/527226475479" target="_blank" rel="noopener noreferrer" class="text-sm lg:text-lg xl:text-xl text-gray-800 hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">
+                                +52 722 647 5479
                             </a>
                         </div>
                     </div>
