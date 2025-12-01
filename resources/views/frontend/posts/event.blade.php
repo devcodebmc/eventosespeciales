@@ -186,9 +186,11 @@
     </article>
     <article class="prose prose-lg prose-gray bg-white overflow-hidden transition-all duration-300 ease-in-out px-4 py-6 sm:px-6 md:px-10 lg:px-16 max-w-8xl mx-auto rich-content" data-animate>
         {!! $post->content !!}
-            <!-- Grid de imágenes responsive con lightbox -->
-    @include('frontend.partials.specialLightbox')
     </article>
+    <section class="py-8 bg-white overflow-hidden">
+        <!-- Grid de imágenes responsive con lightbox -->
+        @include('frontend.partials.specialLightbox')
+    </section>
 
     <!-- video del evento $post->video_url -->
     @include('frontend.partials.videoLightbox', [
