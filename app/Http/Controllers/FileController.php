@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,8 +27,9 @@ class FileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    {   
+        $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
+        return view('files.create', compact('categories'));
     }
 
     /**
