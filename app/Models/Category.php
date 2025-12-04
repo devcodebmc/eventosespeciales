@@ -30,4 +30,9 @@ class Category extends Model
                      ->orWhereRaw('LOWER(name) like ?', ['%' . strtolower($search) . '%']);
     }
 
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
 }

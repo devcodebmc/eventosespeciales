@@ -51,7 +51,7 @@ class Event extends Model
     }
 
     /**
-     * Relación con la categoría (Muchas recetas pertenecen a una categoría).
+     * Relación con la categoría (Muchas eventos pertenecen a una categoría).
      */
     public function category()
     {
@@ -59,7 +59,7 @@ class Event extends Model
     }
 
     /**
-     * Relación con el usuario (Muchas recetas pertenecen a un usuario).
+     * Relación con el usuario (Muchas eventos pertenecen a un usuario).
      */
     public function user()
     {
@@ -75,7 +75,7 @@ class Event extends Model
     }
 
     /**
-     * Relación con imágenes de la receta (Una receta tiene muchas imágenes).
+     * Relación con imágenes del evento (Un evento tiene muchas imágenes).
      */
     public function images()
     {
