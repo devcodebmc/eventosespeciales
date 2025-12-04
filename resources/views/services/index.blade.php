@@ -36,7 +36,7 @@
                         @csrf
                         <!-- Nombre del servicio -->
                         <div class="flex items-center space-x-2 w-full sm:w-auto">
-                            <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Nueva servicio" required class="block w-full border border-gray-300 rounded-md pl-3 text-sm" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"/>
+                            <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Nuevo servicio" required class="block w-full border border-gray-300 rounded-md pl-3 text-sm" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"/>
                         </div>
                         {{-- Descripcion del servicio --}}
                         <div class="flex items-center space-x-2 w-full sm:w-auto">
