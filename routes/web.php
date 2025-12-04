@@ -13,6 +13,8 @@ use App\Http\Controllers\FetchTagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\RecyclebinController;
 
 
 /*
@@ -61,6 +63,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::resource('furnitures', FurnitureController::class);
     Route::resource('tags', TagController::class);
     Route::resource('promotions', PromotionController::class);
+    Route::resource('files', FileController::class);
 
     Route::resource('events', EventController::class);
     Route::patch('/events/{event}/update-status', [EventController::class, 'updateStatus'])
@@ -69,9 +72,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::delete('/events/images/{eventImage}', [EventImageController::class, 'destroy'])->name('event.images.destroy');
   
     // Recyclebin routes
-    Route::get('/recyclebin', [App\Http\Controllers\RecyclebinController::class, 'index'])->name('recyclebin.index');
-    Route::patch('/recyclebin/{id}/restore', [App\Http\Controllers\RecyclebinController::class, 'restore'])->name('recyclebin.restore');
-    Route::delete('/recyclebin/{id}/destroy', [App\Http\Controllers\RecyclebinController::class, 'destroy'])->name('recyclebin.destroy');
+    Route::get('/recyclebin', [RecyclebinController::class, 'index'])->name('recyclebin.index');
+    Route::patch('/recyclebin/{id}/restore', [RecyclebinController::class, 'restore'])->name('recyclebin.restore');
+    Route::delete('/recyclebin/{id}/destroy', [RecyclebinController::class, 'destroy'])->name('recyclebin.destroy');
 });
 
 require __DIR__.'/auth.php';

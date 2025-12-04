@@ -30,6 +30,9 @@
                     <x-nav-link :href="route('promotions.index')" :active="request()->routeIs('promotions.*')">
                         {{ __('Promociones') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('files.index')" :active="request()->routeIs('files.*')">
+                        {{ __('Archivos') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
                         {{ __('Eventos') }}
                     </x-nav-link>
@@ -105,6 +108,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link  :href="route('promotions.index')" :active="request()->is('promotions*')">
                 {{ __('Promociones') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link  :href="route('files.index')" :active="request()->is('files*')">
+                {{ __('Archivos') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link  :href="route('events.index')" :active="request()->is('events*')">
                 {{ __('Eventos') }}

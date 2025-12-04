@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('slug');
             $table->string('path');
             $table->enum('type', ['pdf', 'image', 'doc', 'excel'])->default('pdf');
             $table->unsignedInteger('category_id');
