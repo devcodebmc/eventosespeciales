@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class File extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'path', 'type', 'category_id'];
+    protected $fillable = ['name', 'slug', 'file', 'type', 'size', 'mime_type', 'original_name', 'category_id'];
 
     public function category()
     {
