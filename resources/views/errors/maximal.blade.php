@@ -24,6 +24,9 @@
 
     gtag('config', 'G-MG0KR16K3J');
     </script>
+
+    <!-- Bing verification -->
+    <meta name="msvalidate.01" content="EC6D419D1D30203494CF447D4D712D9E" />
     
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('images/Logo-white.png')}}" type="image/x-icon">
@@ -38,7 +41,7 @@
     
     <!-- Canonical & Alternate URLs -->
     <link rel="canonical" href="@yield('canonical', 'https://eventosespecialeslerma.com/')">
-    <link rel="alternate" href="https://eventosespecialeslerma.com/" hreflang="es-mx"/>
+    <link rel="alternate" href="@yield('alternate', 'https://eventosespecialeslerma.com/')" hreflang="es-mx"/>
     
     <!-- Theme Color -->
     <meta name="msapplication-TileColor" content="#4b8b97">
@@ -68,6 +71,49 @@
     <meta name="twitter:image" content="@yield('ogimage', asset('images/Logo-white.png'))">
     <meta name="twitter:image:alt" content="Eventos Especiales Lerma - Organización de Eventos">
     
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EventPlanningBusiness",
+      "name": "Eventos Especiales Lerma",
+      "image": "{{asset('images/Logo-white.png')}}",
+      "@id": "https://eventosespecialeslerma.com/",
+      "url": "https://eventosespecialeslerma.com/",
+      "telephone": "+52 55 1234 5678",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Av. Principal 123",
+        "addressLocality": "Lerma",
+        "addressRegion": "Estado de México",
+        "postalCode": "52000",
+        "addressCountry": "MX"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "19.2859",
+        "longitude": "-99.5162"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "sameAs": [
+        "https://www.facebook.com/eventosespecialeslerma1",
+        "https://www.instagram.com/eventosespeciales.lerma"
+      ] 
+    }
+    </script>
+    
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -76,6 +122,14 @@
     <link rel="preload" href="{{ asset('css/index.css') }}" as="style">
     @stack('styles')
     <link rel="preload" href="{{asset('images/Logo-white.png')}}" as="image">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.cdnfonts.com/css/identidad" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.cdnfonts.com/css/merriweather-2" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap">
+      <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/identidad">
+      <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/merriweather-2">
+    </noscript>
 </head>
 <body class="bg-gray-100">
     <!-- Navbar -->
