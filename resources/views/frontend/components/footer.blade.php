@@ -153,7 +153,7 @@
 
         <!-- Sección inferior del footer -->
         <div class="flex flex-col md:flex-row justify-between items-center text-sm">
-            <p class="font-secondary">&copy; 2025 Eventos Especiales Lerma. Todos los derechos reservados.</p>
+            <p class="font-secondary">&copy; {{ now()->year }} Eventos Especiales Lerma. Todos los derechos reservados.</p>
             <nav aria-label="Enlaces legales" class="flex flex-wrap justify-center gap-4 mt-4 md:mt-0">
                 <a href="{{ url('politica-de-privacidad') }}" class="font-secondary hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Política de Privacidad</a>
                 <a href="{{ url('terminos-de-servicio') }}" class="font-secondary hover:text-[#333] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded px-4">Términos de Servicio</a>
