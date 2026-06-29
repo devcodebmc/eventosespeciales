@@ -100,4 +100,20 @@ trait FrontDataTrait
             ->limit($limit)
             ->get();
     }
+
+    public function getInstagramGallery($limit = 8) {
+        return Event::with([
+                'category:id,name',
+                'tags:id,name',
+                'images:id,image_path,order,event_id' 
+            ])
+            ->where([
+                ['type', '=', 'Instagram'],
+                ['status', '=', 'published']
+            ])
+            ->select('id', 'title', 'slug', 'category_id', 'image', 'event_date', 'video_url')
+            ->orderByDesc('event_date')
+            ->limit($limit)
+            ->get();
+    }
 }

@@ -139,7 +139,7 @@
     @yield('content')
 
     <!-- Main Animation -->
-    @include('frontend.components.mainAnimation')
+    {{-- @include('frontend.components.mainAnimation') --}}
     <!-- Botón Back to Top -->
     @include('frontend.components.alerts')
     @include('frontend.partials.toTop')

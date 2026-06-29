@@ -42,7 +42,8 @@ class FrontController extends Controller
             'promotions' => $this->getPromotions(),
             'cards' => $this->getCards(),
             'furnitures' => $this->getFurnitures(),
-            'smallGallery' => $this->getSmallGallery()
+            'smallGallery' => $this->getSmallGallery(),
+            'instagramGallery' => $this->getInstagramGallery()
         ]);
     }
                 

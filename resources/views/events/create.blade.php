@@ -124,9 +124,9 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <!-- URL del Video -->
+                    <!-- URL del Video  o enlace -->
                     <div>
-                        <label for="video_url" class="block text-sm font-medium text-gray-700 mb-2">URL del Video</label>
+                        <label for="video_url" class="block text-sm font-medium text-gray-700 mb-2">URL del Video o enlace</label>
                         <input type="url" name="video_url" id="video_url" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition duration-200" placeholder="Ej: https://youtube.com/..." value="{{ old('video_url') }}">
                         @error('video_url')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -178,6 +178,7 @@
                                 <option value="Package" {{ old('type') == 'Promotion' ? 'selected' : '' }}>Paquete</option>
                                 <option value="Article" {{ old('type') == 'Article' ? 'selected' : '' }}>Artículo</option>
                                 <option value="Section" {{ old('type') == 'Section' ? 'selected' : '' }}>Sección</option>
+                                <option value="Instagram" {{ old('type') == 'Instagram' ? 'selected' : '' }}>Instagram</option>
                             </select>
                             @error('type')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

@@ -49,7 +49,7 @@ class EventController extends Controller
             'video_url' => 'nullable|url|max:255',
             'event_images.*' => 'nullable|image|max:10240',
             'status' => 'required|in:draft,published',
-            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package,Article,Section',
+            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package,Article,Section,Instagram',
         ]);
 
         DB::beginTransaction();
@@ -134,7 +134,7 @@ class EventController extends Controller
             'image' => 'nullable|image|max:10240',
             'video_url' => 'nullable|url|max:255',
             'status' => 'required|in:draft,published',
-            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package,Article,Section',
+            'type' => 'required|in:Event,Service,Gallery,Video,Banner,Promotion,Package,Article,Section,Instagram',
         ]);
 
         DB::beginTransaction();

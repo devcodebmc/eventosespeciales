@@ -55,6 +55,7 @@
             </article>
         </div>
         @include('frontend.partials.divider')
+        @include('frontend.components.instagramGrid')
     </section>
 </main>
 @endsection
