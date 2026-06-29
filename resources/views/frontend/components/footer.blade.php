@@ -62,6 +62,7 @@
                         <li><a href="{{ url('mobiliario') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Mobiliario</a></li>
                         <li><a href="{{ url('servicios') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Servicios</a></li>
                         <li><a href="{{ url('eventos') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Eventos</a></li>
+                        <li><a href="{{ url('finca-isabela') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Finca Isabela</a></li>
                         <li><a href="{{ url('contacto') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Contacto</a></li>
                     </ul>
                 </nav>
@@ -73,9 +74,7 @@
                 <nav aria-label="Otros enlaces">
                     <ul class="space-y-2">
                         <li><a href="{{ url('sobre-nosotros') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Sobre Nosotros</a></li>
-                        <li><a href="{{ url('finca-isabela') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Finca Isabela</a></li>
                         <li><a href="{{ url('temazcal') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Temazcal</a></li>
-                        <li><a href="{{ url('sucursal-queretaro') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Sucursal Querétaro</a></li>
                     </ul>
                 </nav>
             </section>
