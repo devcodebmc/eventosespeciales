@@ -548,7 +548,8 @@
     {{-- MODAL CONTACTO — Lightbox con partial escalado --}}
     <div id="contactModal"
         class="fixed inset-0 z-50 hidden items-center justify-center"
-        role="dialog" aria-modal="true">
+        role="dialog" aria-modal="true" aria-labelledby="contactModalTitle"
+        aria-describedby="contactModalDescription" aria-hidden="true" tabindex="-1">
 
         {{-- Backdrop --}}
         <div id="modalBackdrop"
@@ -561,17 +562,19 @@
             class="relative z-10 overflow-hidden
                     transition-all duration-300 ease-out
                     opacity-0 translate-y-6 scale-95
-                    w-[90vw] max-w-lg">
+                    w-[90vw] max-w-2xl bg-white rounded-lg focus:outline-none"
+            tabindex="-1">
 
             {{-- Cabecera --}}
-            <div class="flex items-center justify-between px-6 pt-2 pb-3">
+            <div class="flex items-center justify-between px-6 pt-2">
                 <div>
-                    <p class="text-[10px] tracking-[0.2em] uppercase text-[#4b8b97] mb-0.5">
-                    <h2 class="text-2xl text-white font-secondary leading-none">Contáctanos</h2>
+                    <h2 id="contactModalTitle" class="text-2xl text-[#2A4044] font-secondary leading-none">
+                        Conecta con Nosotros
+                    </h2>
                 </div>
                 <button type="button" id="closeContactModal" aria-label="Cerrar"
                         class="w-9 h-9 flex items-center justify-center border border-white/30
-                            text-white hover:border-[#4b8b97] hover:text-[#4b8b97]
+                            text-[#2A4044] hover:border-[#4b8b97] hover:text-[#4b8b97]
                             transition-colors duration-200 flex-shrink-0 ml-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -580,8 +583,12 @@
                 </button>
             </div>
 
+            <p id="contactModalDescription" class="px-6 text-sm text-[#4b8b97] mb-4">
+                Envía tu consulta y recibe una respuesta rápida para reservar tu experiencia.
+            </p>
+
             {{-- Partial escalado --}}
-            <div class="relative overflow-hidden" style="height: 420px;">
+            <div class="relative overflow-hidden" style="height: 460px;">
                 <div style="
                     position: absolute;
                     top: 50%;
@@ -611,15 +618,21 @@
         function openModal() {
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            modal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('overflow-hidden');
+
             requestAnimationFrame(function () {
-                requestAnimationFrame(function () {
-                    backdrop.classList.remove('opacity-0');
-                    backdrop.classList.add('opacity-100');
-                    panel.classList.remove('opacity-0', 'translate-y-6', 'scale-95');
-                    panel.classList.add('opacity-100', 'translate-y-0', 'scale-100');
-                });
+                backdrop.classList.remove('opacity-0');
+                backdrop.classList.add('opacity-100');
+                panel.classList.remove('opacity-0', 'translate-y-6', 'scale-95');
+                panel.classList.add('opacity-100', 'translate-y-0', 'scale-100');
             });
+
+            if (closeBtn) {
+                closeBtn.focus();
+            } else if (panel) {
+                panel.focus();
+            }
         }
 
         function closeModal() {
@@ -628,6 +641,8 @@
             panel.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
             panel.classList.add('opacity-0', 'translate-y-6', 'scale-95');
             document.body.classList.remove('overflow-hidden');
+            modal.setAttribute('aria-hidden', 'true');
+
             setTimeout(function () {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
@@ -638,7 +653,9 @@
         if (closeBtn) closeBtn.addEventListener('click', closeModal);
         if (backdrop) backdrop.addEventListener('click', closeModal);
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
         });
     });
     </script>

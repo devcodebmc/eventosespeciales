@@ -58,6 +58,9 @@
                             </svg>
                         </div>
                         <div class="flex flex-col space-y-1">
+                             <a href="https://wa.me/527293738830" target="_blank" rel="noopener noreferrer" class="text-sm lg:text-lg xl:text-xl text-gray-800 hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">
+                                +52 729 373 8830
+                            </a>
                             <a href="https://wa.me/527222259365" target="_blank" rel="noopener noreferrer" class="text-sm lg:text-lg xl:text-xl text-gray-800 hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">
                                 +52 722 225 9365
                             </a>
@@ -71,7 +74,6 @@
                     </div>
                 </li>
                 
-                <!-- Repetir para los otros ítems -->
                 <li class="flex flex-col xs:flex-row items-start xs:items-baseline gap-3 sm:gap-6">
                     <div class="flex items-center gap-3 sm:gap-6">
                         <div class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border border-gray-500 flex items-center justify-center flex-shrink-0">
@@ -79,7 +81,18 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
                             </svg>
                         </div>
-                        <a href="mailto:info@eventosespecialeslerma.com" class="text-sm lg:text-lg xl:text-xl text-gray-800 mt-0 sm:mt-[2px] break-words hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">info@eventosespecialeslerma.com</a>
+                        <a href="mailto:info@eventosespecialeslerma.com" class="text-sm lg:text-md xl:text-lg text-gray-800 mt-0 sm:mt-[2px] break-words hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">info@eventosespecialeslerma.com</a>
+                    </div>
+                </li>
+
+                <li class="flex flex-col xs:flex-row items-start xs:items-baseline gap-3 sm:gap-6">
+                    <div class="flex items-center gap-3 sm:gap-6">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border border-gray-500 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+                            </svg>
+                        </div>
+                        <a href="mailto:salonfincaisabela@eventosespecialeslerma.com" class="text-sm lg:text-md xl:text-lg text-gray-800 mt-0 sm:mt-[2px] break-words hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">salonfincaisabela@eventosespecialeslerma.com</a>
                     </div>
                 </li>
                 
@@ -96,12 +109,12 @@
                            Av. Circunvalación #15 Col. Agricola Analco Lerma, Edo. De México</a>
                         </address>
                         {{-- Nueva sucursal --}}
-                        <address class="text-sm lg:text-lg xl:text-md text-gray-800 mt-0 sm:mt-[2px]">
+                        {{-- <address class="text-sm lg:text-lg xl:text-md text-gray-800 mt-0 sm:mt-[2px]">
                             <b class="block text-base font-secondary">Sucursal Querétaro: </b>
                             <a href="https://maps.app.goo.gl/GciF2zAedTbF46U58" class="hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded" target="_blank" rel="noopener noreferrer">
                                 Bernardo Quintana #76903 Candiles, Querétaro, Qro.
                             </a>
-                        </address>
+                        </address> --}}
                     </div>
                 </li>
             </ul>

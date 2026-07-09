@@ -138,6 +138,8 @@
     <!-- Content -->
     @yield('content')
 
+    @include('frontend.components.footer')
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- Slide-up animation ---

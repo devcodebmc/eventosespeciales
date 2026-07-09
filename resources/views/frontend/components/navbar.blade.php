@@ -54,9 +54,9 @@
                         <a href="{{ url('temazcal') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('temazcal') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
                             Temazcal
                         </a>
-                        {{-- <a href="{{ url('sucursal-queretaro') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('sucursal-queretaro') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
-                            Sucursal Querétaro
-                        </a> --}}
+                        <a href="{{ url('cabanas') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('cabanas') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
+                            Cabañas
+                        </a>
                     </div>
                 </div>
                 <a href="mailto:info@eventosespecialeslerma.com" class="flex items-center text-gray-700 hover:text-[#65ABB7] transition duration-300">
@@ -93,7 +93,7 @@
             <a href="{{ url('eventos') }}" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('eventos') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Eventos</a>
             <a href="{{ url('finca-isabela') }}" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('finca-isabela') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Finca Isabela</a>
             <a href="{{ url('contacto') }}" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('contacto') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Contacto</a>
-            {{-- <a href="{{ url('sucursal-queretaro') }}" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('sucursal-queretaro') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Sucursal Querétaro</a> --}}
+            <a href="{{ url('cabanas') }}" class="block px-3 py-2 sm:py-3 rounded-md text-base font-medium {{ request()->is('cabanas') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Cabañas</a>
             <!-- Add more links as needed -->
             <!-- Dropdown for mobile -->
             <div class="block">
