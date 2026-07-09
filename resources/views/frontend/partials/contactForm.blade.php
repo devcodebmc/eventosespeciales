@@ -1,4 +1,4 @@
-<section class="flex justify-center items-center py-12 md:py-24 px-4 bg-white relative overflow-hidden opacity-0" data-animate>
+<section class="flex justify-center items-center py-12 md:py-24 px-4 bg-transparent relative overflow-hidden opacity-0" data-animate>
     <!-- Decoración superior para móvil -->
     <img src="{{ asset('images/contact-left-leaf.png') }}" alt="Flor decorativa formulario contacto superior"
         class="sm:hidden absolute top-0 left-1/2 -translate-x-1/2 max-w-[120px] rotate-90 z-20 pointer-events-none" 
