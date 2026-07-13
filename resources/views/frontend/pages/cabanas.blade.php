@@ -19,9 +19,7 @@
 @section('content')
 <main>
 
-    {{-- ========================================================
-         HERO — se conserva igual a temazcal
-    ========================================================= --}}
+    {{-- HERO --}}
     <section class="bg-white relative overflow-hidden" aria-labelledby="cabanas-titulo">
 
         <div role="presentation" class="pointer-events-none select-none absolute -left-2 top-10 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-56 lg:h-56 xl:w-72 xl:h-72 2xl:w-96 2xl:h-96 opacity-0 transition-all duration-700 z-0" data-animate>
@@ -62,10 +60,7 @@
         @include('frontend.partials.divider')
     </section>
 
-    {{-- ========================================================
-         COLLAGE DE BIENVENIDA — 3 fotos asimétricas + panel de texto
-         (reemplaza el bloque "imagen + texto a la par" de temazcal)
-    ========================================================= --}}
+    {{-- COLLAGE DE BIENVENIDA --}}
     <section class="bg-white py-12 lg:py-24 relative overflow-hidden" aria-labelledby="bienvenida-cabanas">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -75,21 +70,21 @@
                 <div class="lg:col-span-7 grid grid-cols-2 gap-4 opacity-0 transition-all duration-700" data-animate>
                     <div class="relative col-span-2 h-56 sm:h-72 overflow-hidden">
                         <div class="absolute inset-0 bg-[#263238] z-0"></div>
-                        <img src="{{ asset('images/cabana-collage-1.jpg') }}" alt="Vista exterior de las cabañas al atardecer"
+                        <img src="{{ asset('images/cabana-collage-1.webp') }}" alt="Vista exterior de las cabañas al atardecer"
                              decoding="async" loading="lazy" fetchpriority="low"
                              class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-out hover:scale-105 transition-transform"
                              data-bg-reveal>
                     </div>
                     <div class="relative h-48 sm:h-64 overflow-hidden">
                         <div class="absolute inset-0 bg-[#263238] z-0"></div>
-                        <img src="{{ asset('images/cabana-collage-2.jpg') }}" alt="Detalle de terraza de madera"
+                        <img src="{{ asset('images/cabana-collage-2.webp') }}" alt="Detalle de terraza de madera"
                              decoding="async" loading="lazy" fetchpriority="low"
                              class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-out hover:scale-105 transition-transform"
                              data-bg-reveal style="transition-delay: 100ms;">
                     </div>
                     <div class="relative h-48 sm:h-64 overflow-hidden">
                         <div class="absolute inset-0 bg-[#263238] z-0"></div>
-                        <img src="{{ asset('images/cabana-collage-3.jpg') }}" alt="Interior cálido con chimenea"
+                        <img src="{{ asset('images/cabana-collage-3.webp') }}" alt="Interior cálido con chimenea"
                              decoding="async" loading="lazy" fetchpriority="low"
                              class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-out hover:scale-105 transition-transform"
                              data-bg-reveal style="transition-delay: 200ms;">
@@ -123,10 +118,7 @@
         @include('frontend.partials.divider')
     </section>
 
-    {{-- ========================================================
-         SELECTOR DE CABAÑAS — Tabs interactivos con Vanilla JS
-         (no grid de cards, sin dependencias externas)
-    ========================================================= --}}
+    {{-- SELECTOR DE CABAÑAS --}}
     <section class="bg-[#f9f7f4] py-16 lg:py-24 relative overflow-hidden" aria-labelledby="selector-cabanas" id="cabanaTabsSection">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -142,21 +134,21 @@
                     [
                         'nombre' => 'Cabaña Manzanillo',
                         'capacidad' => '2 personas',
-                        'imagen' => asset('images/cabana-manzanillo.jpg'),
+                        'imagen' => asset('images/cabana-manzanillo.webp'),
                         'detalles' => ['1 cama King size', 'Baño privado', 'Terraza con vista al bosque', 'Chimenea interior'],
                         'desc' => 'Pensada para parejas: un espacio íntimo, silencioso y cálido, ideal para el después de una boda.',
                     ],
                     [
                         'nombre' => 'Cabaña Ocotillo',
                         'capacidad' => '4 personas',
-                        'imagen' => asset('images/cabana-ocotillo.jpg'),
+                        'imagen' => asset('images/cabana-ocotillo.webp'),
                         'detalles' => ['2 recámaras', 'Baño completo', 'Sala pequeña', 'Estacionamiento privado'],
                         'desc' => 'La opción familiar: espacio de estar separado de las habitaciones para mayor comodidad.',
                     ],
                     [
                         'nombre' => 'Cabaña Encino',
                         'capacidad' => '8 personas',
-                        'imagen' => asset('images/cabana-encino.jpg'),
+                        'imagen' => asset('images/cabana-encino.webp'),
                         'detalles' => ['4 camas', '2 baños', 'Terraza amplia', 'Área de asador'],
                         'desc' => 'Para grupos grandes: amigos, comitivas o quienes prefieren hospedarse todos juntos.',
                     ],
@@ -176,9 +168,11 @@
 
             {{-- Panel de contenido por pestaña --}}
             @foreach($cabanas as $i => $c)
-            <div class="cabana-tab-panel {{ $i === 0 ? '' : 'hidden' }} opacity-0 transition-all duration-700" data-animate data-tab-panel="{{ $i }}">
+            <div class="cabana-tab-panel {{ $i === 0 ? '' : 'hidden' }}" data-tab-panel="{{ $i }}">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-white shadow-lg p-4 lg:p-0">
-                    <img src="{{ $c['imagen'] }}" alt="{{ $c['nombre'] }}" class="w-full h-72 lg:h-[420px] object-cover" loading="lazy" decoding="async">
+                    <img src="{{ $c['imagen'] }}" alt="{{ $c['nombre'] }}"
+                        class="w-full h-72 lg:h-[420px] object-cover"
+                        loading="eager" decoding="async" fetchpriority="high">
                     <div class="p-6 lg:pr-12 lg:py-10">
                         <span class="inline-block bg-[#4b8b97]/15 text-[#2A4044] text-xs tracking-widest uppercase px-3 py-1 mb-4">
                             {{ $c['capacidad'] }}
@@ -204,9 +198,7 @@
         @include('frontend.partials.divider')
     </section>
 
-    {{-- ========================================================
-         TIRA DE AMENIDADES — íconos en línea, no cards con hover
-    ========================================================= --}}
+    {{--TIRA DE AMENIDADES --}}
     <section class="bg-white py-14 relative overflow-hidden" aria-labelledby="amenidades-cabanas">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 id="amenidades-cabanas" class="sr-only">Amenidades incluidas</h2>
@@ -236,9 +228,7 @@
         @include('frontend.partials.divider')
     </section>
 
-    {{-- ========================================================
-         PAQUETES / TARIFAS — tabla de precios, sección nueva
-    ========================================================= --}}
+    {{--PAQUETES / TARIFAS --}}
     <section class="bg-[#2A4044] py-16 lg:py-24 relative overflow-hidden" aria-labelledby="paquetes-cabanas">
         <div role="presentation" class="pointer-events-none select-none absolute -right-4 -top-4 w-48 lg:w-64 opacity-10 z-0" aria-hidden="true">
             <img src="{{ asset('images/flor-derecha.png') }}" alt="" class="w-full" loading="lazy">
@@ -293,9 +283,7 @@
         @include('frontend.partials.divider')
     </section>
 
-    {{-- ========================================================
-         TESTIMONIOS — carrusel simple con Vanilla JS, sección nueva
-    ========================================================= --}}
+    {{-- TESTIMONIOS --}}
     <section class="bg-white py-16 lg:py-24 relative overflow-hidden" aria-labelledby="testimonios-cabanas" id="testimoniosSection">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl text-center">
 
@@ -314,7 +302,7 @@
 
             <div class="relative min-h-[180px]">
                 @foreach($testimonios as $i => $t)
-                <div class="testimonio-slide {{ $i === 0 ? '' : 'hidden' }} opacity-0 transition-all duration-700" data-animate data-slide-index="{{ $i }}">
+                <div class="testimonio-slide {{ $i === 0 ? '' : 'hidden' }}" data-slide-index="{{ $i }}">
                     <p class="text-xl lg:text-2xl text-[#2A4044] font-secondary italic leading-relaxed mb-6">
                         "{{ $t['texto'] }}"
                     </p>
@@ -335,10 +323,7 @@
         @include('frontend.partials.divider')
     </section>
 
-    {{-- ========================================================
-         UBICACIÓN — se conserva la información de contacto/mapa
-         (mismo dato en todo el sitio), pero con layout invertido
-    ========================================================= --}}
+    {{-- UBICACIÓN --}}
     <section class="bg-[#f9f7f4] py-12 lg:py-18 relative overflow-hidden" aria-labelledby="ubicacion-cabanas">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -548,8 +533,11 @@
                     tabPanels.forEach(function (panel) {
                         if (panel.getAttribute('data-tab-panel') === index) {
                             panel.classList.remove('hidden');
+                            requestAnimationFrame(function () {
+                                panel.classList.remove('opacity-0');
+                            });
                         } else {
-                            panel.classList.add('hidden');
+                            panel.classList.add('hidden', 'opacity-0');
                         }
                     });
                 });
@@ -597,14 +585,10 @@
                     if (entry.isIntersecting) {
                         entry.target.classList.add('opacity-100');
                         entry.target.classList.remove('opacity-0');
-                    } else {
-                        entry.target.classList.remove('opacity-100');
-                        entry.target.classList.add('opacity-0');
+                        revealObserver.unobserve(entry.target); // se revela una sola vez
                     }
                 });
-            }, {
-                threshold: 0.25
-            });
+            }, { threshold: 0.25 });
 
             revealImages.forEach(function (img) {
                 revealObserver.observe(img);
