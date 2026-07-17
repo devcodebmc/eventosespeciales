@@ -92,7 +92,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
                             </svg>
                         </div>
-                        <a href="mailto:salonfincaisabela@eventosespecialeslerma.com" class="text-sm lg:text-md xl:text-lg text-gray-800 mt-0 sm:mt-[2px] break-words hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">salonfincaisabela@eventosespecialeslerma.com</a>
+                        <a href="mailto:fincaisabela@eventosespecialeslerma.com" class="text-sm lg:text-md xl:text-lg text-gray-800 mt-0 sm:mt-[2px] break-words hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">fincaisabela@eventosespecialeslerma.com</a>
                     </div>
                 </li>
                 

@@ -412,7 +412,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4b8b97] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                 </svg>
-                                <a href="mailto:salonfincaisabela@eventosespecialeslerma.com" class="text-sm hover:text-[#4b8b97] transition-colors">salonfincaisabela@eventosespecialeslerma.com</a>
+                                <a href="mailto:fincaisabela@eventosespecialeslerma.com" class="text-sm hover:text-[#4b8b97] transition-colors">fincaisabela@eventosespecialeslerma.com</a>
                             </li>
                         </ul>
 
