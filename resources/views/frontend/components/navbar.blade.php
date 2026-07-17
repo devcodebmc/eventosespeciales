@@ -57,6 +57,9 @@
                         <a href="{{ url('cabanas') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('cabanas') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
                             Cabañas
                         </a>
+                        <a href="{{ url('vive-isabela') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 transition {{ request()->is('vive-isabela') ? 'bg-blue-50 text-[#65ABB7]' : '' }}">
+                            Vive Isabela
+                        </a>
                     </div>
                 </div>
                 <a href="mailto:info@eventosespecialeslerma.com" class="flex items-center text-gray-700 hover:text-[#65ABB7] transition duration-300">
@@ -107,6 +110,7 @@
                 <div id="mobile-dropdown" class="hidden pl-6 mt-1 space-y-1">
                     <a href="{{ url('sobre-nosotros') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('sobre-nosotros') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Sobre Nosotros  </a>
                     <a href="{{ url('temazcal') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('temazcal') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Temazcal</a>
+                    <a href="{{ url('vive-isabela') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('vive-isabela') ? 'text-[#65ABB7] bg-blue-50' : 'text-gray-600 hover:text-[#65ABB7] hover:bg-blue-50' }} transition">Vive Isabela</a>
                 </div>
             </div>
             <a href="#" class="flex items-center px-3 py-2 sm:py-3 rounded-md text-base font-medium text-gray-700 hover:text-[#65ABB7] hover:bg-blue-50 transition">

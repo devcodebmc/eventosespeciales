@@ -76,6 +76,7 @@
                         <li><a href="{{ url('sobre-nosotros') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Sobre Nosotros</a></li>
                         <li><a href="{{ url('temazcal') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Temazcal</a></li>
                         <li><a href="{{ url('cabanas') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Cabañas</a></li>
+                        <li><a href="{{ url('vive-isabela') }}" class="text-md hover:text-[#4b8b97] transition-colors focus:outline-none focus:ring-2 focus:ring-[#4b8b97] focus:ring-offset-2 focus:ring-offset-gray-100 rounded">Vive Isabela</a></li>
                     </ul>
                 </nav>
             </section>
