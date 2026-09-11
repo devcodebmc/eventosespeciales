@@ -15,6 +15,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\RecyclebinController;
+use App\Http\Controllers\QuotationController;
 
 
 /*
@@ -75,6 +76,12 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/recyclebin', [RecyclebinController::class, 'index'])->name('recyclebin.index');
     Route::patch('/recyclebin/{id}/restore', [RecyclebinController::class, 'restore'])->name('recyclebin.restore');
     Route::delete('/recyclebin/{id}/destroy', [RecyclebinController::class, 'destroy'])->name('recyclebin.destroy');
+
+    // Quotation routes
+     Route::get('quotations', [QuotationController::class, 'index'])->name('quotations.index');
+        Route::post('quotations', [QuotationController::class, 'store'])->name('quotations.store');
+        Route::delete('quotations/{quotation}', [QuotationController::class, 'destroy'])->name('quotations.destroy');
+        Route::get('quotations/{quotation}/download/{format}', [QuotationController::class, 'download'])->name('quotations.download');
 });
 
 require __DIR__.'/auth.php';

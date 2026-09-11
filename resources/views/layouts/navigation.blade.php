@@ -33,6 +33,9 @@
                     <x-nav-link :href="route('files.index')" :active="request()->routeIs('files.*')">
                         {{ __('Archivos') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('quotations.index')" :active="request()->routeIs('quotations.*')">
+                        {{ __('Cotizaciones') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('events.index')" :active="request()->routeIs('events.*')">
                         {{ __('Eventos') }}
                     </x-nav-link>
@@ -111,6 +114,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link  :href="route('files.index')" :active="request()->is('files*')">
                 {{ __('Archivos') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link  :href="route('quotations.index')" :active="request()->is('quotations*')">
+                {{ __('Cotizaciones') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link  :href="route('events.index')" :active="request()->is('events*')">
                 {{ __('Eventos') }}
