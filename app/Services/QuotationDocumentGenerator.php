@@ -61,12 +61,18 @@ class QuotationDocumentGenerator
 
     protected function generatePdf(Quotation $quotation, string $img1, string $img2, string $img3): string
     {
+        // Convertir imágenes a data URI
+        $img1Data = $this->imageToBase64($img1);
+        $img2Data = $this->imageToBase64($img2);
+        $img3Data = $this->imageToBase64($img3);
+
         $pdf = Pdf::loadView('quotations.master', [
             'quotation' => $quotation,
-            'img1' => $img1,
-            'img2' => $img2,
-            'img3' => $img3,
+            'img1' => $img1Data,
+            'img2' => $img2Data,
+            'img3' => $img3Data,
         ]);
+
         $pdf->setPaper('letter', 'portrait');
         $pdf->setOptions([
             'isHtml5ParserEnabled' => true,
@@ -80,6 +86,23 @@ class QuotationDocumentGenerator
         $pdf->save($path);
 
         return "quotations/{$filename}";
+    }
+
+    /**
+     * Convierte una imagen local a data URI base64.
+     * Devuelve un placeholder si el archivo no existe.
+     */
+    protected function imageToBase64(string $path): string
+    {
+        if (!file_exists($path)) {
+            // Placeholder gris 1x1
+            return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+        }
+
+        $mime = mime_content_type($path);
+        $data = base64_encode(file_get_contents($path));
+
+        return "data:{$mime};base64,{$data}";
     }
 
     protected function convertPdfToWord(string $pdfAbsolute, Quotation $quotation): string

@@ -78,10 +78,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::delete('/recyclebin/{id}/destroy', [RecyclebinController::class, 'destroy'])->name('recyclebin.destroy');
 
     // Quotation routes
-     Route::get('quotations', [QuotationController::class, 'index'])->name('quotations.index');
-        Route::post('quotations', [QuotationController::class, 'store'])->name('quotations.store');
-        Route::delete('quotations/{quotation}', [QuotationController::class, 'destroy'])->name('quotations.destroy');
-        Route::get('quotations/{quotation}/download/{format}', [QuotationController::class, 'download'])->name('quotations.download');
+    Route::get('quotations', [QuotationController::class, 'index'])->name('quotations.index');
+    Route::post('quotations', [QuotationController::class, 'store'])->name('quotations.store');
+    Route::post('quotations/{quotation}/download/{format}', [QuotationController::class, 'download'])
+        ->name('quotations.download');
+    Route::delete('quotations/{quotation}', [QuotationController::class, 'destroy'])->name('quotations.destroy');
 });
 
 require __DIR__.'/auth.php';

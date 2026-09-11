@@ -119,30 +119,39 @@
         </div>
     </div>
 
+    {{-- Toast container --}}
     <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
 
     @push('js')
     <script>
-        const form = document.getElementById('quotationForm');
-        const overlay = document.getElementById('loadingOverlay');
-        const loadingTitle = document.getElementById('loadingTitle');
-        const loadingText = document.getElementById('loadingText');
-        const btn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-        const btnIcon = document.getElementById('btnIcon');
+        // =============================
+        // CONFIGURACIÓN GENERAL
+        // =============================
+        const csrfToken = '{{ csrf_token() }}';
+        const storeUrl = '{{ route('quotations.store') }}';
 
+        // =============================
+        // CONTADOR DE CARACTERES
+        // =============================
         const textarea = document.getElementById('raw_input');
         const charCount = document.getElementById('charCount');
-        textarea.addEventListener('input', () => charCount.textContent = textarea.value.length);
+        if (textarea) {
+            textarea.addEventListener('input', () => charCount.textContent = textarea.value.length);
+        }
 
+        // =============================
+        // TOASTS
+        // =============================
         function showToast(message, type = 'success') {
             const colors = {
                 success: 'bg-emerald-50 border-emerald-200 text-emerald-800',
                 error: 'bg-red-50 border-red-200 text-red-800',
+                info: 'bg-indigo-50 border-indigo-200 text-indigo-800',
             };
             const icons = {
                 success: '<svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>',
                 error: '<svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>',
+                info: '<svg class="w-4 h-4 text-indigo-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>',
             };
             const toast = document.createElement('div');
             toast.className = `flex items-start space-x-3 ${colors[type]} border p-3 rounded-xl shadow-sm transform transition-all duration-300 translate-x-full opacity-0`;
@@ -155,10 +164,21 @@
             }, 4000);
         }
 
+        // =============================
+        // FORM: CREAR COTIZACIÓN
+        // =============================
+        const form = document.getElementById('quotationForm');
+        const overlay = document.getElementById('loadingOverlay');
+        const loadingTitle = document.getElementById('loadingTitle');
+        const loadingText = document.getElementById('loadingText');
+        const btn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+
         const steps = [
             { title: 'Procesando con IA', text: 'Analizando el texto y extrayendo los datos...' },
             { title: 'Generando PDF', text: 'Creando el documento maestro con tu diseño...' },
-            { title: 'Convirtiendo formatos', text: 'Generando Word y Excel desde el PDF...' },
+            { title: 'Convirtiendo formatos', text: 'Generando Word y Excel...' },
             { title: 'Casi listo', text: 'Guardando los archivos...' },
         ];
 
@@ -193,25 +213,22 @@
             }, 1800);
 
             try {
-                const response = await fetch('{{ route('quotations.store') }}', {
+                const response = await fetch(storeUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-CSRF-TOKEN': csrfToken,
                         'Accept': 'application/json',
                     },
                     body: JSON.stringify(data),
                 });
 
                 const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.message || result.error || 'Error al procesar la cotización');
-                }
+                if (!response.ok) throw new Error(result.message || 'Error al procesar la cotización');
 
                 clearInterval(stepInterval);
                 setLoadingStep(3);
-                await new Promise(r => setTimeout(r, 600));
+                await new Promise(r => setTimeout(r, 500));
 
                 overlay.classList.add('hidden');
                 overlay.classList.remove('flex');
@@ -222,7 +239,6 @@
                 charCount.textContent = '0';
 
                 showToast(`Cotización ${result.quotation.folio} generada correctamente`, 'success');
-
             } catch (error) {
                 clearInterval(stepInterval);
                 overlay.classList.add('hidden');
@@ -233,6 +249,80 @@
                 btnText.textContent = 'Procesar con IA';
                 btnIcon.classList.remove('animate-spin');
             }
+        });
+
+        // =============================
+        // DESCARGAS: SIEMPRE REGENERA
+        // PDF abre en pestaña, Word/Excel descargan
+        // =============================
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('.quotation-download');
+            if (!link) return;
+
+            e.preventDefault();
+
+            const url = link.getAttribute('href');
+            const defaultIcon = link.querySelector('.icon-default');
+            const loadingIcon = link.querySelector('.icon-loading');
+
+            defaultIcon.classList.add('hidden');
+            loadingIcon.classList.remove('hidden');
+            link.classList.add('pointer-events-none', 'opacity-70');
+
+            showToast('Regenerando documento...', 'info');
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': '*/*',
+                },
+            })
+            .then(async (response) => {
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({ message: 'Error al generar' }));
+                    throw new Error(err.message || 'Error al generar');
+                }
+
+                const contentType = response.headers.get('Content-Type') || '';
+                const disposition = response.headers.get('Content-Disposition') || '';
+                const match = disposition.match(/filename="?([^"]+)"?/);
+                const filename = match ? match[1] : 'documento';
+
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+
+                if (contentType.includes('pdf') || filename.toLowerCase().endsWith('.pdf')) {
+                    const newTab = window.open(blobUrl, '_blank');
+                    if (!newTab) {
+                        const a = document.createElement('a');
+                        a.href = blobUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                    }
+                    setTimeout(() => window.URL.revokeObjectURL(blobUrl), 60000);
+                    showToast('PDF abierto en nueva pestaña', 'success');
+                } else {
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(blobUrl);
+                    showToast('Documento descargado', 'success');
+                }
+            })
+            .catch((error) => {
+                showToast(error.message, 'error');
+            })
+            .finally(() => {
+                defaultIcon.classList.remove('hidden');
+                loadingIcon.classList.add('hidden');
+                link.classList.remove('pointer-events-none', 'opacity-70');
+            });
         });
     </script>
     @endpush

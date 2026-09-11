@@ -6,7 +6,6 @@ use App\Models\Quotation;
 use App\Services\QuotationAiExtractor;
 use App\Services\QuotationDocumentGenerator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class QuotationController extends Controller
 {
@@ -46,20 +45,13 @@ class QuotationController extends Controller
         try {
             $generator->generateAll($quotation);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error al generar documentos: ' . $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Error al generar documentos: ' . $e->getMessage(),
+            ], 500);
         }
 
-        // Recargar historial paginado
         $quotations = Quotation::orderByDesc('created_at')->paginate(10);
         $history = view('quotations._history', compact('quotations'))->render();
-
-        $stats = [
-            'total' => Quotation::count(),
-            'month' => '$' . number_format(
-                Quotation::where('created_at', '>=', now()->startOfMonth())->sum('total'),
-                0
-            ),
-        ];
 
         return response()->json([
             'quotation' => [
@@ -68,7 +60,45 @@ class QuotationController extends Controller
                 'total' => $quotation->total,
             ],
             'history' => $history,
-            'stats' => $stats,
         ]);
+    }
+
+    /**
+     * Regenera los documentos SIEMPRE y devuelve el archivo solicitado.
+     */
+    public function download(Quotation $quotation, string $format, QuotationDocumentGenerator $generator)
+    {
+        $allowed = ['pdf', 'word', 'excel'];
+        if (!in_array($format, $allowed, true)) {
+            return response()->json(['message' => 'Formato no válido'], 400);
+        }
+
+        try {
+            $generator->generateAll($quotation);
+            $quotation->refresh();
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al generar el documento: ' . $e->getMessage(),
+            ], 500);
+        }
+
+        $pathColumn = "{$format}_path";
+        $filePath = $quotation->$pathColumn;
+
+        if (!$filePath || !file_exists(storage_path("app/public/{$filePath}"))) {
+            return response()->json(['message' => 'El archivo no pudo generarse'], 500);
+        }
+
+        return response()->download(
+            storage_path("app/public/{$filePath}"),
+            basename($filePath)
+        );
+    }
+
+    public function destroy(Quotation $quotation)
+    {
+        $quotation->delete();
+        return redirect()->route('quotations.index')
+            ->with('success', 'Cotización eliminada.');
     }
 }
