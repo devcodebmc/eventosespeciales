@@ -2,241 +2,330 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Cotización {{ $quotation->folio }}</title>
     <style>
         @page { margin: 0; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: DejaVu Sans, sans-serif;
-            font-size: 10px;
-            color: #333;
-            background: #fff;
+            font-family: 'DejaVu Sans', sans-serif;
+            font-size: 12px;
+            color: #2c2c2c;
+            background: #ffffff;
         }
 
         /* ============================================
-           BANNER SUPERIOR CON IMÁGENES (tu diseño)
+           BANNER SUPERIOR
            ============================================ */
         .banner {
-            background: #fdf8f0;
-            padding: 18px 25px 12px;
+            background: #faf6ee;
+            padding: 22px 25px 18px;
             text-align: center;
-            position: relative;
         }
         .banner-title {
-            font-size: 22px;
+            font-family: 'DejaVu Serif', serif;
+            font-size: 34px;
             font-weight: bold;
-            color: #b8860b;
-            letter-spacing: 1.5px;
-            margin-bottom: 14px;
-            font-family: 'Times New Roman', serif;
+            color: #b8956a;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
         }
         .banner-images {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
         }
-        .banner-img-circle {
-            width: 88px;
-            height: 88px;
+        .banner-images .cell {
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 6px;
+        }
+        .banner-images .circle {
+            width: 190px;
+            height: 190px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid #fff;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            margin: 0 auto;
+            border: 5px solid #ffffff;
         }
-        .banner-img-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .banner-img-rect {
-            width: 230px;
-            height: 100px;
-            border-radius: 6px;
+        .banner-images .circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .banner-images .rect {
+            width: 500px;
+            height: 210px;
+            border-radius: 8px;
             overflow: hidden;
-            border: 2px solid #fff;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            margin: 0 auto;
+            border: 5px solid #ffffff;
         }
-        .banner-img-rect img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .banner-images .rect img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
         /* ============================================
-           BARRA DE INFO (cliente + emisor)
+           INFO BAR (3 renglones)
            ============================================ */
         .info-bar {
-            background: #fff;
-            padding: 12px 25px 14px;
-            border-top: 1px solid #f0e6d2;
-            border-bottom: 1px solid #f0e6d2;
+            background: #ffffff;
+            padding: 14px 25px;
+            border-top: 1px solid #e8e2d5;
+            border-bottom: 1px solid #e8e2d5;
         }
-        .info-bar table { width: 100%; border-collapse: collapse; }
-        .info-bar td { vertical-align: top; font-size: 10px; color: #333; padding: 0; }
-        .info-bar .right { text-align: right; }
-        .info-label {
-            font-size: 8px;
-            color: #b8860b;
+        .info-bar .row {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+        .info-bar .row + .row {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e8e2d5;
+        }
+        .info-bar .row .cell {
+            display: table-cell;
+            vertical-align: middle;
+        }
+        .info-bar .row .cell.left { width: 50%; text-align: left; }
+        .info-bar .row .cell.right { width: 50%; text-align: right; }
+        .info-bar .row .cell.center { text-align: center; }
+
+        .info-bar .label {
+            font-size: 9px;
+            color: #b8956a;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             font-weight: bold;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
-        .info-name {
+        .info-bar .value {
+            font-family: 'DejaVu Serif', serif;
+            font-size: 15px;
+            font-weight: bold;
+            color: #2c2c2c;
+        }
+        .info-bar .detail {
             font-size: 11px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 2px;
+            color: #777;
+            letter-spacing: 0.3px;
         }
-        .info-detail { font-size: 9px; color: #666; line-height: 1.5; }
 
         /* ============================================
-           TÍTULO CENTRAL
+           TÍTULO
            ============================================ */
         .title-bar {
             text-align: center;
-            padding: 18px 25px 12px;
+            padding: 28px 25px 22px;
         }
         .title-bar h1 {
-            font-size: 17px;
+            font-family: 'DejaVu Serif', serif;
+            font-size: 30px;
             font-weight: bold;
-            color: #b8860b;
-            letter-spacing: 10px;
-            font-family: 'Times New Roman', serif;
+            color: #b8956a;
+            letter-spacing: 18px;
         }
 
         /* ============================================
-           SECCIONES Y TABLA
+           CONTENIDO
            ============================================ */
-        .content { padding: 0 25px 20px; }
+        .content { padding: 0 25px 22px; }
+
         .section-header {
-            background: #faf8f3;
-            color: #8b6914;
-            font-size: 10px;
+            background: #7a6a4f;
+            color: #ffffff;
+            font-size: 13px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            padding: 8px 12px;
-            border-left: 3px solid #b8860b;
-            margin-bottom: 0;
+            letter-spacing: 4px;
+            padding: 11px 16px;
+            margin-top: 20px;
         }
+        .section-header:first-child { margin-top: 0; }
+
+        /* ============================================
+           TABLA DE ITEMS
+           ============================================ */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
         .items-table thead th {
-            background: #faf8f3;
-            color: #8b6914;
-            font-size: 9px;
+            background: #f5f0e4;
+            color: #7a6a4f;
+            font-size: 12.5px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 8px 12px;
+            letter-spacing: 1.5px;
+            padding: 12px 16px;
             border-bottom: 1px solid #e5dcc8;
             text-align: left;
         }
         .items-table thead th.center { text-align: center; }
         .items-table thead th.right { text-align: right; }
         .items-table tbody td {
-            padding: 9px 12px;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 10px;
+            padding: 15px 16px;
+            border-bottom: 1px solid #f0ece2;
+            font-size: 14px;
+            color: #2c2c2c;
             vertical-align: top;
-            color: #333;
         }
-        .items-table tbody tr:nth-child(even) td { background: #fcfcfa; }
         .items-table tbody td.center { text-align: center; }
-        .items-table tbody td.right { text-align: right; font-weight: 500; }
+        .items-table tbody td.right { text-align: right; }
 
         /* ============================================
-           TOTALES
+           BOTTOM SECTION: Notas (izq) + Totales (der)
            ============================================ */
-        .totals-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 12px;
+        .bottom-section {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            margin-top: 26px;
         }
-        .totals {
-            width: 260px;
+        .bottom-section .notes-col {
+            display: table-cell;
+            width: 55%;
+            vertical-align: top;
+            padding-right: 30px;
+        }
+        .bottom-section .totals-col {
+            display: table-cell;
+            width: 45%;
+            vertical-align: bottom;
+        }
+
+        /* Notas */
+        .notes {
+            border-top: 1px solid #f0ece2;
+            padding-top: 14px;
+            font-size: 11px;
+            color: #777;
+            line-height: 1.8;
+        }
+        .notes p { margin-bottom: 3px; }
+
+        /* Totales */
+        .totals-table {
+            width: 100%;
             border-collapse: collapse;
         }
-        .totals td {
-            padding: 7px 14px;
-            font-size: 10px;
-        }
-        .totals .label { text-align: right; color: #666; }
-        .totals .value { text-align: right; font-weight: bold; color: #333; }
-        .totals .grand-total {
-            background: #faf8f3;
-            color: #8b6914;
+        .totals-table td {
+            padding: 10px 18px;
             font-size: 13px;
-            font-weight: bold;
-            border-top: 2px solid #b8860b;
-            border-bottom: 2px solid #b8860b;
-            padding: 10px 14px;
         }
-
-        /* ============================================
-           PIE
-           ============================================ */
-        .footer {
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: #faf8f3;
-            border-top: 1px solid #f0e6d2;
-            text-align: center;
-            font-size: 8px;
-            color: #999;
+        .totals-table .label {
+            text-align: right;
+            color: #777;
             letter-spacing: 0.5px;
         }
+        .totals-table .value {
+            text-align: right;
+            font-weight: bold;
+            color: #2c2c2c;
+        }
+        .totals-table .grand-total {
+            background: #7a6a4f;
+            color: #ffffff;
+            font-size: 19px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+        }
+        .totals-table .grand-total .label {
+            color: #ffffff;
+            letter-spacing: 1.5px;
+        }
+        .totals-table .grand-total .value { color: #ffffff; }
+
+        /* ============================================
+           FOOTER BAR
+           ============================================ */
+        .footer-bar {
+            margin-top: 28px;
+            background: #7a6a4f;
+            color: #ffffff;
+            padding: 16px 25px;
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+        .footer-bar .cell {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        .footer-bar .cell.center { text-align: center; }
+        .footer-bar .cell.right { text-align: right; }
+        .footer-bar strong { font-size: 14px; letter-spacing: 0.8px; }
     </style>
 </head>
 <body>
 
-    {{-- ===== BANNER CON IMÁGENES ===== --}}
+    {{-- ===== BANNER ===== --}}
     <div class="banner">
         <div class="banner-title">"EVENTOS ESPECIALES LERMA"</div>
-        <div class="banner-images">
-            <div class="banner-img-circle">
-                <img src="{{ $img1 }}" alt="">
-            </div>
-            <div class="banner-img-rect">
-                <img src="{{ $img2 }}" alt="">
-            </div>
-            <div class="banner-img-circle">
-                <img src="{{ $img3 }}" alt="">
-            </div>
-        </div>
-    </div>
-
-    {{-- ===== INFO BAR ===== --}}
-    <div class="info-bar">
-        <table>
+        <table class="banner-images">
             <tr>
-                <td style="width: 50%;">
-                    <div class="info-label">Cotización para:</div>
-                    <div class="info-name">{{ $quotation->client_name }}</div>
+                <td class="cell" style="width: 22%;">
+                    <div class="circle"><img src="{{ $img1 }}" alt=""></div>
                 </td>
-                <td class="right" style="width: 50%;">
-                    <div class="info-label">Elaboró:</div>
-                    <div class="info-name">Eventos Especiales Lerma</div>
-                    <div class="info-detail">
-                        Tel. 728-284-9074<br>
-                        Cel. 729-373 88-30<br>
-                        eventosespecialeslerma.com
-                    </div>
+                <td class="cell" style="width: 56%;">
+                    <div class="rect"><img src="{{ $img2 }}" alt=""></div>
                 </td>
-            </tr>
-            <tr>
-                <td style="padding-top: 8px;">
-                    <div class="info-label">Fecha:</div>
-                    <div class="info-name">{{ $quotation->quotation_date->format('d/m/Y') }}</div>
-                </td>
-                <td class="right" style="padding-top: 8px;">
-                    <div class="info-label">Folio:</div>
-                    <div class="info-name">{{ $quotation->folio }}</div>
+                <td class="cell" style="width: 22%;">
+                    <div class="circle"><img src="{{ $img3 }}" alt=""></div>
                 </td>
             </tr>
         </table>
     </div>
 
+    {{-- ===== INFO BAR ===== --}}
+    <div class="info-bar">
+
+        {{-- Renglón 1: Cotización para / Elaboró --}}
+        <div class="row">
+            <div class="cell left">
+                <div class="label">Cotización para:</div>
+                <div class="value">{{ $quotation->client_name }}</div>
+            </div>
+            <div class="cell right">
+                <div class="label">Elaboró:</div>
+                <div class="value">Eventos Especiales Lerma</div>
+            </div>
+        </div>
+
+        {{-- Renglón 2: Folio / Fecha --}}
+        <div class="row">
+            <div class="cell left">
+                <div class="label">Folio:</div>
+                <div class="value">{{ $quotation->folio }}</div>
+            </div>
+            <div class="cell right">
+                <div class="label">Fecha:</div>
+                <div class="value">{{ $quotation->quotation_date->format('d/m/Y') }}</div>
+            </div>
+        </div>
+
+        {{-- Renglón 3: Contacto centrado --}}
+        <div class="row">
+            <div class="cell center">
+                <div class="detail">
+                    Tel. 728-284-9074 &nbsp;·&nbsp; Cel. 729-373-88-30 &nbsp;·&nbsp; eventosespecialeslerma.com
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     {{-- ===== TÍTULO ===== --}}
     <div class="title-bar">
-        <h1>C O T I Z A C I Ó N</h1>
+        <h1>COTIZACIÓN</h1>
     </div>
 
     {{-- ===== CONTENIDO ===== --}}
@@ -244,7 +333,7 @@
         @php
             $grupos = [];
             foreach ($quotation->items as $item) {
-                $seccion = $item['seccion'] ?? 'SERVICIOS';
+                $seccion = strtoupper($item['seccion'] ?? 'SERVICIOS');
                 $grupos[$seccion][] = $item;
             }
         @endphp
@@ -273,28 +362,46 @@
             </table>
         @endforeach
 
-        {{-- Totales --}}
-        <div class="totals-container">
-            <table class="totals">
-                <tr>
-                    <td class="label">Subtotal:</td>
-                    <td class="value">${{ number_format($quotation->subtotal, 2) }}</td>
-                </tr>
-                <tr>
-                    <td class="label">IVA (0%):</td>
-                    <td class="value">${{ number_format($quotation->iva, 2) }}</td>
-                </tr>
-                <tr class="grand-total">
-                    <td class="label">TOTAL:</td>
-                    <td class="value">${{ number_format($quotation->total, 2) }}</td>
-                </tr>
-            </table>
+        {{-- ===== NOTAS (izq) + TOTALES (der) ===== --}}
+        <div class="bottom-section">
+
+            {{-- Notas a la izquierda --}}
+            <div class="notes-col">
+                <div class="notes">
+                    <p>• La presente cotización tiene una vigencia de 30 días naturales a partir de la fecha de emisión.</p>
+                    <p>• Los precios indicados en esta cotización no incluyen IVA.</p>
+                    <p>• Para confirmar la reserva, se requiere un anticipo del 50% del total.</p>
+                    <p>• El 50% restante deberá liquidarse previo al día del evento.</p>
+                    <p>• El montaje y la logística se coordinarán una semana previa al evento.</p>
+                </div>
+            </div>
+
+            {{-- Totales a la derecha --}}
+            <div class="totals-col">
+                <table class="totals-table">
+                    <tr>
+                        <td class="label">Subtotal:</td>
+                        <td class="value">${{ number_format($quotation->subtotal, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">IVA (0%):</td>
+                        <td class="value">${{ number_format($quotation->iva, 2) }}</td>
+                    </tr>
+                    <tr class="grand-total">
+                        <td class="label">TOTAL:</td>
+                        <td class="value">${{ number_format($quotation->total, 2) }}</td>
+                    </tr>
+                </table>
+            </div>
+
         </div>
     </div>
 
-    {{-- ===== PIE ===== --}}
-    <div class="footer">
-        Gracias por su preferencia · Eventos Especiales Lerma · {{ now()->year }}
+    {{-- ===== FOOTER BAR ===== --}}
+    <div class="footer-bar">
+        <div class="cell"><strong>729-373-88-30</strong></div>
+        <div class="cell center">Av. Circunvalación No. 15, Col. Agricola Analco, Lerma, Méx.</div>
+        <div class="cell right">www.eventosespecialeslerma.com</div>
     </div>
 
 </body>
