@@ -9,12 +9,18 @@ use Illuminate\Http\Request;
 
 class QuotationController extends Controller
 {
+    /**
+     * Lista todas las cotizaciones.
+     */
     public function index()
     {
         $quotations = Quotation::orderByDesc('created_at')->paginate(10);
         return view('quotations.index', compact('quotations'));
     }
 
+    /**
+     * Crea una nueva cotización a partir del texto pegado por el usuario.
+     */
     public function store(Request $request, QuotationAiExtractor $extractor, QuotationDocumentGenerator $generator)
     {
         $request->validate([
@@ -50,6 +56,7 @@ class QuotationController extends Controller
             ], 500);
         }
 
+        // Recargar el historial paginado para devolverlo al frontend
         $quotations = Quotation::orderByDesc('created_at')->paginate(10);
         $history = view('quotations._history', compact('quotations'))->render();
 
@@ -64,7 +71,8 @@ class QuotationController extends Controller
     }
 
     /**
-     * Regenera los documentos SIEMPRE y devuelve el archivo solicitado.
+     * Regenera los documentos SIEMPRE y descarga el archivo solicitado.
+     * Los 3 formatos (PDF, Word, Excel) se descargan directamente.
      */
     public function download(Quotation $quotation, string $format, QuotationDocumentGenerator $generator)
     {
@@ -83,21 +91,43 @@ class QuotationController extends Controller
         }
 
         $pathColumn = "{$format}_path";
-        $filePath = $quotation->$pathColumn;
+        $relativePath = $quotation->$pathColumn;
 
-        if (!$filePath || !file_exists(storage_path("app/public/{$filePath}"))) {
-            return response()->json(['message' => 'El archivo no pudo generarse'], 500);
+        if (!$relativePath) {
+            return response()->json([
+                'message' => 'Ruta del archivo no definida en la base de datos',
+            ], 500);
         }
 
-        return response()->download(
-            storage_path("app/public/{$filePath}"),
-            basename($filePath)
-        );
+        $absolutePath = storage_path("app/public/{$relativePath}");
+
+        if (!file_exists($absolutePath) || !is_readable($absolutePath)) {
+            return response()->json([
+                'message' => 'El archivo no existe o no es legible',
+            ], 500);
+        }
+
+        $filename = basename($absolutePath);
+
+        // Tipos MIME por formato
+        $mimeTypes = [
+            'pdf'   => 'application/pdf',
+            'word'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'excel' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ];
+
+        return response()->download($absolutePath, $filename, [
+            'Content-Type' => $mimeTypes[$format] ?? 'application/octet-stream',
+        ]);
     }
 
+    /**
+     * Elimina una cotización.
+     */
     public function destroy(Quotation $quotation)
     {
         $quotation->delete();
+
         return redirect()->route('quotations.index')
             ->with('success', 'Cotización eliminada.');
     }

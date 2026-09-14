@@ -97,7 +97,7 @@
         </div>
     </div>
 
-    {{-- Overlay --}}
+    {{-- Overlay de procesamiento --}}
     <div id="loadingOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/40 backdrop-blur-sm">
         <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 text-center">
             <div class="relative w-20 h-20 mx-auto mb-5">
@@ -120,7 +120,7 @@
     </div>
 
     {{-- Toast container --}}
-    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+    <div id="toastContainer" class="fixed top-4 right-4 z-[70] space-y-2"></div>
 
     @push('js')
     <script>
@@ -253,7 +253,7 @@
 
         // =============================
         // DESCARGAS: SIEMPRE REGENERA
-        // PDF abre en pestaña, Word/Excel descargan
+        // Los 3 formatos descargan directamente
         // =============================
         document.addEventListener('click', function (e) {
             const link = e.target.closest('.quotation-download');
@@ -262,6 +262,7 @@
             e.preventDefault();
 
             const url = link.getAttribute('href');
+            const format = link.getAttribute('data-format') || 'archivo';
             const defaultIcon = link.querySelector('.icon-default');
             const loadingIcon = link.querySelector('.icon-loading');
 
@@ -269,13 +270,13 @@
             loadingIcon.classList.remove('hidden');
             link.classList.add('pointer-events-none', 'opacity-70');
 
-            showToast('Regenerando documento...', 'info');
+            showToast(`Regenerando ${format.toUpperCase()}...`, 'info');
 
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
-                    'Accept': '*/*',
+                    'Accept': 'application/pdf, application/octet-stream, */*',
                 },
             })
             .then(async (response) => {
@@ -284,36 +285,23 @@
                     throw new Error(err.message || 'Error al generar');
                 }
 
-                const contentType = response.headers.get('Content-Type') || '';
                 const disposition = response.headers.get('Content-Disposition') || '';
                 const match = disposition.match(/filename="?([^"]+)"?/);
-                const filename = match ? match[1] : 'documento';
+                const filename = match ? match[1] : `documento.${format}`;
 
                 const blob = await response.blob();
                 const blobUrl = window.URL.createObjectURL(blob);
 
-                if (contentType.includes('pdf') || filename.toLowerCase().endsWith('.pdf')) {
-                    const newTab = window.open(blobUrl, '_blank');
-                    if (!newTab) {
-                        const a = document.createElement('a');
-                        a.href = blobUrl;
-                        a.download = filename;
-                        document.body.appendChild(a);
-                        a.click();
-                        a.remove();
-                    }
-                    setTimeout(() => window.URL.revokeObjectURL(blobUrl), 60000);
-                    showToast('PDF abierto en nueva pestaña', 'success');
-                } else {
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(blobUrl);
-                    showToast('Documento descargado', 'success');
-                }
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+
+                showToast(`${format.toUpperCase()} descargado`, 'success');
             })
             .catch((error) => {
                 showToast(error.message, 'error');

@@ -9,7 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 12px;
+            font-size: 13px;
             color: #2c2c2c;
             background: #ffffff;
         }
@@ -19,28 +19,27 @@
            ============================================ */
         .banner {
             background: #faf6ee;
-            padding: 22px 25px 18px;
+            padding: 24px 25px 20px;
             text-align: center;
         }
         .banner-title {
             font-family: 'DejaVu Serif', serif;
-            font-size: 34px;
+            font-size: 38px;
             font-weight: bold;
             color: #b8956a;
             letter-spacing: 3px;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
-        .banner-images {
+        .banner-table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
         }
-        .banner-images .cell {
+        .banner-table td {
             vertical-align: middle;
             text-align: center;
             padding: 0 6px;
         }
-        .banner-images .circle {
+        .banner-circle {
             width: 190px;
             height: 190px;
             border-radius: 50%;
@@ -48,13 +47,12 @@
             margin: 0 auto;
             border: 5px solid #ffffff;
         }
-        .banner-images .circle img {
+        .banner-circle img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             display: block;
         }
-        .banner-images .rect {
+        .banner-rect {
             width: 500px;
             height: 210px;
             border-radius: 8px;
@@ -62,117 +60,115 @@
             margin: 0 auto;
             border: 5px solid #ffffff;
         }
-        .banner-images .rect img {
+        .banner-rect img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             display: block;
         }
 
         /* ============================================
-           INFO BAR (3 renglones)
+           INFO BAR
            ============================================ */
         .info-bar {
             background: #ffffff;
-            padding: 14px 25px;
+            padding: 16px 25px;
             border-top: 1px solid #e8e2d5;
             border-bottom: 1px solid #e8e2d5;
         }
-        .info-bar .row {
-            display: table;
+        .info-table {
             width: 100%;
-            table-layout: fixed;
+            border-collapse: collapse;
         }
-        .info-bar .row + .row {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #e8e2d5;
-        }
-        .info-bar .row .cell {
-            display: table-cell;
+        .info-table td {
             vertical-align: middle;
+            padding: 6px 0;
         }
-        .info-bar .row .cell.left { width: 50%; text-align: left; }
-        .info-bar .row .cell.right { width: 50%; text-align: right; }
-        .info-bar .row .cell.center { text-align: center; }
+        .info-table tr.divider td {
+            border-top: 1px dashed #e8e2d5;
+            padding: 0;
+            height: 10px;
+        }
+        .info-left { width: 50%; text-align: left; }
+        .info-right { width: 50%; text-align: right; }
+        .info-center { text-align: center; }
 
-        .info-bar .label {
-            font-size: 9px;
+        .info-label {
+            font-size: 10px;
             color: #b8956a;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             font-weight: bold;
             margin-bottom: 3px;
         }
-        .info-bar .value {
+        .info-value {
             font-family: 'DejaVu Serif', serif;
-            font-size: 15px;
+            font-size: 17px;
             font-weight: bold;
             color: #2c2c2c;
         }
-        .info-bar .detail {
-            font-size: 11px;
+        .info-detail {
+            font-size: 12px;
             color: #777;
             letter-spacing: 0.3px;
         }
 
         /* ============================================
-           TÍTULO
+           TÍTULO (moderado)
            ============================================ */
         .title-bar {
             text-align: center;
-            padding: 28px 25px 22px;
+            padding: 20px 25px 18px;
         }
         .title-bar h1 {
             font-family: 'DejaVu Serif', serif;
-            font-size: 30px;
+            font-size: 22px;
             font-weight: bold;
             color: #b8956a;
-            letter-spacing: 18px;
+            letter-spacing: 12px;
         }
 
         /* ============================================
            CONTENIDO
            ============================================ */
-        .content { padding: 0 25px 22px; }
+        .content { padding: 0 25px 24px; }
 
         .section-header {
             background: #7a6a4f;
             color: #ffffff;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 4px;
-            padding: 11px 16px;
-            margin-top: 20px;
+            padding: 13px 18px;
+            margin-top: 22px;
         }
-        .section-header:first-child { margin-top: 0; }
+        .section-header-first { margin-top: 0; }
 
         /* ============================================
-           TABLA DE ITEMS
+           TABLA DE ITEMS (artículos)
            ============================================ */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .items-table thead th {
             background: #f5f0e4;
             color: #7a6a4f;
-            font-size: 12.5px;
+            font-size: 14px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border-bottom: 1px solid #e5dcc8;
             text-align: left;
         }
         .items-table thead th.center { text-align: center; }
         .items-table thead th.right { text-align: right; }
         .items-table tbody td {
-            padding: 15px 16px;
+            padding: 17px 18px;
             border-bottom: 1px solid #f0ece2;
-            font-size: 14px;
+            font-size: 15px;
             color: #2c2c2c;
             vertical-align: top;
         }
@@ -180,22 +176,23 @@
         .items-table tbody td.right { text-align: right; }
 
         /* ============================================
-           BOTTOM SECTION: Notas (izq) + Totales (der)
+           BOTTOM SECTION
            ============================================ */
-        .bottom-section {
-            display: table;
+        .bottom-table {
             width: 100%;
-            table-layout: fixed;
-            margin-top: 26px;
+            border-collapse: collapse;
+            margin-top: 28px;
         }
-        .bottom-section .notes-col {
-            display: table-cell;
+        .bottom-table td {
+            vertical-align: bottom;
+            padding: 0;
+        }
+        .bottom-notes-col {
             width: 55%;
-            vertical-align: top;
-            padding-right: 30px;
+            padding-right: 30px !important;
+            vertical-align: top !important;
         }
-        .bottom-section .totals-col {
-            display: table-cell;
+        .bottom-totals-col {
             width: 45%;
             vertical-align: bottom;
         }
@@ -203,12 +200,12 @@
         /* Notas */
         .notes {
             border-top: 1px solid #f0ece2;
-            padding-top: 14px;
-            font-size: 11px;
+            padding-top: 16px;
+            font-size: 12.5px;
             color: #777;
-            line-height: 1.8;
+            line-height: 1.9;
         }
-        .notes p { margin-bottom: 3px; }
+        .notes p { margin-bottom: 4px; }
 
         /* Totales */
         .totals-table {
@@ -216,8 +213,8 @@
             border-collapse: collapse;
         }
         .totals-table td {
-            padding: 10px 18px;
-            font-size: 13px;
+            padding: 12px 18px;
+            font-size: 14px;
         }
         .totals-table .label {
             text-align: right;
@@ -232,7 +229,7 @@
         .totals-table .grand-total {
             background: #7a6a4f;
             color: #ffffff;
-            font-size: 19px;
+            font-size: 21px;
             font-weight: bold;
             letter-spacing: 1.5px;
         }
@@ -246,23 +243,25 @@
            FOOTER BAR
            ============================================ */
         .footer-bar {
-            margin-top: 28px;
+            margin-top: 30px;
             background: #7a6a4f;
             color: #ffffff;
-            padding: 16px 25px;
-            display: table;
+            padding: 18px 25px;
+        }
+        .footer-table {
             width: 100%;
-            table-layout: fixed;
+            border-collapse: collapse;
         }
-        .footer-bar .cell {
-            display: table-cell;
+        .footer-table td {
             vertical-align: middle;
-            font-size: 11px;
+            font-size: 12px;
             letter-spacing: 0.5px;
+            color: #ffffff;
         }
-        .footer-bar .cell.center { text-align: center; }
-        .footer-bar .cell.right { text-align: right; }
-        .footer-bar strong { font-size: 14px; letter-spacing: 0.8px; }
+        .footer-left { text-align: left; width: 30%; }
+        .footer-center { text-align: center; width: 40%; }
+        .footer-right { text-align: right; width: 30%; }
+        .footer-table strong { font-size: 15px; letter-spacing: 0.8px; }
     </style>
 </head>
 <body>
@@ -270,16 +269,16 @@
     {{-- ===== BANNER ===== --}}
     <div class="banner">
         <div class="banner-title">"EVENTOS ESPECIALES LERMA"</div>
-        <table class="banner-images">
+        <table class="banner-table">
             <tr>
-                <td class="cell" style="width: 22%;">
-                    <div class="circle"><img src="{{ $img1 }}" alt=""></div>
+                <td style="width: 22%;">
+                    <div class="banner-circle"><img src="{{ $img1 }}" alt=""></div>
                 </td>
-                <td class="cell" style="width: 56%;">
-                    <div class="rect"><img src="{{ $img2 }}" alt=""></div>
+                <td style="width: 56%;">
+                    <div class="banner-rect"><img src="{{ $img2 }}" alt=""></div>
                 </td>
-                <td class="cell" style="width: 22%;">
-                    <div class="circle"><img src="{{ $img3 }}" alt=""></div>
+                <td style="width: 22%;">
+                    <div class="banner-circle"><img src="{{ $img3 }}" alt=""></div>
                 </td>
             </tr>
         </table>
@@ -287,40 +286,48 @@
 
     {{-- ===== INFO BAR ===== --}}
     <div class="info-bar">
+        <table class="info-table">
 
-        {{-- Renglón 1: Cotización para / Elaboró --}}
-        <div class="row">
-            <div class="cell left">
-                <div class="label">Cotización para:</div>
-                <div class="value">{{ $quotation->client_name }}</div>
-            </div>
-            <div class="cell right">
-                <div class="label">Elaboró:</div>
-                <div class="value">Eventos Especiales Lerma</div>
-            </div>
-        </div>
+            {{-- Renglón 1: Cotización para / Elaboró --}}
+            <tr>
+                <td class="info-left">
+                    <div class="info-label">Cotización para:</div>
+                    <div class="info-value">{{ $quotation->client_name }}</div>
+                </td>
+                <td class="info-right">
+                    <div class="info-label">Elaboró:</div>
+                    <div class="info-value">Eventos Especiales Lerma</div>
+                </td>
+            </tr>
 
-        {{-- Renglón 2: Folio / Fecha --}}
-        <div class="row">
-            <div class="cell left">
-                <div class="label">Folio:</div>
-                <div class="value">{{ $quotation->folio }}</div>
-            </div>
-            <div class="cell right">
-                <div class="label">Fecha:</div>
-                <div class="value">{{ $quotation->quotation_date->format('d/m/Y') }}</div>
-            </div>
-        </div>
+            {{-- Divisor --}}
+            <tr class="divider"><td colspan="2"></td></tr>
 
-        {{-- Renglón 3: Contacto centrado --}}
-        <div class="row">
-            <div class="cell center">
-                <div class="detail">
-                    Tel. 728-284-9074 &nbsp;·&nbsp; Cel. 729-373-88-30 &nbsp;·&nbsp; eventosespecialeslerma.com
-                </div>
-            </div>
-        </div>
+            {{-- Renglón 2: Folio / Fecha --}}
+            <tr>
+                <td class="info-left">
+                    <div class="info-label">Folio:</div>
+                    <div class="info-value">{{ $quotation->folio }}</div>
+                </td>
+                <td class="info-right">
+                    <div class="info-label">Fecha:</div>
+                    <div class="info-value">{{ $quotation->quotation_date->format('d/m/Y') }}</div>
+                </td>
+            </tr>
 
+            {{-- Divisor --}}
+            <tr class="divider"><td colspan="2"></td></tr>
+
+            {{-- Renglón 3: Contacto centrado --}}
+            <tr>
+                <td colspan="2" class="info-center">
+                    <div class="info-detail">
+                        Tel. 728-284-9074 &nbsp;·&nbsp; Cel. 729-373-88-30 &nbsp;·&nbsp; eventosespecialeslerma.com
+                    </div>
+                </td>
+            </tr>
+
+        </table>
     </div>
 
     {{-- ===== TÍTULO ===== --}}
@@ -336,10 +343,12 @@
                 $seccion = strtoupper($item['seccion'] ?? 'SERVICIOS');
                 $grupos[$seccion][] = $item;
             }
+            $first = true;
         @endphp
 
         @foreach($grupos as $seccion => $items)
-            <div class="section-header">{{ $seccion }}</div>
+            <div class="section-header {{ $first ? 'section-header-first' : '' }}">{{ $seccion }}</div>
+            @php $first = false; @endphp
             <table class="items-table">
                 <thead>
                     <tr>
@@ -363,45 +372,46 @@
         @endforeach
 
         {{-- ===== NOTAS (izq) + TOTALES (der) ===== --}}
-        <div class="bottom-section">
-
-            {{-- Notas a la izquierda --}}
-            <div class="notes-col">
-                <div class="notes">
-                    <p>• La presente cotización tiene una vigencia de 30 días naturales a partir de la fecha de emisión.</p>
-                    <p>• Los precios indicados en esta cotización no incluyen IVA.</p>
-                    <p>• Para confirmar la reserva, se requiere un anticipo del 50% del total.</p>
-                    <p>• El 50% restante deberá liquidarse previo al día del evento.</p>
-                    <p>• El montaje y la logística se coordinarán una semana previa al evento.</p>
-                </div>
-            </div>
-
-            {{-- Totales a la derecha --}}
-            <div class="totals-col">
-                <table class="totals-table">
-                    <tr>
-                        <td class="label">Subtotal:</td>
-                        <td class="value">${{ number_format($quotation->subtotal, 2) }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">IVA (0%):</td>
-                        <td class="value">${{ number_format($quotation->iva, 2) }}</td>
-                    </tr>
-                    <tr class="grand-total">
-                        <td class="label">TOTAL:</td>
-                        <td class="value">${{ number_format($quotation->total, 2) }}</td>
-                    </tr>
-                </table>
-            </div>
-
-        </div>
+        <table class="bottom-table">
+            <tr>
+                <td class="bottom-notes-col">
+                    <div class="notes">
+                        <p>• La presente cotización tiene una vigencia de 30 días naturales a partir de la fecha de emisión.</p>
+                        <p>• Los precios indicados en esta cotización no incluyen IVA.</p>
+                        <p>• Para confirmar la reserva, se requiere un anticipo del 50% del total.</p>
+                        <p>• El 50% restante deberá liquidarse previo al día del evento.</p>
+                        <p>• El montaje y la logística se coordinarán una semana previa al evento.</p>
+                    </div>
+                </td>
+                <td class="bottom-totals-col">
+                    <table class="totals-table">
+                        <tr>
+                            <td class="label">Subtotal:</td>
+                            <td class="value">${{ number_format($quotation->subtotal, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">IVA (0%):</td>
+                            <td class="value">${{ number_format($quotation->iva, 2) }}</td>
+                        </tr>
+                        <tr class="grand-total">
+                            <td class="label">TOTAL:</td>
+                            <td class="value">${{ number_format($quotation->total, 2) }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
     </div>
 
     {{-- ===== FOOTER BAR ===== --}}
     <div class="footer-bar">
-        <div class="cell"><strong>729-373-88-30</strong></div>
-        <div class="cell center">Av. Circunvalación No. 15, Col. Agricola Analco, Lerma, Méx.</div>
-        <div class="cell right">www.eventosespecialeslerma.com</div>
+        <table class="footer-table">
+            <tr>
+                <td class="footer-left"><strong>729-373-88-30</strong></td>
+                <td class="footer-center">Av. Circunvalación No. 15, Col. Agricola Analco, Lerma, Méx.</td>
+                <td class="footer-right">www.eventosespecialeslerma.com</td>
+            </tr>
+        </table>
     </div>
 
 </body>
