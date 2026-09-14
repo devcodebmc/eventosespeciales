@@ -62,6 +62,7 @@ class QuotationController extends Controller
 
         return response()->json([
             'quotation' => [
+                'id' => $quotation->id,
                 'folio' => $quotation->folio,
                 'client_name' => $quotation->client_name,
                 'total' => $quotation->total,
@@ -85,39 +86,28 @@ class QuotationController extends Controller
             $generator->generateAll($quotation);
             $quotation->refresh();
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Error al generar el documento: ' . $e->getMessage(),
-            ], 500);
+            return response()->json(['message' => 'Error al generar: ' . $e->getMessage()], 500);
         }
 
         $pathColumn = "{$format}_path";
         $relativePath = $quotation->$pathColumn;
 
         if (!$relativePath) {
-            return response()->json([
-                'message' => 'Ruta del archivo no definida en la base de datos',
-            ], 500);
+            return response()->json(['message' => 'Ruta no definida'], 500);
         }
 
         $absolutePath = storage_path("app/public/{$relativePath}");
 
         if (!file_exists($absolutePath) || !is_readable($absolutePath)) {
-            return response()->json([
-                'message' => 'El archivo no existe o no es legible',
-            ], 500);
+            return response()->json(['message' => 'Archivo no legible'], 500);
         }
 
-        $filename = basename($absolutePath);
-
-        // Tipos MIME por formato
-        $mimeTypes = [
-            'pdf'   => 'application/pdf',
-            'word'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'excel' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        ];
-
-        return response()->download($absolutePath, $filename, [
-            'Content-Type' => $mimeTypes[$format] ?? 'application/octet-stream',
+        return response()->download($absolutePath, basename($absolutePath), [
+            'Content-Type' => $format === 'pdf'
+                ? 'application/pdf'
+                : ($format === 'word'
+                    ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                    : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
         ]);
     }
 

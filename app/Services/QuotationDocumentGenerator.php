@@ -3,7 +3,8 @@
 namespace App\Services;
 
 use App\Models\Quotation;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Mpdf\Mpdf;
+use Mpdf\Output\Destination;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory as WordIOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -15,14 +16,21 @@ use Illuminate\Support\Facades\Log;
 class QuotationDocumentGenerator
 {
     protected string $storagePath;
+    protected string $tempPath;
     protected bool $hasLibreOffice;
 
     public function __construct()
     {
         $this->storagePath = storage_path('app/public/quotations');
+        $this->tempPath    = storage_path('app/mpdf-temp');
+
         if (!is_dir($this->storagePath)) {
             mkdir($this->storagePath, 0755, true);
         }
+        if (!is_dir($this->tempPath)) {
+            mkdir($this->tempPath, 0755, true);
+        }
+
         $this->hasLibreOffice = $this->checkLibreOffice();
     }
 
@@ -35,23 +43,17 @@ class QuotationDocumentGenerator
 
     public function generateAll(Quotation $quotation): Quotation
     {
-        $img1 = public_path('images/cotizacion/header-1.jpg');
-        $img2 = public_path('images/cotizacion/header-2.jpg');
-        $img3 = public_path('images/cotizacion/header-3.jpg');
+        $img1 = public_path('images/cotizacion/header-1.png');
+        $img2 = public_path('images/cotizacion/header-2.png');
+        $img3 = public_path('images/cotizacion/header-3.png');
 
-        // 1. PDF maestro
         $pdfRelative = $this->generatePdf($quotation, $img1, $img2, $img3);
         $quotation->pdf_path = $pdfRelative;
 
         $pdfAbsolute = storage_path("app/public/{$pdfRelative}");
 
-        // 2. Word desde el PDF
         $quotation->word_path = $this->convertPdfToWord($pdfAbsolute, $quotation);
-
-        // 3. Imagen desde el PDF
         $quotation->image_path = $this->convertPdfToImage($pdfAbsolute, $quotation->folio);
-
-        // 4. Excel desde datos
         $quotation->excel_path = $this->generateExcel($quotation);
 
         $quotation->save();
@@ -61,47 +63,57 @@ class QuotationDocumentGenerator
 
     protected function generatePdf(Quotation $quotation, string $img1, string $img2, string $img3): string
     {
-        // Convertir imágenes a data URI
         $img1Data = $this->imageToBase64($img1);
         $img2Data = $this->imageToBase64($img2);
         $img3Data = $this->imageToBase64($img3);
 
-        $pdf = Pdf::loadView('quotations.master', [
+        $html = view('quotations.master', [
             'quotation' => $quotation,
             'img1' => $img1Data,
             'img2' => $img2Data,
             'img3' => $img3Data,
+        ])->render();
+
+        $mpdf = new Mpdf([
+            'mode'              => 'utf-8',
+            'format'            => 'Letter',
+            'margin_top'        => 0,     // ← SIN margen arriba para que el banner toque el borde
+            'margin_bottom'     => 14,
+            'margin_left'       => 0,     // ← SIN margen lateral
+            'margin_right'      => 0,     // ← SIN margen lateral
+            'margin_footer'     => 0,
+            'default_font'      => 'dejavusans',
+            'default_font_size' => 11,
+            'tempDir'           => $this->tempPath,
         ]);
 
-        $pdf->setPaper('letter', 'portrait');
-        $pdf->setOptions([
-            'isHtml5ParserEnabled' => true,
-            'isRemoteEnabled' => true,
-            'defaultFont' => 'DejaVu Sans',
-            'dpi' => 150,
-        ]);
+        $footerHtml = '
+            <table width="100%" style="border-collapse:collapse; background-color:#7a6a4f; color:#ffffff; font-size:7.5pt; margin:0; padding:0;">
+                <tr>
+                    <td style="padding:5px 15px; text-align:left; width:30%; font-weight:normal;">729-373-88-30</td>
+                    <td style="padding:5px 15px; text-align:center; width:40%; font-weight:normal;">Av. Circunvalación No. 15, Col. Agricola Analco, Lerma, Méx.</td>
+                    <td style="padding:5px 15px; text-align:right; width:30%; font-weight:normal;">Página {PAGENO} de {nbpg}</td>
+                </tr>
+            </table>
+        ';
+        $mpdf->SetHTMLFooter($footerHtml);
+
+        $mpdf->WriteHTML($html);
 
         $filename = "{$quotation->folio}.pdf";
-        $path = "{$this->storagePath}/{$filename}";
-        $pdf->save($path);
+        $path     = "{$this->storagePath}/{$filename}";
+        $mpdf->Output($path, Destination::FILE);
 
         return "quotations/{$filename}";
     }
 
-    /**
-     * Convierte una imagen local a data URI base64.
-     * Devuelve un placeholder si el archivo no existe.
-     */
     protected function imageToBase64(string $path): string
     {
         if (!file_exists($path)) {
-            // Placeholder gris 1x1
             return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
         }
-
         $mime = mime_content_type($path);
         $data = base64_encode(file_get_contents($path));
-
         return "data:{$mime};base64,{$data}";
     }
 
@@ -122,8 +134,6 @@ class QuotationDocumentGenerator
             }
             Log::warning('LibreOffice PDF→DOCX falló', ['output' => $output, 'code' => $code]);
         }
-
-        // Fallback: PHPWord replicando el diseño
         return $this->generateWordFallback($quotation);
     }
 
@@ -131,7 +141,6 @@ class QuotationDocumentGenerator
     {
         $pngPath = "{$this->storagePath}/{$folio}.png";
 
-        // Opción 1: pdftoppm (poppler)
         $cmd = sprintf(
             'pdftoppm -png -r 150 -singlefile %s %s 2>&1',
             escapeshellarg($pdfAbsolute),
@@ -142,7 +151,6 @@ class QuotationDocumentGenerator
             return "quotations/{$folio}.png";
         }
 
-        // Opción 2: ImageMagick
         $cmd = sprintf(
             'magick -density 150 %s -quality 90 %s 2>&1',
             escapeshellarg($pdfAbsolute),
@@ -157,10 +165,6 @@ class QuotationDocumentGenerator
         return null;
     }
 
-    /**
-     * Fallback de Word cuando no hay LibreOffice.
-     * Replica el diseño del maestro con PHPWord.
-     */
     protected function generateWordFallback(Quotation $quotation): string
     {
         $phpWord = new PhpWord();
@@ -174,7 +178,6 @@ class QuotationDocumentGenerator
             'marginRight' => 900,
         ]);
 
-        // ===== BANNER =====
         $section->addText(
             '"EVENTOS ESPECIALES LERMA"',
             ['bold' => true, 'size' => 20, 'color' => 'B8860B'],
@@ -198,7 +201,6 @@ class QuotationDocumentGenerator
 
         $section->addTextBreak(1);
 
-        // ===== INFO BAR =====
         $infoTable = $section->addTable(['borderSize' => 0, 'cellMargin' => 0]);
         $infoTable->addRow();
         $left = $infoTable->addCell(5000);
@@ -214,14 +216,12 @@ class QuotationDocumentGenerator
 
         $section->addTextBreak(1);
 
-        // ===== TÍTULO =====
         $section->addText(
             'C O T I Z A C I Ó N',
             ['bold' => true, 'size' => 16, 'color' => 'B8860B'],
             ['alignment' => 'center', 'spaceAfter' => 200]
         );
 
-        // ===== SECCIONES =====
         $grupos = [];
         foreach ($quotation->items as $item) {
             $seccion = $item['seccion'] ?? 'SERVICIOS';
@@ -259,7 +259,6 @@ class QuotationDocumentGenerator
             }
         }
 
-        // ===== TOTALES =====
         $section->addTextBreak(1);
         $totals = $section->addTable(['borderSize' => 0, 'cellMargin' => 0]);
         $totals->addRow();
@@ -269,7 +268,6 @@ class QuotationDocumentGenerator
         $tc->addText('IVA (0%): $' . number_format($quotation->iva, 2), ['size' => 10, 'color' => '666666'], ['alignment' => 'right']);
         $tc->addText('TOTAL: $' . number_format($quotation->total, 2), ['bold' => true, 'size' => 12, 'color' => '8B6914'], ['alignment' => 'right']);
 
-        // ===== PIE =====
         $section->addTextBreak(2);
         $section->addText(
             'Gracias por su preferencia · Eventos Especiales Lerma · ' . now()->year,
@@ -284,35 +282,28 @@ class QuotationDocumentGenerator
         return "quotations/{$filename}";
     }
 
-    /**
-     * Excel con el mismo lenguaje visual del maestro.
-     */
     protected function generateExcel(Quotation $quotation): string
     {
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Cotización');
 
-        // Anchos
         $sheet->getColumnDimension('A')->setWidth(55);
         $sheet->getColumnDimension('B')->setWidth(8);
         $sheet->getColumnDimension('C')->setWidth(14);
         $sheet->getColumnDimension('D')->setWidth(14);
 
-        // Colores
         $gold = 'B8860B';
         $lightGold = 'F5F0E6';
         $headerBg = 'FAF8F3';
         $darkGold = '8B6914';
 
-        // ===== TÍTULO =====
         $sheet->mergeCells('A1:D1');
         $sheet->setCellValue('A1', '"EVENTOS ESPECIALES LERMA"');
         $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(18)->getColor()->setARGB($gold);
         $sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
         $sheet->getRowDimension(1)->setRowHeight(30);
 
-        // Info
         $sheet->setCellValue('A3', 'COTIZACIÓN PARA:');
         $sheet->getStyle('A3')->getFont()->setBold(true)->setSize(8)->getColor()->setARGB($gold);
         $sheet->setCellValue('A4', $quotation->client_name);
@@ -327,14 +318,12 @@ class QuotationDocumentGenerator
         $sheet->setCellValue('C6', 'Folio: ' . $quotation->folio);
         $sheet->getStyle('C6')->getFont()->setBold(true);
 
-        // ===== TÍTULO CENTRAL =====
         $sheet->mergeCells('A8:D8');
         $sheet->setCellValue('A8', 'C O T I Z A C I Ó N');
         $sheet->getStyle('A8')->getFont()->setBold(true)->setSize(14)->getColor()->setARGB($gold);
         $sheet->getStyle('A8')->getAlignment()->setHorizontal('center');
         $sheet->getRowDimension(8)->setRowHeight(25);
 
-        // ===== SECCIONES =====
         $grupos = [];
         foreach ($quotation->items as $item) {
             $seccion = $item['seccion'] ?? 'SERVICIOS';
@@ -351,7 +340,6 @@ class QuotationDocumentGenerator
             $sheet->getStyle("A{$row}")->getBorders()->getLeft()->setBorderStyle(Border::BORDER_THICK)->getColor()->setARGB($gold);
             $row++;
 
-            // Encabezados
             $headers = ['Descripción', 'Cant.', 'P. Unitario', 'Total'];
             foreach (['A', 'B', 'C', 'D'] as $i => $col) {
                 $cell = "{$col}{$row}";
@@ -363,7 +351,6 @@ class QuotationDocumentGenerator
             }
             $row++;
 
-            // Items
             foreach ($items as $i => $item) {
                 $sheet->setCellValue("A{$row}", $item['descripcion']);
                 $sheet->setCellValue("B{$row}", $item['cantidad']);
@@ -382,7 +369,6 @@ class QuotationDocumentGenerator
             $row++;
         }
 
-        // ===== TOTALES =====
         $sheet->setCellValue("C{$row}", 'Subtotal:');
         $sheet->setCellValue("D{$row}", '$' . number_format($quotation->subtotal, 2));
         $sheet->getStyle("C{$row}:D{$row}")->getFont()->setSize(10)->getColor()->setARGB('666666');
@@ -404,7 +390,6 @@ class QuotationDocumentGenerator
         $sheet->getStyle("C{$row}:D{$row}")->getBorders()->getBottom()->setBorderStyle(Border::BORDER_THICK)->getColor()->setARGB($gold);
         $row += 2;
 
-        // ===== PIE =====
         $sheet->mergeCells("A{$row}:D{$row}");
         $sheet->setCellValue("A{$row}", 'Gracias por su preferencia · Eventos Especiales Lerma · ' . now()->year);
         $sheet->getStyle("A{$row}")->getFont()->setSize(8)->getColor()->setARGB('999999');
