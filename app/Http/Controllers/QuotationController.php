@@ -49,7 +49,7 @@ class QuotationController extends Controller
         }
 
         $subtotal = collect($data['items'])->sum('total');
-        $total = $data['total'] ?? $subtotal;
+        $total = $subtotal;
 
         $quotation = Quotation::create([
             'folio' => Quotation::generateFolio(),

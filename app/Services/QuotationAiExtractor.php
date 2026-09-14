@@ -99,7 +99,7 @@ class QuotationAiExtractor
             $subtotal += $totalItem;
         }
 
-        $total = isset($data['total']) ? (float) $data['total'] : $subtotal;
+        $total = $subtotal;
 
         return [
             'items' => $items,
