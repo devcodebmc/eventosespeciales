@@ -2,34 +2,153 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight tracking-tight">
+                <h2 class="cz-display font-semibold text-2xl text-[var(--cz-ink)] leading-tight">
                     {{ __('Cotizaciones') }}
                 </h2>
-                <p class="text-sm text-gray-500 mt-0.5">Genera documentos profesionales con IA</p>
+                <p class="text-sm text-[var(--cz-ink-soft)] mt-0.5">Genera documentos profesionales con IA</p>
             </div>
-            <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full bg-gradient-to-r from-indigo-50 to-violet-50 text-indigo-700 text-xs font-medium border border-indigo-100">
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-2 animate-pulse"></span>
-                IA Activa
+            <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full bg-[var(--cz-brass-soft)] text-[var(--cz-brass-deep)] text-xs font-medium border border-[var(--cz-brass)]/20">
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--cz-brass)] mr-2 cz-pulse"></span>
+                IA activa
             </span>
         </div>
     </x-slot>
 
-    <div class="py-8 bg-gradient-to-br from-slate-50 via-indigo-50/30 to-violet-50/40 min-h-screen">
+    {{-- Idealmente estos <link> van en el <head> del layout principal (x-app-layout) para
+         que el navegador los precargue antes de pintar la página; los dejo aquí para que
+         el cambio quede autocontenido en esta vista. --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cz-font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+            --cz-paper: #F8F7FC;
+            --cz-surface: #FFFFFF;
+            --cz-ink: #17132B;
+            --cz-ink-soft: #6E6784;
+            --cz-border: #E9E5F5;
+            --cz-brass: #7C3AED;
+            --cz-brass-deep: #5B21B6;
+            --cz-brass-soft: #F1E6FE;
+            --cz-moss: #16A34A;
+            --cz-moss-soft: #DCFCE7;
+            --cz-rust: #F43F5E;
+            --cz-rust-soft: #FFE4E9;
+            --cz-steel: #2563EB;
+            --cz-steel-soft: #DBEAFE;
+        }
+
+        .cz-page {
+            background-color: var(--cz-paper);
+            background-image:
+                radial-gradient(650px 420px at 100% 0%, rgba(147, 51, 234, 0.07), transparent 60%),
+                radial-gradient(550px 380px at 0% 100%, rgba(37, 99, 235, 0.06), transparent 60%);
+            background-attachment: fixed;
+        }
+
+        .cz-display { font-family: var(--cz-font-display); letter-spacing: -0.01em; }
+
+        /* --- Gradiente morado → azul, para acentos "neón" --- */
+        .cz-grad-primary {
+            background-image: linear-gradient(135deg, #9333EA 0%, #6D28D9 45%, #2563EB 100%);
+        }
+        .cz-grad-text {
+            background-image: linear-gradient(135deg, #A855F7 0%, #6366F1 55%, #2563EB 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .cz-glow {
+            transition: box-shadow 0.3s ease, filter 0.3s ease, transform 0.2s ease;
+        }
+        .cz-glow:hover, .cz-glow:focus-visible {
+            filter: brightness(1.06);
+            box-shadow: 0 8px 24px -6px rgba(147, 51, 234, 0.45), 0 0 28px -10px rgba(37, 99, 235, 0.4);
+        }
+
+        /* --- Talón de boleto: línea punteada con muescas en sus propios extremos --- */
+        .cz-perforation {
+            position: relative;
+            height: 1px;
+            background-image: linear-gradient(to right, var(--cz-border) 55%, transparent 0%);
+            background-size: 10px 1px;
+            background-repeat: repeat-x;
+        }
+        .cz-perforation::before,
+        .cz-perforation::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 14px;
+            height: 14px;
+            border-radius: 9999px;
+            background: var(--cz-paper);
+            border: 1px solid var(--cz-border);
+            transform: translateY(-50%);
+        }
+        .cz-perforation::before { left: -10px; }
+        .cz-perforation::after { right: -10px; }
+
+        /* --- Secuencia única de entrada al cargar la página --- */
+        @keyframes czRiseIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .cz-rise-1 { animation: czRiseIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .cz-rise-2 { animation: czRiseIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both; }
+
+        /* --- Sello de "procesando" --- */
+        @keyframes czSealPulse {
+            0% { transform: scale(0.92); opacity: 0.5; }
+            70% { transform: scale(1.35); opacity: 0; }
+            100% { transform: scale(1.35); opacity: 0; }
+        }
+        @keyframes czSealDrop {
+            0% { transform: scale(0.85) rotate(-8deg); opacity: 0; }
+            60% { transform: scale(1.05) rotate(2deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .cz-seal-ring { animation: czSealPulse 1.8s ease-out infinite; }
+        .cz-seal-icon { animation: czSealDrop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+        /* --- Tarjetas nuevas al usar "Cargar más" --- */
+        @keyframes czCardIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .cz-card-enter { animation: czCardIn 0.4s ease-out both; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cz-rise-1, .cz-rise-2, .cz-seal-ring, .cz-seal-icon, .cz-card-enter, .cz-pulse {
+                animation: none !important;
+            }
+        }
+
+        .cz-pulse {
+            animation: czNeonPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes czNeonPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.55), 0 0 6px 1px rgba(37, 99, 235, 0.35); }
+            50% { box-shadow: 0 0 0 5px rgba(147, 51, 234, 0), 0 0 12px 4px rgba(37, 99, 235, 0.55); }
+        }
+    </style>
+
+    <div class="py-8 cz-page min-h-screen">
         <div class="w-full px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-14">
 
             {{-- ===== FORMULARIO ===== --}}
-            <div class="bg-white rounded-2xl border border-indigo-100/60 shadow-[0_2px_8px_-2px_rgba(79,70,229,0.08)] overflow-hidden mb-8">
-                <div class="px-6 py-5 border-b border-indigo-50 flex items-center justify-between bg-gradient-to-r from-indigo-50/50 via-violet-50/30 to-transparent">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-md shadow-indigo-500/20">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-sm font-semibold text-slate-900">Nueva Cotización</h3>
-                            <p class="text-xs text-slate-500 mt-0.5">Pega el texto, la IA extrae y genera todo</p>
-                        </div>
+            <div class="cz-rise-1 bg-[var(--cz-surface)] rounded-2xl border border-[var(--cz-border)] overflow-hidden mb-10">
+                <div class="px-6 py-5 border-b border-[var(--cz-border)] flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg cz-grad-primary flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-[var(--cz-ink)]">Nueva cotización</h3>
+                        <p class="text-xs text-[var(--cz-ink-soft)] mt-0.5">Pega el texto, la IA extrae y genera todo</p>
                     </div>
                 </div>
 
@@ -37,37 +156,39 @@
                     @csrf
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
                         <div class="lg:col-span-4">
-                            <label for="client_name" class="block text-[11px] font-semibold text-slate-500 mb-2 uppercase tracking-wider">
-                                Cliente <span class="text-slate-300 font-normal normal-case">— opcional</span>
+                            <label for="client_name" class="block text-xs font-semibold text-[var(--cz-ink-soft)] mb-2">
+                                Cliente <span class="font-normal text-[var(--cz-ink-soft)]/70">— opcional</span>
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                    <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-[var(--cz-brass)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
                                 </div>
                                 <input id="client_name" type="text" name="client_name"
-                                       class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition bg-white placeholder:text-slate-400"
+                                       class="block w-full pl-10 pr-3 py-2.5 border border-[var(--cz-border)] rounded-xl text-sm focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition bg-white placeholder:text-[var(--cz-ink-soft)]/60 text-[var(--cz-ink)]"
                                        placeholder="A quien corresponda">
                             </div>
                         </div>
 
                         <div class="lg:col-span-8">
                             <div class="flex items-center justify-between mb-2">
-                                <label for="raw_input" class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                                    Texto <span class="text-slate-300 font-normal">— requerido</span>
+                                <label for="raw_input" class="block text-xs font-semibold text-[var(--cz-ink-soft)]">
+                                    Texto <span class="font-normal text-[var(--cz-ink-soft)]/70">— requerido</span>
                                 </label>
-                                <span class="text-[11px] text-slate-400 tabular-nums"><span id="charCount">0</span> caracteres</span>
+                                <span class="text-[11px] text-[var(--cz-ink-soft)] tabular-nums"><span id="charCount">0</span> caracteres</span>
                             </div>
                             <textarea id="raw_input" name="raw_input" rows="5" required
-                                      class="block w-full border border-slate-200 rounded-xl px-4 py-3 text-sm resize-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition font-mono bg-white placeholder:text-slate-400 leading-relaxed"
+                                      class="block w-full border border-[var(--cz-border)] rounded-xl px-4 py-3 text-sm resize-none focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition bg-white placeholder:text-[var(--cz-ink-soft)]/50 text-[var(--cz-ink)] leading-relaxed"
                                       placeholder="• Pista de baile en vinil impreso de 6 x 7 mts. $10,080&#10;• Tarima para DJ booth de 7 x 3 mts $6700&#10;• Espejo en texto con vinil $1800"></textarea>
                         </div>
                     </div>
 
-                    <div class="flex justify-end mt-5">
+                    <div class="cz-perforation my-6"></div>
+
+                    <div class="flex justify-end">
                         <button type="submit" id="submitBtn"
-                                class="group inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-600 text-white rounded-xl text-sm font-semibold hover:from-indigo-600 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30 disabled:opacity-60 disabled:cursor-not-allowed">
+                                class="group inline-flex items-center px-6 py-2.5 cz-grad-primary cz-glow text-white rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--cz-brass)] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
                             <svg id="btnIcon" class="w-4 h-4 mr-2 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                             </svg>
@@ -78,81 +199,77 @@
             </div>
 
             {{-- ===== HISTORIAL ===== --}}
-            <div class="mb-5 flex items-end justify-between">
+            <div class="cz-rise-2 mb-5 flex items-end justify-between">
                 <div>
-                    <h3 class="text-base font-semibold text-slate-900 tracking-tight">Historial</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Cotizaciones generadas recientemente</p>
+                    <h3 class="text-base font-semibold text-[var(--cz-ink)]">Historial</h3>
+                    <p class="text-xs text-[var(--cz-ink-soft)] mt-0.5">Cotizaciones generadas recientemente</p>
                 </div>
-                <span class="text-[11px] text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-lg tabular-nums font-medium">
-                    {{ $quotations->total() }} {{ $quotations->total() === 1 ? 'registro' : 'registros' }}
+                <span class="text-[11px] text-[var(--cz-brass-deep)] bg-[var(--cz-brass-soft)] border border-[var(--cz-brass)]/20 px-3 py-1.5 rounded-lg tabular-nums font-medium" id="historyCountBadge">
+                    {{ $quotations->count() }} {{ $quotations->count() === 1 ? 'registro' : 'registros' }}
                 </span>
             </div>
 
-            <div id="historyContainer">
-                @include('quotations._history', ['quotations' => $quotations])
+            <div id="historyContainer" class="cz-rise-2">
+                @include('quotations._history', ['quotations' => $quotations, 'hasMore' => $hasMore, 'nextOffset' => $nextOffset])
             </div>
 
         </div>
     </div>
 
     {{-- Overlay de procesamiento --}}
-    <div id="loadingOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 backdrop-blur-sm">
+    <div id="loadingOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-[var(--cz-ink)]/40 backdrop-blur-sm">
         <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 text-center">
-            <div class="relative w-20 h-20 mx-auto mb-5">
-                <div class="absolute inset-0 rounded-full border-[3px] border-indigo-100"></div>
-                <div class="absolute inset-0 rounded-full border-[3px] border-transparent border-t-indigo-500 animate-spin"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="relative w-20 h-20 mx-auto mb-5 flex items-center justify-center">
+                <span class="absolute inset-0 rounded-full border-2 border-[var(--cz-brass)] cz-seal-ring"></span>
+                <div class="relative w-14 h-14 rounded-full cz-grad-primary flex items-center justify-center cz-seal-icon">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                 </div>
             </div>
-            <h3 class="text-base font-semibold text-slate-900 mb-1" id="loadingTitle">Procesando con IA</h3>
-            <p class="text-xs text-slate-500 mb-4" id="loadingText">Analizando el texto y extrayendo los datos...</p>
+            <h3 class="text-base font-semibold text-[var(--cz-ink)] mb-1" id="loadingTitle">Procesando con IA</h3>
+            <p class="text-xs text-[var(--cz-ink-soft)] mb-4" id="loadingText">Analizando el texto y extrayendo los datos...</p>
             <div class="flex items-center justify-center space-x-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style="animation-delay: 0s"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-violet-500 animate-bounce" style="animation-delay: 0.15s"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style="animation-delay: 0.3s"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--cz-brass)] animate-bounce" style="animation-delay: 0s"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--cz-brass)]/60 animate-bounce" style="animation-delay: 0.15s"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--cz-brass)] animate-bounce" style="animation-delay: 0.3s"></span>
             </div>
         </div>
     </div>
 
     {{-- ===== MODAL POST-GENERACIÓN ===== --}}
-    <div id="successModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+    <div id="successModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-[var(--cz-ink)]/50 backdrop-blur-sm p-4">
         <div id="successModalPanel"
              class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             <div class="px-7 py-8 text-center">
 
-                {{-- Ícono --}}
-                <div class="relative w-20 h-20 mx-auto mb-5">
-                    <div class="absolute inset-0 rounded-full bg-emerald-100 animate-ping opacity-60"></div>
-                    <div class="relative w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <div class="relative w-20 h-20 mx-auto mb-5 flex items-center justify-center">
+                    <span class="absolute inset-0 rounded-full bg-[var(--cz-moss-soft)] cz-seal-ring"></span>
+                    <div class="relative w-16 h-16 rounded-full bg-[var(--cz-moss)] flex items-center justify-center cz-seal-icon">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M5 13l4 4L19 7"/>
                         </svg>
                     </div>
                 </div>
 
-                {{-- Mensaje --}}
-                <h3 class="text-lg font-bold text-slate-900 mb-1.5">
+                <h3 class="text-lg cz-display font-semibold text-[var(--cz-ink)] mb-1.5">
                     ¡Listo!
                 </h3>
-                <p class="text-sm text-slate-500 leading-relaxed">
-                    Tu cotización <span id="successFolio" class="font-semibold text-indigo-600 tabular-nums">—</span> se generó correctamente.
+                <p class="text-sm text-[var(--cz-ink-soft)] leading-relaxed">
+                    Tu cotización <span id="successFolio" class="font-semibold text-[var(--cz-brass-deep)] tabular-nums">—</span> se generó correctamente.
                 </p>
-                <p class="text-xs text-slate-400 mt-1">
+                <p class="text-xs text-[var(--cz-ink-soft)]/80 mt-1">
                     <span id="successClient">—</span>
                 </p>
 
-                {{-- Acciones --}}
                 <div class="flex items-center justify-center gap-3 mt-7">
                     <button type="button" id="successClose"
-                            class="px-5 py-2.5 text-sm font-medium text-slate-500 hover:text-slate-800 transition">
+                            class="px-5 py-2.5 text-sm font-medium text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] transition">
                         Cerrar
                     </button>
                     <button type="button" id="downloadPdfBtn"
-                            class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-600 text-white rounded-xl text-sm font-semibold hover:from-indigo-600 hover:to-violet-700 transition-all shadow-md shadow-indigo-500/20">
+                            class="inline-flex items-center px-5 py-2.5 cz-grad-primary cz-glow text-white rounded-xl text-sm font-semibold transition-all">
                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                         </svg>
@@ -174,6 +291,7 @@
         // =============================
         const csrfToken = '{{ csrf_token() }}';
         const storeUrl = '{{ route('quotations.store') }}';
+        const loadMoreUrl = '{{ route('quotations.loadMore') }}';
         const downloadBase = '{{ url('admin/quotations') }}';  // ← CON /admin
 
         // =============================
@@ -190,14 +308,14 @@
         // =============================
         function showToast(message, type = 'success') {
             const configs = {
-                success: { border: 'border-emerald-200', dot: 'bg-emerald-500', bg: 'from-emerald-50/80' },
-                error:   { border: 'border-red-200',     dot: 'bg-red-500',     bg: 'from-red-50/80' },
-                info:    { border: 'border-indigo-200',  dot: 'bg-indigo-500',  bg: 'from-indigo-50/80' },
+                success: { border: 'border-[var(--cz-moss)]/30', dot: 'bg-[var(--cz-moss)]' },
+                error:   { border: 'border-[var(--cz-rust)]/30',  dot: 'bg-[var(--cz-rust)]' },
+                info:    { border: 'border-[var(--cz-brass)]/30', dot: 'bg-[var(--cz-brass)]' },
             };
             const cfg = configs[type] || configs.info;
             const toast = document.createElement('div');
-            toast.className = `flex items-center space-x-3 bg-gradient-to-r ${cfg.bg} to-white border ${cfg.border} p-3.5 rounded-xl shadow-lg transform transition-all duration-300 translate-x-full opacity-0 min-w-[280px]`;
-            toast.innerHTML = `<span class="w-2 h-2 rounded-full ${cfg.dot} flex-shrink-0"></span><p class="text-sm flex-1 text-slate-700">${message}</p>`;
+            toast.className = `flex items-center space-x-3 bg-white border ${cfg.border} p-3.5 rounded-xl shadow-lg transform transition-all duration-300 translate-x-full opacity-0 min-w-[280px]`;
+            toast.innerHTML = `<span class="w-2 h-2 rounded-full ${cfg.dot} flex-shrink-0"></span><p class="text-sm flex-1 text-[var(--cz-ink)]">${message}</p>`;
             document.getElementById('toastContainer').appendChild(toast);
             requestAnimationFrame(() => toast.classList.remove('translate-x-full', 'opacity-0'));
             setTimeout(() => {
@@ -254,7 +372,7 @@
             try {
                 const response = await fetch(currentDownloadUrl, {
                     method: 'POST',
-                    credentials: 'same-origin',   // ← CLAVE
+                    credentials: 'same-origin',
                     headers: {
                         'X-CSRF-TOKEN': csrfToken,
                         'Accept': 'application/pdf, */*',
@@ -338,7 +456,7 @@
             try {
                 const response = await fetch(storeUrl, {
                     method: 'POST',
-                    credentials: 'same-origin',   // ← CLAVE
+                    credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': csrfToken,
@@ -357,6 +475,7 @@
                 overlay.classList.add('hidden');
                 overlay.classList.remove('flex');
                 document.getElementById('historyContainer').innerHTML = result.history;
+                bindLoadMoreButton();
 
                 form.reset();
                 charCount.textContent = '0';
@@ -385,6 +504,73 @@
         });
 
         // =============================
+        // CARGAR MÁS (sin paginación tradicional)
+        // =============================
+        function bindLoadMoreButton() {
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (!loadMoreBtn) return;
+
+            loadMoreBtn.addEventListener('click', async () => {
+                const offset = parseInt(loadMoreBtn.dataset.offset, 10) || 0;
+                const icon = document.getElementById('loadMoreIcon');
+                const spinner = document.getElementById('loadMoreSpinner');
+                const text = document.getElementById('loadMoreText');
+
+                loadMoreBtn.disabled = true;
+                icon.classList.add('hidden');
+                spinner.classList.remove('hidden');
+                text.textContent = 'Cargando...';
+
+                try {
+                    const url = `${loadMoreUrl}?offset=${offset}`;
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        credentials: 'same-origin',
+                        headers: { 'Accept': 'application/json' },
+                    });
+
+                    if (!response.ok) throw new Error('No se pudo cargar más cotizaciones');
+                    const result = await response.json();
+
+                    const grid = document.getElementById('historyGrid');
+                    const temp = document.createElement('div');
+                    temp.innerHTML = result.html;
+
+                    Array.from(temp.children).forEach((card, i) => {
+                        card.classList.add('cz-card-enter');
+                        card.style.animationDelay = `${i * 40}ms`;
+                        grid.appendChild(card);
+                    });
+
+                    // Actualiza el contador visible del historial
+                    const countBadge = document.getElementById('historyCountBadge');
+                    if (countBadge) {
+                        const current = grid.children.length;
+                        countBadge.textContent = `${current} ${current === 1 ? 'registro' : 'registros'}`;
+                    }
+
+                    if (result.hasMore) {
+                        loadMoreBtn.dataset.offset = result.nextOffset;
+                        loadMoreBtn.disabled = false;
+                        icon.classList.remove('hidden');
+                        spinner.classList.add('hidden');
+                        text.textContent = 'Cargar más';
+                    } else {
+                        document.getElementById('loadMoreWrap').classList.add('hidden');
+                        document.getElementById('historyEndMsg').classList.remove('hidden');
+                    }
+                } catch (error) {
+                    showToast(error.message, 'error');
+                    loadMoreBtn.disabled = false;
+                    icon.classList.remove('hidden');
+                    spinner.classList.add('hidden');
+                    text.textContent = 'Cargar más';
+                }
+            });
+        }
+        bindLoadMoreButton();
+
+        // =============================
         // DESCARGAS DESDE EL HISTORIAL
         // =============================
         document.addEventListener('click', function (e) {
@@ -404,7 +590,7 @@
 
             fetch(url, {
                 method: 'POST',
-                credentials: 'same-origin',   // ← CLAVE
+                credentials: 'same-origin',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
                     'Accept': 'application/pdf, application/octet-stream, */*',
@@ -437,6 +623,6 @@
                 link.classList.remove('pointer-events-none', 'opacity-70');
             });
         });
-    </script>
+        </script>
     @endpush
 </x-app-layout>

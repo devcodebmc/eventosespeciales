@@ -80,6 +80,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     // Quotation routes
     Route::get('quotations', [QuotationController::class, 'index'])->name('quotations.index');
     Route::post('quotations', [QuotationController::class, 'store'])->name('quotations.store');
+    Route::get('/quotations/load-more', [QuotationController::class, 'loadMore'])->name('quotations.loadMore'); 
     Route::post('quotations/{quotation}/download/{format}', [QuotationController::class, 'download'])
         ->name('quotations.download');
     Route::delete('quotations/{quotation}', [QuotationController::class, 'destroy'])->name('quotations.destroy');

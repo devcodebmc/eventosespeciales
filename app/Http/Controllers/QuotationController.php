@@ -10,12 +10,26 @@ use Illuminate\Http\Request;
 class QuotationController extends Controller
 {
     /**
-     * Lista todas las cotizaciones.
+     * Cuántas cotizaciones se muestran por tanda en el historial.
+     */
+    private const PER_PAGE = 9;
+
+    /**
+     * Lista la vista principal con la primera tanda de cotizaciones.
      */
     public function index()
     {
-        $quotations = Quotation::orderByDesc('created_at')->paginate(10);
-        return view('quotations.index', compact('quotations'));
+        $quotations = Quotation::orderByDesc('created_at')
+            ->take(self::PER_PAGE)
+            ->get();
+
+        $hasMore = Quotation::count() > self::PER_PAGE;
+
+        return view('quotations.index', [
+            'quotations' => $quotations,
+            'hasMore' => $hasMore,
+            'nextOffset' => self::PER_PAGE,
+        ]);
     }
 
     /**
@@ -56,9 +70,18 @@ class QuotationController extends Controller
             ], 500);
         }
 
-        // Recargar el historial paginado para devolverlo al frontend
-        $quotations = Quotation::orderByDesc('created_at')->paginate(10);
-        $history = view('quotations._history', compact('quotations'))->render();
+        // Recargamos solo la primera tanda del historial (no todo el listado)
+        $quotations = Quotation::orderByDesc('created_at')
+            ->take(self::PER_PAGE)
+            ->get();
+
+        $hasMore = Quotation::count() > self::PER_PAGE;
+
+        $history = view('quotations._history', [
+            'quotations' => $quotations,
+            'hasMore' => $hasMore,
+            'nextOffset' => self::PER_PAGE,
+        ])->render();
 
         return response()->json([
             'quotation' => [
@@ -68,6 +91,36 @@ class QuotationController extends Controller
                 'total' => $quotation->total,
             ],
             'history' => $history,
+        ]);
+    }
+
+    /**
+     * Devuelve la siguiente tanda de cotizaciones para el botón "Cargar más".
+     * Responde solo con las tarjetas nuevas (no el contenedor completo) para
+     * que el JS pueda insertarlas sin reconstruir el grid existente.
+     */
+    public function loadMore(Request $request)
+    {
+        $request->validate([
+            'offset' => 'required|integer|min:0',
+        ]);
+
+        $offset = (int) $request->input('offset');
+
+        $quotations = Quotation::orderByDesc('created_at')
+            ->skip($offset)
+            ->take(self::PER_PAGE)
+            ->get();
+
+        $hasMore = Quotation::count() > ($offset + self::PER_PAGE);
+
+        $html = view('quotations._quotation_cards', compact('quotations'))->render();
+
+        return response()->json([
+            'html' => $html,
+            'hasMore' => $hasMore,
+            'nextOffset' => $offset + self::PER_PAGE,
+            'count' => $quotations->count(),
         ]);
     }
 
