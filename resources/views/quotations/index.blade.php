@@ -281,6 +281,41 @@
         </div>
     </div>
 
+    {{-- Modal confirmar eliminación --}}
+    <div id="deleteModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-[var(--cz-ink)]/50 backdrop-blur-sm p-4">
+        <div id="deleteModalPanel"
+            class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 opacity-0 transition-all duration-300 ease-out">
+            <div class="px-7 py-8 text-center">
+                <div class="w-16 h-16 rounded-full bg-[var(--cz-rust-soft)] flex items-center justify-center mx-auto mb-5">
+                    <svg class="w-7 h-7 text-[var(--cz-rust)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg cz-display font-semibold text-[var(--cz-ink)] mb-1.5">¿Eliminar cotización?</h3>
+                <p class="text-sm text-[var(--cz-ink-soft)]">
+                    Se eliminará <span id="deleteFolio" class="font-semibold text-[var(--cz-rust)]"></span> y sus archivos (PDF, Word, Excel). Esta acción no se puede deshacer.
+                </p>
+                <div class="flex items-center justify-center gap-3 mt-7">
+                    <button type="button" id="deleteCancelBtn"
+                            class="px-5 py-2.5 text-sm font-medium text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] transition">
+                        Cancelar
+                    </button>
+                    <button type="button" id="deleteConfirmBtn"
+                            class="inline-flex items-center px-5 py-2.5 bg-[var(--cz-rust)] cz-glow text-white rounded-xl text-sm font-semibold transition-all hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed">
+                        <svg class="w-4 h-4 mr-1.5 icon-default" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                        <svg class="w-4 h-4 mr-1.5 icon-loading hidden animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- Toast container --}}
     <div id="toastContainer" class="fixed top-4 right-4 z-[70] space-y-2"></div>
 
@@ -622,6 +657,121 @@
                 loadingIcon.classList.add('hidden');
                 link.classList.remove('pointer-events-none', 'opacity-70');
             });
+        });
+
+        // ELIMINAR COTIZACIÓN
+        const deleteModal      = document.getElementById('deleteModal');
+        const deleteModalPanel = document.getElementById('deleteModalPanel');
+        const deleteCancelBtn  = document.getElementById('deleteCancelBtn');
+        const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
+        const deleteFolioSpan  = document.getElementById('deleteFolio');
+
+        let pendingDeleteId   = null;
+        let pendingDeleteCard = null;
+
+        function openDeleteModal(id, folio, card) {
+            pendingDeleteId   = id;
+            pendingDeleteCard = card;
+            deleteFolioSpan.textContent = folio;
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex');
+            requestAnimationFrame(() => {
+                deleteModalPanel.classList.remove('scale-95', 'opacity-0');
+                deleteModalPanel.classList.add('scale-100', 'opacity-100');
+            });
+        }
+
+        function closeDeleteModal() {
+            deleteModalPanel.classList.remove('scale-100', 'opacity-100');
+            deleteModalPanel.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                deleteModal.classList.add('hidden');
+                deleteModal.classList.remove('flex');
+                pendingDeleteId   = null;
+                pendingDeleteCard = null;
+            }, 250);
+        }
+
+        deleteCancelBtn.addEventListener('click', closeDeleteModal);
+        deleteModal.addEventListener('click', (e) => { if (e.target === deleteModal) closeDeleteModal(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !deleteModal.classList.contains('hidden')) closeDeleteModal();
+        });
+
+        deleteConfirmBtn.addEventListener('click', async () => {
+            if (!pendingDeleteId) return;
+
+            const iconDefault  = deleteConfirmBtn.querySelector('.icon-default');
+            const iconLoading  = deleteConfirmBtn.querySelector('.icon-loading');
+            deleteConfirmBtn.disabled = true;
+            iconDefault.classList.add('hidden');
+            iconLoading.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${downloadBase}/${pendingDeleteId}`, {
+                    method: 'DELETE',
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({ message: 'Error al eliminar' }));
+                    throw new Error(err.message);
+                }
+
+                // Anima y elimina la tarjeta del DOM
+                if (pendingDeleteCard) {
+                    pendingDeleteCard.style.transition = 'opacity 0.3s, transform 0.3s';
+                    pendingDeleteCard.style.opacity    = '0';
+                    pendingDeleteCard.style.transform  = 'scale(0.95)';
+                    setTimeout(() => {
+                        pendingDeleteCard.remove();
+
+                        // Actualiza contador
+                        const grid = document.getElementById('historyGrid');
+                        const countBadge = document.getElementById('historyCountBadge');
+                        if (grid && countBadge) {
+                            const current = grid.children.length;
+                            countBadge.textContent = `${current} ${current === 1 ? 'registro' : 'registros'}`;
+                        }
+
+                        // Si el grid queda vacío recarga la sección completa
+                        if (grid && grid.children.length === 0) {
+                            document.getElementById('historyContainer').innerHTML = `
+                                <div class="bg-[var(--cz-surface)] rounded-2xl border border-[var(--cz-border)] p-14 text-center">
+                                    <div class="mx-auto w-12 h-12 rounded-xl bg-[var(--cz-brass-soft)] flex items-center justify-center mb-3">
+                                        <svg class="w-5 h-5 text-[var(--cz-brass)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                    </div>
+                                    <p class="text-sm font-semibold text-[var(--cz-ink)]">Aún no hay cotizaciones</p>
+                                    <p class="text-xs text-[var(--cz-ink-soft)] mt-1">Comienza pegando el texto de tu primera cotización arriba</p>
+                                </div>`;
+                        }
+                    }, 300);
+                }
+
+                showToast(`Cotización ${deleteFolioSpan.textContent} eliminada`, 'success');
+                closeDeleteModal();
+
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                deleteConfirmBtn.disabled = false;
+                iconDefault.classList.remove('hidden');
+                iconLoading.classList.add('hidden');
+            }
+        });
+
+        // Delegar click en botones .quotation-delete
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.quotation-delete');
+            if (!btn) return;
+            const card = btn.closest('.cz-card');
+            openDeleteModal(btn.dataset.id, btn.dataset.folio, card);
         });
         </script>
     @endpush

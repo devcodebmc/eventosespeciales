@@ -68,6 +68,22 @@
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                         </svg>
                     </a>
+
+                    {{-- Eliminar --}}
+                    <button type="button"
+                            data-id="{{ $q->id }}"
+                            data-folio="{{ $q->folio }}"
+                            title="Eliminar cotización"
+                            class="quotation-delete inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-400 hover:bg-red-500 hover:text-white border border-gray-200/50 hover:border-red-500 transition-all duration-200">
+                        <svg class="w-3.5 h-3.5 icon-default" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                        <svg class="w-3.5 h-3.5 icon-loading hidden animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                    </button>
+                    
                 </div>
             </div>
         </div>
