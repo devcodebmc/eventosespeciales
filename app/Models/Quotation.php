@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Quotation extends Model
 {
@@ -48,5 +49,14 @@ class Quotation extends Model
         }
 
         return $prefix . str_pad($number, 3, '0', STR_PAD_LEFT);
+    }
+
+    public function deleteFiles(): void
+    {
+        foreach (['pdf_path', 'word_path', 'excel_path'] as $column) {
+            if ($this->$column) {
+                Storage::disk('public')->delete($this->$column);
+            }
+        }
     }
 }

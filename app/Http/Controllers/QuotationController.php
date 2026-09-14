@@ -169,9 +169,9 @@ class QuotationController extends Controller
      */
     public function destroy(Quotation $quotation)
     {
+        $quotation->deleteFiles();
         $quotation->delete();
 
-        return redirect()->route('quotations.index')
-            ->with('success', 'Cotización eliminada.');
+        return response()->json(['message' => 'Cotización eliminada.']);
     }
 }
