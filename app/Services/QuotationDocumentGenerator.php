@@ -6,18 +6,33 @@ use App\Models\Quotation;
 use Mpdf\Mpdf;
 use Mpdf\Output\Destination;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\SimpleType\JcTable;
 use PhpOffice\PhpWord\IOFactory as WordIOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use Illuminate\Support\Facades\Log;
 
 class QuotationDocumentGenerator
 {
     protected string $storagePath;
     protected string $tempPath;
-    protected bool $hasLibreOffice;
+
+    // Paleta compartida
+    protected const GOLD        = 'b8956a';
+    protected const DARK_BROWN  = '7a6a4f';
+    protected const CREAM_BG    = 'faf6ee';
+    protected const LIGHT_TABLE = 'f5f0e4';
+    protected const BORDER_SOFT = 'e5dcc8';
+    protected const BORDER_ROW  = 'f0ece2';
+    protected const TEXT_DARK   = '2c2c2c';
+    protected const TEXT_MUTED  = '888888';
+    protected const TEXT_LABEL  = 'b8956a';
 
     public function __construct()
     {
@@ -30,15 +45,6 @@ class QuotationDocumentGenerator
         if (!is_dir($this->tempPath)) {
             mkdir($this->tempPath, 0755, true);
         }
-
-        $this->hasLibreOffice = $this->checkLibreOffice();
-    }
-
-    protected function checkLibreOffice(): bool
-    {
-        $cmd = PHP_OS_FAMILY === 'Windows' ? 'where soffice' : 'which libreoffice';
-        exec($cmd . ' 2>&1', $output, $code);
-        return $code === 0;
     }
 
     public function generateAll(Quotation $quotation): Quotation
@@ -50,17 +56,21 @@ class QuotationDocumentGenerator
         $pdfRelative = $this->generatePdf($quotation, $img1, $img2, $img3);
         $quotation->pdf_path = $pdfRelative;
 
-        $pdfAbsolute = storage_path("app/public/{$pdfRelative}");
+        $quotation->word_path  = $this->generateWord($quotation, $img1, $img2, $img3);
 
-        $quotation->word_path = $this->convertPdfToWord($pdfAbsolute, $quotation);
+        $pdfAbsolute = storage_path("app/public/{$pdfRelative}");
         $quotation->image_path = $this->convertPdfToImage($pdfAbsolute, $quotation->folio);
-        $quotation->excel_path = $this->generateExcel($quotation);
+
+        $quotation->excel_path = $this->generateExcel($quotation, $img1, $img2, $img3);
 
         $quotation->save();
 
         return $quotation;
     }
 
+    // =====================================================
+    // PDF (sin cambios — ya lo tienes)
+    // =====================================================
     protected function generatePdf(Quotation $quotation, string $img1, string $img2, string $img3): string
     {
         $img1Data = $this->imageToBase64($img1);
@@ -77,10 +87,10 @@ class QuotationDocumentGenerator
         $mpdf = new Mpdf([
             'mode'              => 'utf-8',
             'format'            => 'Letter',
-            'margin_top'        => 0,     // ← SIN margen arriba para que el banner toque el borde
+            'margin_top'        => 0,
             'margin_bottom'     => 14,
-            'margin_left'       => 0,     // ← SIN margen lateral
-            'margin_right'      => 0,     // ← SIN margen lateral
+            'margin_left'       => 0,
+            'margin_right'      => 0,
             'margin_footer'     => 0,
             'default_font'      => 'dejavusans',
             'default_font_size' => 11,
@@ -117,26 +127,336 @@ class QuotationDocumentGenerator
         return "data:{$mime};base64,{$data}";
     }
 
-    protected function convertPdfToWord(string $pdfAbsolute, Quotation $quotation): string
+    // =====================================================
+    // WORD — versión afinada (métricas exactas)
+    // =====================================================
+    protected function generateWord(Quotation $quotation, string $img1, string $img2, string $img3): string
     {
-        if ($this->hasLibreOffice) {
-            $outDir = $this->storagePath;
-            $cmd = sprintf(
-                'libreoffice --headless --convert-to docx --outdir %s %s 2>&1',
-                escapeshellarg($outDir),
-                escapeshellarg($pdfAbsolute)
-            );
-            exec($cmd, $output, $code);
+        $phpWord = new PhpWord();
+        $phpWord->setDefaultFontName('DejaVu Sans');
+        $phpWord->setDefaultFontSize(10);
 
-            $expected = "{$outDir}/{$quotation->folio}.docx";
-            if ($code === 0 && file_exists($expected)) {
-                return "quotations/{$quotation->folio}.docx";
-            }
-            Log::warning('LibreOffice PDF→DOCX falló', ['output' => $output, 'code' => $code]);
+        // =========================================================
+        // MEDIDAS (Letter = 12240 x 15840 twips)
+        // Objetivo: márgenes 0, banner toca bordes, padding lateral
+        // de 200 twips (~10px) igual que el .container del PDF.
+        // =========================================================
+        $PAGE_W  = 12240;
+        $PAGE_H  = 15840;
+        $PAD_LAT = 200;
+        $INNER_W = $PAGE_W - ($PAD_LAT * 2);
+
+        // Columnas tabla items (50 / 8 / 20 / 22)
+        $COL_DESC  = (int) round($INNER_W * 0.50);
+        $COL_CANT  = (int) round($INNER_W * 0.08);
+        $COL_PRICE = (int) round($INNER_W * 0.20);
+        $COL_TOTAL = $INNER_W - $COL_DESC - $COL_CANT - $COL_PRICE;
+
+        // Columnas banner (20 / 60 / 20)
+        $BAN_L = (int) round($PAGE_W * 0.20);
+        $BAN_C = (int) round($PAGE_W * 0.60);
+        $BAN_R = $PAGE_W - $BAN_L - $BAN_C;
+
+        $section = $phpWord->addSection([
+            'pageSizeW'   => $PAGE_W,
+            'pageSizeH'   => $PAGE_H,
+            'marginTop'   => 0,
+            'marginBottom' => 240,   // ← footer chico, reducido
+            'marginLeft'  => 0,
+            'marginRight' => 0,
+            'marginHeader' => 0,
+            'marginFooter' => 60,    // ← poquito para el footer
+        ]);
+
+        // =========================================================
+        // FOOTER — una sola fila, sin tabla, para que no empuje nada
+        // =========================================================
+        $footer = $section->addFooter();
+        $footer->addText(
+            '729-373-88-30                              Av. Circunvalación No. 15, Col. Agricola Analco, Lerma, Méx.                              eventosespecialeslerma.com',
+            ['size' => 7, 'color' => 'FFFFFF', 'bgColor' => self::DARK_BROWN],
+            ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 1.0]
+        );
+
+        // =========================================================
+        // BANNER — altura 1200 twips (≈80px), imágenes más chicas
+        // =========================================================
+        $bannerTable = $section->addTable([
+            'borderSize' => 0,
+            'cellMargin' => 0,
+            'width'      => $PAGE_W,
+            'unit'       => 'dxa',
+        ]);
+        $bannerTable->addRow(1300);   // ← 1300 twips ≈ 87px (banner compacto)
+
+        // ---- Círculo izquierdo (150px→~85pt) ----
+        $cellL = $bannerTable->addCell($BAN_L, [
+            'valign' => 'center', 'bgColor' => self::CREAM_BG, 'borderSize' => 0, 'cellMargin' => 0,
+        ]);
+        if (file_exists($img1)) {
+            $cellL->addImage($img1, ['width' => 85, 'height' => 85, 'alignment' => Jc::CENTER]);
         }
-        return $this->generateWordFallback($quotation);
+
+        // ---- Título + rectángulo central ----
+        $cellC = $bannerTable->addCell($BAN_C, [
+            'valign' => 'center', 'bgColor' => self::CREAM_BG, 'borderSize' => 0, 'cellMargin' => 0,
+        ]);
+        $cellC->addText(
+            '"EVENTOS ESPECIALES LERMA"',
+            ['name' => 'DejaVu Serif', 'size' => 15, 'color' => self::GOLD, 'spacing' => 40],
+            ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 1.0]
+        );
+        if (file_exists($img2)) {
+            // 440x160 px → 330x120 pt, pero comprimido a ~240x85 pt
+            $cellC->addImage($img2, ['width' => 240, 'height' => 85, 'alignment' => Jc::CENTER]);
+        }
+
+        // ---- Círculo derecho ----
+        $cellR = $bannerTable->addCell($BAN_R, [
+            'valign' => 'center', 'bgColor' => self::CREAM_BG, 'borderSize' => 0, 'cellMargin' => 0,
+        ]);
+        if (file_exists($img3)) {
+            $cellR->addImage($img3, ['width' => 85, 'height' => 85, 'alignment' => Jc::CENTER]);
+        }
+
+        // =========================================================
+        // CONTENEDOR PADDING (outer table, una sola celda)
+        // =========================================================
+        $outerTable = $section->addTable([
+            'borderSize' => 0,
+            'cellMargin' => $PAD_LAT,
+            'width'      => $PAGE_W,
+            'unit'       => 'dxa',
+        ]);
+        $outerTable->addRow();
+        $outerCell = $outerTable->addCell($PAGE_W, ['borderSize' => 0, 'cellMargin' => $PAD_LAT]);
+
+        // =========================================================
+        // INFO BAR — TODO en una tabla compacta
+        // =========================================================
+        $infoTable = $outerCell->addTable([
+            'borderSize' => 0,
+            'cellMargin' => 0,
+            'width'      => $INNER_W,
+            'unit'       => 'dxa',
+        ]);
+        $colHalf = (int) ($INNER_W / 2);
+
+        // Fila 1: label cliente + label elaboró
+        $infoTable->addRow(180);
+        $infoTable->addCell($colHalf, ['valign' => 'bottom', 'borderSize' => 0])
+            ->addText('COTIZACIÓN PARA:', ['size' => 7, 'color' => self::TEXT_LABEL, 'allCaps' => true],
+                ['spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+        $infoTable->addCell($colHalf, ['valign' => 'bottom', 'borderSize' => 0])
+            ->addText('ELABORÓ:', ['size' => 7, 'color' => self::TEXT_LABEL],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+        // Fila 2: valor cliente + valor elaboró
+        $infoTable->addRow(280);
+        $infoTable->addCell($colHalf, ['valign' => 'top', 'borderSize' => 0])
+            ->addText($quotation->client_name, ['name' => 'DejaVu Serif', 'size' => 12, 'color' => self::TEXT_DARK],
+                ['spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+        $infoTable->addCell($colHalf, ['valign' => 'top', 'borderSize' => 0])
+            ->addText('Eventos Especiales Lerma', ['name' => 'DejaVu Serif', 'size' => 12, 'color' => self::TEXT_DARK],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+        // Separador punteado (muy chico)
+        $infoTable->addRow(60);
+        $infoTable->addCell($INNER_W, ['borderSize' => 0, 'gridSpan' => 2])
+            ->addText('', [], [
+                'borderTopSize'  => 4, 'borderTopColor' => self::BORDER_SOFT, 'borderTopStyle' => 'dashed',
+                'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.1,
+            ]);
+
+        // Fila 3: label folio + label fecha
+        $infoTable->addRow(180);
+        $infoTable->addCell($colHalf, ['valign' => 'bottom', 'borderSize' => 0])
+            ->addText('FOLIO:', ['size' => 7, 'color' => self::TEXT_LABEL],
+                ['spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+        $infoTable->addCell($colHalf, ['valign' => 'bottom', 'borderSize' => 0])
+            ->addText('FECHA:', ['size' => 7, 'color' => self::TEXT_LABEL],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+        // Fila 4: valor folio + valor fecha
+        $infoTable->addRow(280);
+        $infoTable->addCell($colHalf, ['valign' => 'top', 'borderSize' => 0])
+            ->addText($quotation->folio, ['name' => 'DejaVu Serif', 'size' => 12, 'color' => self::TEXT_DARK],
+                ['spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+        $infoTable->addCell($colHalf, ['valign' => 'top', 'borderSize' => 0])
+            ->addText($quotation->quotation_date->format('d/m/Y'), ['name' => 'DejaVu Serif', 'size' => 12, 'color' => self::TEXT_DARK],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+        // Separador punteado
+        $infoTable->addRow(60);
+        $infoTable->addCell($INNER_W, ['borderSize' => 0, 'gridSpan' => 2])
+            ->addText('', [], [
+                'borderTopSize'  => 4, 'borderTopColor' => self::BORDER_SOFT, 'borderTopStyle' => 'dashed',
+                'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.1,
+            ]);
+
+        // Fila 5: contacto centrado
+        $infoTable->addRow(200);
+        $infoTable->addCell($INNER_W, ['borderSize' => 0, 'gridSpan' => 2])
+            ->addText('Tel. 728-284-9074  ·  Cel. 729-373-88-30  ·  eventosespecialeslerma.com',
+                ['size' => 8, 'color' => self::TEXT_MUTED],
+                ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+        // =========================================================
+        // TÍTULO "COTIZACIÓN" — SIN párrafos vacíos alrededor
+        // =========================================================
+        $outerCell->addText(
+            'COTIZACIÓN',
+            ['name' => 'DejaVu Serif', 'size' => 14, 'color' => self::GOLD, 'spacing' => 160],
+            ['alignment' => Jc::CENTER, 'spaceAfter' => 120, 'spaceBefore' => 120, 'lineHeight' => 1.0]
+        );
+
+        // =========================================================
+        // SECCIONES + ITEMS
+        // =========================================================
+        $grupos = [];
+        foreach ($quotation->items as $item) {
+            $seccion = strtoupper($item['seccion'] ?? 'SERVICIOS');
+            $grupos[$seccion][] = $item;
+        }
+
+        foreach ($grupos as $seccion => $items) {
+
+            // ---- Section header ----
+            $shTable = $outerCell->addTable([
+                'borderSize' => 0, 'cellMargin' => 100,
+                'width' => $INNER_W, 'unit' => 'dxa',
+            ]);
+            $shTable->addRow(280);   // ← 280 twips ≈ 18px, compacto
+            $shTable->addCell($INNER_W, ['bgColor' => self::DARK_BROWN, 'valign' => 'center', 'borderSize' => 0, 'cellMargin' => 100])
+                ->addText($seccion, ['size' => 9, 'color' => 'FFFFFF', 'allCaps' => true, 'spacing' => 30],
+                    ['spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+            // ---- Tabla de items ----
+            $itemsTable = $outerCell->addTable([
+                'borderSize' => 0, 'cellMargin' => 0,
+                'width' => $INNER_W, 'unit' => 'dxa',
+            ]);
+
+            // Encabezado
+            $itemsTable->addRow(260, ['bgColor' => self::LIGHT_TABLE]);
+            $itemsTable->addCell($COL_DESC, ['bgColor' => self::LIGHT_TABLE, 'valign' => 'center', 'borderSize' => 0, 'cellMargin' => 100])
+                ->addText('DESCRIPCIÓN', ['size' => 8, 'color' => self::DARK_BROWN, 'allCaps' => true],
+                    ['spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+            $itemsTable->addCell($COL_CANT, ['bgColor' => self::LIGHT_TABLE, 'valign' => 'center', 'borderSize' => 0, 'cellMargin' => 100])
+                ->addText('CANT.', ['size' => 8, 'color' => self::DARK_BROWN],
+                    ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+            $itemsTable->addCell($COL_PRICE, ['bgColor' => self::LIGHT_TABLE, 'valign' => 'center', 'borderSize' => 0, 'cellMargin' => 100])
+                ->addText('P. UNITARIO', ['size' => 8, 'color' => self::DARK_BROWN],
+                    ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+            $itemsTable->addCell($COL_TOTAL, ['bgColor' => self::LIGHT_TABLE, 'valign' => 'center', 'borderSize' => 0, 'cellMargin' => 100])
+                ->addText('TOTAL', ['size' => 8, 'color' => self::DARK_BROWN],
+                    ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+            // Filas — 300 twips ≈ 20px (compacto)
+            foreach ($items as $item) {
+                $itemsTable->addRow(300);
+                $itemsTable->addCell($COL_DESC, ['valign' => 'center', 'borderSize' => 0, 'cellMargin' => 100, 'borderBottomSize' => 4, 'borderBottomColor' => self::BORDER_ROW])
+                    ->addText($item['descripcion'], ['size' => 9, 'color' => self::TEXT_DARK],
+                        ['spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+                $itemsTable->addCell($COL_CANT, ['valign' => 'center', 'borderSize' => 0, 'cellMargin' => 100, 'borderBottomSize' => 4, 'borderBottomColor' => self::BORDER_ROW])
+                    ->addText((string) $item['cantidad'], ['size' => 9, 'color' => self::TEXT_DARK],
+                        ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+                $itemsTable->addCell($COL_PRICE, ['valign' => 'center', 'borderSize' => 0, 'cellMargin' => 100, 'borderBottomSize' => 4, 'borderBottomColor' => self::BORDER_ROW])
+                    ->addText('$' . number_format($item['precio_unitario'], 2), ['size' => 9, 'color' => self::TEXT_DARK],
+                        ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+                $itemsTable->addCell($COL_TOTAL, ['valign' => 'center', 'borderSize' => 0, 'cellMargin' => 100, 'borderBottomSize' => 4, 'borderBottomColor' => self::BORDER_ROW])
+                    ->addText('$' . number_format($item['total'], 2), ['size' => 9, 'color' => self::TEXT_DARK],
+                        ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+            }
+        }
+
+        // =========================================================
+        // NOTAS + TOTALES
+        // =========================================================
+        $outerCell->addText('', [], ['size' => 4, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.5]);
+
+        $bottomTable = $outerCell->addTable([
+            'borderSize' => 0, 'cellMargin' => 0,
+            'width' => $INNER_W, 'unit' => 'dxa',
+        ]);
+        $bottomTable->addRow();
+
+        // Notas (izq, 55%)
+        $notesW = (int) round($INNER_W * 0.55);
+        $notesCell = $bottomTable->addCell($notesW, ['valign' => 'top', 'borderSize' => 0, 'cellMargin' => 0]);
+        $notesCell->addText('', [], [
+            'borderTopSize' => 4, 'borderTopColor' => self::BORDER_ROW,
+            'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.5,
+        ]);
+        $notas = [
+            'La presente cotización tiene una vigencia de 30 días naturales a partir de la fecha de emisión.',
+            'Los precios indicados en esta cotización no incluyen IVA.',
+            'Para confirmar la reserva, se requiere un anticipo del 50% del total.',
+            'El 50% restante deberá liquidarse previo al día del evento.',
+            'El montaje y la logística se coordinarán una semana previa al evento.',
+        ];
+        foreach ($notas as $nota) {
+            $notesCell->addText('• ' . $nota, ['size' => 8, 'color' => self::TEXT_MUTED],
+                ['spaceAfter' => 10, 'spaceBefore' => 0, 'lineHeight' => 0.95]);
+        }
+
+        // Totales (der, 45%)
+        $totalsW = $INNER_W - $notesW;
+        $totalsCell = $bottomTable->addCell($totalsW, ['valign' => 'bottom', 'borderSize' => 0, 'cellMargin' => 0]);
+
+        $totalsInner = $totalsCell->addTable([
+            'borderSize' => 0, 'cellMargin' => 0,
+            'width' => $totalsW, 'unit' => 'dxa',
+        ]);
+        $halfTotalsW = (int) ($totalsW / 2);
+
+        // Subtotal
+        $totalsInner->addRow(220);
+        $totalsInner->addCell($halfTotalsW, ['valign' => 'center', 'borderSize' => 0, 'cellMargin' => 80])
+            ->addText('Subtotal:', ['size' => 9, 'color' => self::TEXT_MUTED],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+        $totalsInner->addCell($halfTotalsW, ['valign' => 'center', 'borderSize' => 0, 'cellMargin' => 80])
+            ->addText('$' . number_format($quotation->subtotal, 2), ['size' => 9, 'color' => self::TEXT_DARK],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+        // IVA
+        $totalsInner->addRow(220);
+        $totalsInner->addCell($halfTotalsW, ['valign' => 'center', 'borderSize' => 0, 'cellMargin' => 80])
+            ->addText('IVA (0%):', ['size' => 9, 'color' => self::TEXT_MUTED],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+        $totalsInner->addCell($halfTotalsW, ['valign' => 'center', 'borderSize' => 0, 'cellMargin' => 80])
+            ->addText('$' . number_format($quotation->iva, 2), ['size' => 9, 'color' => self::TEXT_DARK],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+        // TOTAL destacado
+        $totalsInner->addRow(340, ['bgColor' => self::DARK_BROWN]);
+        $totalsInner->addCell($halfTotalsW, ['bgColor' => self::DARK_BROWN, 'valign' => 'center', 'borderSize' => 0, 'cellMargin' => 80])
+            ->addText('TOTAL:', ['size' => 11, 'color' => 'FFFFFF', 'spacing' => 20],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+        $totalsInner->addCell($halfTotalsW, ['bgColor' => self::DARK_BROWN, 'valign' => 'center', 'borderSize' => 0, 'cellMargin' => 80])
+            ->addText('$' . number_format($quotation->total, 2), ['size' => 11, 'color' => 'FFFFFF'],
+                ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
+
+        // =========================================================
+        // PIE
+        // =========================================================
+        $outerCell->addText('', [], ['size' => 4, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.5]);
+        $outerCell->addText(
+            'Gracias por su preferencia · Eventos Especiales Lerma · ' . now()->year,
+            ['size' => 7, 'color' => '999999'],
+            ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]
+        );
+
+        $filename = "{$quotation->folio}.docx";
+        $path = "{$this->storagePath}/{$filename}";
+        WordIOFactory::createWriter($phpWord, 'Word2007')->save($path);
+
+        return "quotations/{$filename}";
     }
 
+    // =====================================================
+    // PDF → IMAGEN (sin cambios)
+    // =====================================================
     protected function convertPdfToImage(string $pdfAbsolute, string $folio): ?string
     {
         $pngPath = "{$this->storagePath}/{$folio}.png";
@@ -165,235 +485,326 @@ class QuotationDocumentGenerator
         return null;
     }
 
-    protected function generateWordFallback(Quotation $quotation): string
-    {
-        $phpWord = new PhpWord();
-        $phpWord->setDefaultFontName('Calibri');
-        $phpWord->setDefaultFontSize(10);
-
-        $section = $phpWord->addSection([
-            'marginTop' => 600,
-            'marginBottom' => 600,
-            'marginLeft' => 900,
-            'marginRight' => 900,
-        ]);
-
-        $section->addText(
-            '"EVENTOS ESPECIALES LERMA"',
-            ['bold' => true, 'size' => 20, 'color' => 'B8860B'],
-            ['alignment' => 'center', 'spaceAfter' => 100]
-        );
-
-        $headerImages = array_filter([
-            public_path('images/cotizacion/header-1.png'),
-            public_path('images/cotizacion/header-2.png'),
-            public_path('images/cotizacion/header-3.png'),
-        ], 'file_exists');
-
-        if (count($headerImages) > 0) {
-            $imgTable = $section->addTable(['borderSize' => 0, 'cellMargin' => 0]);
-            $imgTable->addRow(900);
-            foreach ($headerImages as $img) {
-                $cell = $imgTable->addCell(3000);
-                $cell->addImage($img, ['width' => 90, 'height' => 60, 'alignment' => 'center']);
-            }
-        }
-
-        $section->addTextBreak(1);
-
-        $infoTable = $section->addTable(['borderSize' => 0, 'cellMargin' => 0]);
-        $infoTable->addRow();
-        $left = $infoTable->addCell(5000);
-        $left->addText('COTIZACIÓN PARA:', ['size' => 8, 'color' => 'B8860B', 'bold' => true]);
-        $left->addText($quotation->client_name, ['size' => 11, 'bold' => true, 'color' => '333333']);
-        $left->addText('Fecha: ' . $quotation->quotation_date->format('d/m/Y'), ['size' => 9, 'color' => '666666']);
-
-        $right = $infoTable->addCell(4000);
-        $right->addText('ELABORÓ:', ['size' => 8, 'color' => 'B8860B', 'bold' => true], ['alignment' => 'right']);
-        $right->addText('Eventos Especiales Lerma', ['size' => 11, 'bold' => true, 'color' => '333333'], ['alignment' => 'right']);
-        $right->addText('Tel. 728-284-9074 · Cel. 729-373 88-30', ['size' => 8, 'color' => '666666'], ['alignment' => 'right']);
-        $right->addText('Folio: ' . $quotation->folio, ['size' => 9, 'bold' => true, 'color' => '333333'], ['alignment' => 'right']);
-
-        $section->addTextBreak(1);
-
-        $section->addText(
-            'C O T I Z A C I Ó N',
-            ['bold' => true, 'size' => 16, 'color' => 'B8860B'],
-            ['alignment' => 'center', 'spaceAfter' => 200]
-        );
-
-        $grupos = [];
-        foreach ($quotation->items as $item) {
-            $seccion = $item['seccion'] ?? 'SERVICIOS';
-            $grupos[$seccion][] = $item;
-        }
-
-        foreach ($grupos as $seccion => $items) {
-            $section->addText(
-                strtoupper($seccion),
-                ['bold' => true, 'size' => 10, 'color' => '8B6914'],
-                ['spaceBefore' => 100, 'spaceAfter' => 60]
-            );
-
-            $table = $section->addTable([
-                'borderSize' => 6,
-                'borderColor' => 'E5DCC8',
-                'cellMargin' => 60,
-            ]);
-
-            $hdrStyle = ['bgColor' => 'FAF8F3'];
-            $hdrFont = ['bold' => true, 'size' => 8, 'color' => '8B6914'];
-            $table->addRow(280, $hdrStyle);
-            $table->addCell(5500, $hdrStyle)->addText('Descripción', $hdrFont);
-            $table->addCell(1000, $hdrStyle)->addText('Cant.', $hdrFont, ['alignment' => 'center']);
-            $table->addCell(1500, $hdrStyle)->addText('P. Unitario', $hdrFont, ['alignment' => 'right']);
-            $table->addCell(1500, $hdrStyle)->addText('Total', $hdrFont, ['alignment' => 'right']);
-
-            foreach ($items as $i => $item) {
-                $rowStyle = $i % 2 === 1 ? ['bgColor' => 'FAFAFA'] : [];
-                $table->addRow(260, $rowStyle);
-                $table->addCell(5500)->addText($item['descripcion'], ['size' => 9]);
-                $table->addCell(1000)->addText($item['cantidad'], ['size' => 9], ['alignment' => 'center']);
-                $table->addCell(1500)->addText('$' . number_format($item['precio_unitario'], 2), ['size' => 9], ['alignment' => 'right']);
-                $table->addCell(1500)->addText('$' . number_format($item['total'], 2), ['size' => 9], ['alignment' => 'right']);
-            }
-        }
-
-        $section->addTextBreak(1);
-        $totals = $section->addTable(['borderSize' => 0, 'cellMargin' => 0]);
-        $totals->addRow();
-        $totals->addCell(6500)->addText('');
-        $tc = $totals->addCell(2000);
-        $tc->addText('Subtotal: $' . number_format($quotation->subtotal, 2), ['size' => 10, 'color' => '666666'], ['alignment' => 'right']);
-        $tc->addText('IVA (0%): $' . number_format($quotation->iva, 2), ['size' => 10, 'color' => '666666'], ['alignment' => 'right']);
-        $tc->addText('TOTAL: $' . number_format($quotation->total, 2), ['bold' => true, 'size' => 12, 'color' => '8B6914'], ['alignment' => 'right']);
-
-        $section->addTextBreak(2);
-        $section->addText(
-            'Gracias por su preferencia · Eventos Especiales Lerma · ' . now()->year,
-            ['size' => 8, 'color' => '999999'],
-            ['alignment' => 'center']
-        );
-
-        $filename = "{$quotation->folio}.docx";
-        $path = "{$this->storagePath}/{$filename}";
-        WordIOFactory::createWriter($phpWord, 'Word2007')->save($path);
-
-        return "quotations/{$filename}";
-    }
-
-    protected function generateExcel(Quotation $quotation): string
+    // =====================================================
+    // EXCEL — con imágenes del banner + footer
+    // =====================================================
+    protected function generateExcel(Quotation $quotation, string $img1 = '', string $img2 = '', string $img3 = ''): string
     {
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Cotización');
 
-        $sheet->getColumnDimension('A')->setWidth(55);
-        $sheet->getColumnDimension('B')->setWidth(8);
-        $sheet->getColumnDimension('C')->setWidth(14);
-        $sheet->getColumnDimension('D')->setWidth(14);
+        // === Anchos de columna (para imitar 50/8/20/22) ===
+        $sheet->getColumnDimension('A')->setWidth(52);
+        $sheet->getColumnDimension('B')->setWidth(10);
+        $sheet->getColumnDimension('C')->setWidth(16);
+        $sheet->getColumnDimension('D')->setWidth(16);
 
-        $gold = 'B8860B';
-        $lightGold = 'F5F0E6';
-        $headerBg = 'FAF8F3';
-        $darkGold = '8B6914';
+        // Paleta
+        $gold       = self::GOLD;
+        $darkBrown  = self::DARK_BROWN;
+        $creamBg    = self::CREAM_BG;
+        $lightTable = self::LIGHT_TABLE;
+        $borderSoft = self::BORDER_SOFT;
+        $borderRow  = self::BORDER_ROW;
+        $textDark   = self::TEXT_DARK;
+        $textMuted  = self::TEXT_MUTED;
+        $textLabel  = self::TEXT_LABEL;
 
+        // =========================================================
+        // BANNER — 3 filas y NO 4. Mucho más compacto.
+        // Fila 1: título (altura 30)
+        // Fila 2: imágenes (altura 90) ← aquí flotan las 3 imágenes
+        // Fila 3: separación (altura 10)
+        // =========================================================
         $sheet->mergeCells('A1:D1');
+        $sheet->getStyle('A1')->getFill()
+            ->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($creamBg);
         $sheet->setCellValue('A1', '"EVENTOS ESPECIALES LERMA"');
-        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(18)->getColor()->setARGB($gold);
-        $sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A1')->getFont()
+            ->setSize(18)->getColor()->setARGB($gold);
+        $sheet->getStyle('A1')->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+            ->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getRowDimension(1)->setRowHeight(30);
 
-        $sheet->setCellValue('A3', 'COTIZACIÓN PARA:');
-        $sheet->getStyle('A3')->getFont()->setBold(true)->setSize(8)->getColor()->setARGB($gold);
-        $sheet->setCellValue('A4', $quotation->client_name);
-        $sheet->getStyle('A4')->getFont()->setBold(true)->setSize(11);
-        $sheet->setCellValue('A5', 'Fecha: ' . $quotation->quotation_date->format('d/m/Y'));
+        // Fila 2: sólo para que floten las imágenes (fondo crema)
+        $sheet->mergeCells('A2:D2');
+        $sheet->getStyle('A2:D2')->getFill()
+            ->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($creamBg);
+        $sheet->getRowDimension(2)->setRowHeight(85);
 
-        $sheet->setCellValue('C3', 'ELABORÓ:');
-        $sheet->getStyle('C3')->getFont()->setBold(true)->setSize(8)->getColor()->setARGB($gold);
-        $sheet->setCellValue('C4', 'Eventos Especiales Lerma');
-        $sheet->getStyle('C4')->getFont()->setBold(true)->setSize(11);
-        $sheet->setCellValue('C5', 'Tel. 728-284-9074');
-        $sheet->setCellValue('C6', 'Folio: ' . $quotation->folio);
-        $sheet->getStyle('C6')->getFont()->setBold(true);
+        // Fila 3: separador visual
+        $sheet->mergeCells('A3:D3');
+        $sheet->getStyle('A3:D3')->getFill()
+            ->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($creamBg);
+        $sheet->getRowDimension(3)->setRowHeight(8);
 
-        $sheet->mergeCells('A8:D8');
-        $sheet->setCellValue('A8', 'C O T I Z A C I Ó N');
-        $sheet->getStyle('A8')->getFont()->setBold(true)->setSize(14)->getColor()->setARGB($gold);
-        $sheet->getStyle('A8')->getAlignment()->setHorizontal('center');
-        $sheet->getRowDimension(8)->setRowHeight(25);
+        // ---- Imágenes flotantes del banner ----
+        // header-1: círculo izq → sobre A2 con ancho Y alto exactos
+        if ($img1 && file_exists($img1)) {
+            $d1 = new Drawing();
+            $d1->setName('header1');
+            $d1->setPath($img1);
+            $d1->setWidth(65);   // ← FIJO en px
+            $d1->setHeight(65);  // ← FIJO en px (cuadrado)
+            $d1->setCoordinates('A2');
+            $d1->setOffsetX(25);
+            $d1->setOffsetY(10);
+            $d1->setWorksheet($sheet);
+        }
 
+        // header-2: rect centro → sobre B2-C2 con proporción correcta
+        if ($img2 && file_exists($img2)) {
+            $d2 = new Drawing();
+            $d2->setName('header2');
+            $d2->setPath($img2);
+            $d2->setWidth(175);  // ← ancho razonable (no 330)
+            $d2->setHeight(85);  // ← alto equivalente
+            $d2->setCoordinates('B2');
+            $d2->setOffsetX(20);
+            $d2->setOffsetY(0);
+            $d2->setWorksheet($sheet);
+        }
+
+        // header-3: círculo der → sobre D2
+        if ($img3 && file_exists($img3)) {
+            $d3 = new Drawing();
+            $d3->setName('header3');
+            $d3->setPath($img3);
+            $d3->setWidth(65);
+            $d3->setHeight(65);
+            $d3->setCoordinates('D2');
+            $d3->setOffsetX(15);
+            $d3->setOffsetY(10);
+            $d3->setWorksheet($sheet);
+        }
+
+        $row = 4;
+
+        // =========================================================
+        // INFO BAR (igual que antes)
+        // =========================================================
+        $sheet->setCellValue("A{$row}", 'COTIZACIÓN PARA:');
+        $sheet->getStyle("A{$row}")->getFont()->setSize(8)->getColor()->setARGB($textLabel);
+        $sheet->setCellValue("C{$row}", 'ELABORÓ:');
+        $sheet->getStyle("C{$row}")->getFont()->setSize(8)->getColor()->setARGB($textLabel);
+        $sheet->getStyle("C{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $row++;
+
+        $sheet->mergeCells("A{$row}:B{$row}");
+        $sheet->setCellValue("A{$row}", $quotation->client_name);
+        $sheet->getStyle("A{$row}")->getFont()->setBold(true)->setSize(12)->getColor()->setARGB($textDark);
+        $sheet->mergeCells("C{$row}:D{$row}");
+        $sheet->setCellValue("C{$row}", 'Eventos Especiales Lerma');
+        $sheet->getStyle("C{$row}")->getFont()->setBold(true)->setSize(12)->getColor()->setARGB($textDark);
+        $sheet->getStyle("C{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $row++;
+
+        $sheet->setCellValue("A{$row}", 'FOLIO:');
+        $sheet->getStyle("A{$row}")->getFont()->setSize(8)->getColor()->setARGB($textLabel);
+        $sheet->setCellValue("C{$row}", 'FECHA:');
+        $sheet->getStyle("C{$row}")->getFont()->setSize(8)->getColor()->setARGB($textLabel);
+        $sheet->getStyle("C{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $row++;
+
+        $sheet->mergeCells("A{$row}:B{$row}");
+        $sheet->setCellValue("A{$row}", $quotation->folio);
+        $sheet->getStyle("A{$row}")->getFont()->setBold(true)->setSize(12)->getColor()->setARGB($textDark);
+        $sheet->mergeCells("C{$row}:D{$row}");
+        $sheet->setCellValue("C{$row}", $quotation->quotation_date->format('d/m/Y'));
+        $sheet->getStyle("C{$row}")->getFont()->setBold(true)->setSize(12)->getColor()->setARGB($textDark);
+        $sheet->getStyle("C{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $row++;
+
+        $sheet->mergeCells("A{$row}:D{$row}");
+        $sheet->setCellValue("A{$row}", 'Tel. 728-284-9074  ·  Cel. 729-373-88-30  ·  eventosespecialeslerma.com');
+        $sheet->getStyle("A{$row}")->getFont()->setSize(9)->getColor()->setARGB($textMuted);
+        $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $row += 2;
+
+        // =========================================================
+        // TÍTULO "COTIZACIÓN"
+        // =========================================================
+        $sheet->mergeCells("A{$row}:D{$row}");
+        $sheet->setCellValue("A{$row}", 'C O T I Z A C I Ó N');
+        $sheet->getStyle("A{$row}")->getFont()->setSize(16)->getColor()->setARGB($gold);
+        $sheet->getStyle("A{$row}")->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+            ->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getRowDimension($row)->setRowHeight(26);
+        $row += 2;
+
+        // =========================================================
+        // SECCIONES + ITEMS
+        // =========================================================
         $grupos = [];
         foreach ($quotation->items as $item) {
-            $seccion = $item['seccion'] ?? 'SERVICIOS';
+            $seccion = strtoupper($item['seccion'] ?? 'SERVICIOS');
             $grupos[$seccion][] = $item;
         }
 
-        $row = 10;
         foreach ($grupos as $seccion => $items) {
+            // Section header
             $sheet->mergeCells("A{$row}:D{$row}");
-            $sheet->setCellValue("A{$row}", strtoupper($seccion));
-            $sheet->getStyle("A{$row}")->getFont()->setBold(true)->setSize(10)->getColor()->setARGB($darkGold);
-            $sheet->getStyle("A{$row}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($lightGold);
-            $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal('left')->setIndent(1);
-            $sheet->getStyle("A{$row}")->getBorders()->getLeft()->setBorderStyle(Border::BORDER_THICK)->getColor()->setARGB($gold);
+            $sheet->setCellValue("A{$row}", $seccion);
+            $sheet->getStyle("A{$row}")->getFont()->setSize(10)->getColor()->setARGB('FFFFFF');
+            $sheet->getStyle("A{$row}")->getFill()
+                ->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($darkBrown);
+            $sheet->getStyle("A{$row}")->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_LEFT)
+                ->setVertical(Alignment::VERTICAL_CENTER)
+                ->setIndent(1);
+            $sheet->getRowDimension($row)->setRowHeight(22);
             $row++;
 
-            $headers = ['Descripción', 'Cant.', 'P. Unitario', 'Total'];
+            // Encabezado tabla
+            $headers = ['DESCRIPCIÓN', 'CANT.', 'P. UNITARIO', 'TOTAL'];
             foreach (['A', 'B', 'C', 'D'] as $i => $col) {
                 $cell = "{$col}{$row}";
                 $sheet->setCellValue($cell, $headers[$i]);
-                $sheet->getStyle($cell)->getFont()->setBold(true)->setSize(9)->getColor()->setARGB($darkGold);
-                $sheet->getStyle($cell)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($headerBg);
-                $sheet->getStyle($cell)->getBorders()->getBottom()->setBorderStyle(Border::BORDER_THIN)->getColor()->setARGB('E5DCC8');
-                $sheet->getStyle($cell)->getAlignment()->setHorizontal($i === 0 ? 'left' : ($i === 1 ? 'center' : 'right'));
+                $sheet->getStyle($cell)->getFont()->setSize(9)->getColor()->setARGB($darkBrown);
+                $sheet->getStyle($cell)->getFill()
+                    ->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($lightTable);
+                $sheet->getStyle($cell)->getBorders()->getBottom()
+                    ->setBorderStyle(Border::BORDER_THIN)->getColor()->setARGB($borderSoft);
+                $sheet->getStyle($cell)->getAlignment()
+                    ->setHorizontal($i === 0 ? Alignment::HORIZONTAL_LEFT : ($i === 1 ? Alignment::HORIZONTAL_CENTER : Alignment::HORIZONTAL_RIGHT))
+                    ->setVertical(Alignment::VERTICAL_CENTER);
             }
+            $sheet->getRowDimension($row)->setRowHeight(20);
             $row++;
 
-            foreach ($items as $i => $item) {
+            foreach ($items as $item) {
                 $sheet->setCellValue("A{$row}", $item['descripcion']);
-                $sheet->setCellValue("B{$row}", $item['cantidad']);
+                $sheet->getStyle("A{$row}")->getFont()->setSize(10)->getColor()->setARGB($textDark);
+                $sheet->getStyle("A{$row}")->getAlignment()
+                    ->setHorizontal(Alignment::HORIZONTAL_LEFT)
+                    ->setVertical(Alignment::VERTICAL_CENTER)
+                    ->setWrapText(true);
+
+                $sheet->setCellValue("B{$row}", (string) $item['cantidad']);
+                $sheet->getStyle("B{$row}")->getFont()->setSize(10)->getColor()->setARGB($textDark);
+                $sheet->getStyle("B{$row}")->getAlignment()
+                    ->setHorizontal(Alignment::HORIZONTAL_CENTER)->setVertical(Alignment::VERTICAL_CENTER);
+
                 $sheet->setCellValue("C{$row}", '$' . number_format($item['precio_unitario'], 2));
+                $sheet->getStyle("C{$row}")->getFont()->setSize(10)->getColor()->setARGB($textDark);
+                $sheet->getStyle("C{$row}")->getAlignment()
+                    ->setHorizontal(Alignment::HORIZONTAL_RIGHT)->setVertical(Alignment::VERTICAL_CENTER);
+
                 $sheet->setCellValue("D{$row}", '$' . number_format($item['total'], 2));
+                $sheet->getStyle("D{$row}")->getFont()->setSize(10)->getColor()->setARGB($textDark);
+                $sheet->getStyle("D{$row}")->getAlignment()
+                    ->setHorizontal(Alignment::HORIZONTAL_RIGHT)->setVertical(Alignment::VERTICAL_CENTER);
 
-                $sheet->getStyle("A{$row}:D{$row}")->getBorders()->getBottom()->setBorderStyle(Border::BORDER_THIN)->getColor()->setARGB('F0F0F0');
-                $sheet->getStyle("B{$row}")->getAlignment()->setHorizontal('center');
-                $sheet->getStyle("C{$row}:D{$row}")->getAlignment()->setHorizontal('right');
+                $sheet->getStyle("A{$row}:D{$row}")->getBorders()->getBottom()
+                    ->setBorderStyle(Border::BORDER_THIN)->getColor()->setARGB($borderRow);
 
-                if ($i % 2 === 1) {
-                    $sheet->getStyle("A{$row}:D{$row}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FAFAFA');
-                }
+                $sheet->getRowDimension($row)->setRowHeight(24);
                 $row++;
             }
+
             $row++;
         }
 
-        $sheet->setCellValue("C{$row}", 'Subtotal:');
-        $sheet->setCellValue("D{$row}", '$' . number_format($quotation->subtotal, 2));
-        $sheet->getStyle("C{$row}:D{$row}")->getFont()->setSize(10)->getColor()->setARGB('666666');
-        $sheet->getStyle("D{$row}")->getAlignment()->setHorizontal('right');
-        $row++;
+        // =========================================================
+        // NOTAS + TOTALES
+        // =========================================================
+        $notasRowStart = $row;
+        $notas = [
+            'La presente cotización tiene una vigencia de 30 días naturales a partir de la fecha de emisión.',
+            'Los precios indicados en esta cotización no incluyen IVA.',
+            'Para confirmar la reserva, se requiere un anticipo del 50% del total.',
+            'El 50% restante deberá liquidarse previo al día del evento.',
+            'El montaje y la logística se coordinarán una semana previa al evento.',
+        ];
+        foreach ($notas as $nota) {
+            $sheet->mergeCells("A{$row}:B{$row}");
+            $sheet->setCellValue("A{$row}", '• ' . $nota);
+            $sheet->getStyle("A{$row}")->getFont()->setSize(9)->getColor()->setARGB($textMuted);
+            $sheet->getStyle("A{$row}")->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_LEFT)
+                ->setVertical(Alignment::VERTICAL_TOP)
+                ->setWrapText(true);
+            $sheet->getRowDimension($row)->setRowHeight(18);
+            $row++;
+        }
 
-        $sheet->setCellValue("C{$row}", 'IVA (0%):');
-        $sheet->setCellValue("D{$row}", '$' . number_format($quotation->iva, 2));
-        $sheet->getStyle("C{$row}:D{$row}")->getFont()->setSize(10)->getColor()->setARGB('666666');
-        $sheet->getStyle("D{$row}")->getAlignment()->setHorizontal('right');
-        $row++;
+        $totalRow = $notasRowStart;
+        $sheet->setCellValue("C{$totalRow}", 'Subtotal:');
+        $sheet->getStyle("C{$totalRow}")->getFont()->setSize(10)->getColor()->setARGB($textMuted);
+        $sheet->getStyle("C{$totalRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $sheet->setCellValue("D{$totalRow}", '$' . number_format($quotation->subtotal, 2));
+        $sheet->getStyle("D{$totalRow}")->getFont()->setSize(10)->getColor()->setARGB($textDark);
+        $sheet->getStyle("D{$totalRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $totalRow++;
 
-        $sheet->setCellValue("C{$row}", 'TOTAL:');
-        $sheet->setCellValue("D{$row}", '$' . number_format($quotation->total, 2));
-        $sheet->getStyle("C{$row}:D{$row}")->getFont()->setBold(true)->setSize(12)->getColor()->setARGB($darkGold);
-        $sheet->getStyle("C{$row}:D{$row}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($lightGold);
-        $sheet->getStyle("D{$row}")->getAlignment()->setHorizontal('right');
-        $sheet->getStyle("C{$row}:D{$row}")->getBorders()->getTop()->setBorderStyle(Border::BORDER_THICK)->getColor()->setARGB($gold);
-        $sheet->getStyle("C{$row}:D{$row}")->getBorders()->getBottom()->setBorderStyle(Border::BORDER_THICK)->getColor()->setARGB($gold);
-        $row += 2;
+        $sheet->setCellValue("C{$totalRow}", 'IVA (0%):');
+        $sheet->getStyle("C{$totalRow}")->getFont()->setSize(10)->getColor()->setARGB($textMuted);
+        $sheet->getStyle("C{$totalRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $sheet->setCellValue("D{$totalRow}", '$' . number_format($quotation->iva, 2));
+        $sheet->getStyle("D{$totalRow}")->getFont()->setSize(10)->getColor()->setARGB($textDark);
+        $sheet->getStyle("D{$totalRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $totalRow++;
 
+        // TOTAL destacado
+        $sheet->setCellValue("C{$totalRow}", 'TOTAL:');
+        $sheet->getStyle("C{$totalRow}")->getFont()->setSize(13)->getColor()->setARGB('FFFFFF');
+        $sheet->getStyle("C{$totalRow}")->getFill()
+            ->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($darkBrown);
+        $sheet->getStyle("C{$totalRow}")->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_RIGHT)->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->setCellValue("D{$totalRow}", '$' . number_format($quotation->total, 2));
+        $sheet->getStyle("D{$totalRow}")->getFont()->setSize(13)->getColor()->setARGB('FFFFFF');
+        $sheet->getStyle("D{$totalRow}")->getFill()
+            ->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($darkBrown);
+        $sheet->getStyle("D{$totalRow}")->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_RIGHT)->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getRowDimension($totalRow)->setRowHeight(24);
+
+        $row = max($row, $totalRow) + 2;
+
+        // Pie "gracias"
         $sheet->mergeCells("A{$row}:D{$row}");
         $sheet->setCellValue("A{$row}", 'Gracias por su preferencia · Eventos Especiales Lerma · ' . now()->year);
         $sheet->getStyle("A{$row}")->getFont()->setSize(8)->getColor()->setARGB('999999');
-        $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal('center');
+        $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $row++;
+
+        // ---- Fila visual footer (barra café con datos) ----
+        $sheet->mergeCells("A{$row}:D{$row}");
+        $sheet->setCellValue("A{$row}", '729-373-88-30        ·        Av. Circunvalación No. 15, Col. Agricola Analco, Lerma, Méx.        ·        eventosespecialeslerma.com');
+        $sheet->getStyle("A{$row}")->getFont()->setSize(8)->getColor()->setARGB('FFFFFF');
+        $sheet->getStyle("A{$row}")->getFill()
+            ->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($darkBrown);
+        $sheet->getStyle("A{$row}")->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+            ->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getRowDimension($row)->setRowHeight(20);
+
+        // =========================================================
+        // CONFIGURACIÓN DE IMPRESIÓN
+        // =========================================================
+        $sheet->setShowGridlines(false);
+        $sheet->getPageSetup()
+            ->setOrientation(PageSetup::ORIENTATION_PORTRAIT)
+            ->setPaperSize(PageSetup::PAPERSIZE_LETTER)
+            ->setFitToWidth(1)
+            ->setFitToHeight(0)
+            ->setHorizontalCentered(true);
+
+        $sheet->getPageMargins()
+            ->setTop(0.3)->setBottom(0.4)
+            ->setLeft(0.4)->setRight(0.4)
+            ->setHeader(0.2)->setFooter(0.2);
+
+        // Footer nativo (se repite en cada página impresa)
+        $sheet->getHeaderFooter()->setOddFooter(
+            '&L&8&K595959729-373-88-30' .
+            '&C&8&K595959Av. Circunvalación No. 15, Col. Agricola Analco, Lerma, Méx.' .
+            '&R&8&K595959Página &P de &N'
+        );
 
         $filename = "{$quotation->folio}.xlsx";
         $path = "{$this->storagePath}/{$filename}";

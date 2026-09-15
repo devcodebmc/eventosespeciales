@@ -84,7 +84,7 @@
            CONTENEDOR DEL CONTENIDO (con padding lateral)
            ============================================ */
         .container {
-            padding: 0 10px;
+            padding: 0 20px;
         }
 
         /* ============================================
