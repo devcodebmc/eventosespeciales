@@ -281,6 +281,119 @@
         </div>
     </div>
 
+    {{-- Modal edición --}}
+    <div id="editModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-[var(--cz-ink)]/50 backdrop-blur-sm p-4">
+        <div id="editModalPanel"
+            class="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col transform scale-95 opacity-0 transition-all duration-300 ease-out">
+
+            {{-- Header --}}
+            <div class="px-7 py-5 border-b border-[var(--cz-border)] flex items-center justify-between flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg cz-grad-primary flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.172-8.172z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-[var(--cz-ink)]">Editar cotización</h3>
+                        <p class="text-xs text-[var(--cz-ink-soft)]" id="editModalFolio">—</p>
+                    </div>
+                </div>
+                <button type="button" id="editModalClose"
+                        class="w-8 h-8 flex items-center justify-center rounded-lg text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] hover:bg-[var(--cz-border)] transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            {{-- Cuerpo scrolleable --}}
+            <div class="overflow-y-auto flex-1 px-7 py-6 space-y-6">
+
+                {{-- Datos generales --}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-[var(--cz-ink-soft)] mb-1.5">Cliente</label>
+                        <input id="editClientName" type="text"
+                            class="block w-full border border-[var(--cz-border)] rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition text-[var(--cz-ink)]">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-[var(--cz-ink-soft)] mb-1.5">Fecha</label>
+                        <input id="editDate" type="date"
+                            class="block w-full border border-[var(--cz-border)] rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition text-[var(--cz-ink)]">
+                    </div>
+                </div>
+
+                {{-- Tabla de items --}}
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-xs font-semibold text-[var(--cz-ink-soft)] uppercase tracking-wide">Items</h4>
+                        <button type="button" id="addRowBtn"
+                                class="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--cz-brass-deep)] hover:text-[var(--cz-brass)] transition">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            Agregar fila
+                        </button>
+                    </div>
+
+                    <div class="rounded-xl border border-[var(--cz-border)] overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="bg-[var(--cz-paper)] border-b border-[var(--cz-border)]">
+                                        <th class="text-left text-[10px] font-semibold text-[var(--cz-ink-soft)] uppercase tracking-wide px-3 py-2.5 w-36">Sección</th>
+                                        <th class="text-left text-[10px] font-semibold text-[var(--cz-ink-soft)] uppercase tracking-wide px-3 py-2.5">Descripción</th>
+                                        <th class="text-right text-[10px] font-semibold text-[var(--cz-ink-soft)] uppercase tracking-wide px-3 py-2.5 w-20">Cant.</th>
+                                        <th class="text-right text-[10px] font-semibold text-[var(--cz-ink-soft)] uppercase tracking-wide px-3 py-2.5 w-28">P. Unit.</th>
+                                        <th class="text-right text-[10px] font-semibold text-[var(--cz-ink-soft)] uppercase tracking-wide px-3 py-2.5 w-28">Total</th>
+                                        <th class="w-10 px-2 py-2.5"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="editItemsBody" class="divide-y divide-[var(--cz-border)]">
+                                    {{-- filas generadas por JS --}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Totales --}}
+                <div class="flex justify-end">
+                    <div class="bg-[var(--cz-paper)] rounded-xl border border-[var(--cz-border)] px-5 py-4 min-w-[200px] space-y-2">
+                        <div class="flex justify-between text-xs text-[var(--cz-ink-soft)]">
+                            <span>Subtotal</span>
+                            <span id="editSubtotal" class="tabular-nums font-medium text-[var(--cz-ink)]">$0.00</span>
+                        </div>
+                        <div class="border-t border-[var(--cz-border)] pt-2 flex justify-between text-sm font-semibold text-[var(--cz-ink)]">
+                            <span>Total</span>
+                            <span id="editTotal" class="tabular-nums cz-grad-text">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Footer --}}
+            <div class="px-7 py-4 border-t border-[var(--cz-border)] flex items-center justify-end gap-3 flex-shrink-0 bg-[var(--cz-paper)]">
+                <button type="button" id="editCancelBtn"
+                        class="px-5 py-2.5 text-sm font-medium text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] transition">
+                    Cancelar
+                </button>
+                <button type="button" id="editSaveBtn"
+                        class="inline-flex items-center px-6 py-2.5 cz-grad-primary cz-glow text-white rounded-xl text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed">
+                    <svg class="w-4 h-4 mr-1.5 icon-default" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <svg class="w-4 h-4 mr-1.5 icon-loading hidden animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    Guardar y regenerar
+                </button>
+            </div>
+        </div>
+    </div>
+
     {{-- Modal confirmar eliminación --}}
     <div id="deleteModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-[var(--cz-ink)]/50 backdrop-blur-sm p-4">
         <div id="deleteModalPanel"
@@ -657,6 +770,240 @@
                 loadingIcon.classList.add('hidden');
                 link.classList.remove('pointer-events-none', 'opacity-70');
             });
+        });
+
+        // =============================
+        // EDITAR COTIZACIÓN
+        // =============================
+        const editModal      = document.getElementById('editModal');
+        const editModalPanel = document.getElementById('editModalPanel');
+        const editModalClose = document.getElementById('editModalClose');
+        const editCancelBtn  = document.getElementById('editCancelBtn');
+        const editSaveBtn    = document.getElementById('editSaveBtn');
+        const editItemsBody  = document.getElementById('editItemsBody');
+
+        let currentEditId = null;
+
+        function fmtMoney(n) {
+            return '$' + Number(n).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function recalcEditTotals() {
+            let subtotal = 0;
+            editItemsBody.querySelectorAll('tr').forEach(row => {
+                const cant  = parseFloat(row.querySelector('.edit-cant')?.value)  || 0;
+                const price = parseFloat(row.querySelector('.edit-price')?.value) || 0;
+                const total = cant * price;
+                subtotal += total;
+                const totalCell = row.querySelector('.edit-row-total');
+                if (totalCell) totalCell.textContent = fmtMoney(total);
+            });
+            document.getElementById('editSubtotal').textContent = fmtMoney(subtotal);
+            document.getElementById('editTotal').textContent    = fmtMoney(subtotal);
+        }
+
+        function buildRow(item = {}) {
+            const tr = document.createElement('tr');
+            tr.className = 'bg-white hover:bg-[var(--cz-paper)] transition-colors';
+            tr.innerHTML = `
+                <td class="px-3 py-2">
+                    <input type="text" value="${item.seccion ?? ''}"
+                        class="edit-seccion block w-full border-0 bg-transparent text-xs font-semibold text-[var(--cz-ink-soft)] uppercase focus:ring-1 focus:ring-[var(--cz-brass)]/30 rounded-md px-1.5 py-1 focus:bg-white transition placeholder:normal-case placeholder:font-normal"
+                        placeholder="Sección">
+                </td>
+                <td class="px-3 py-2">
+                    <input type="text" value="${item.descripcion ?? ''}"
+                        class="edit-desc block w-full border-0 bg-transparent text-sm text-[var(--cz-ink)] focus:ring-1 focus:ring-[var(--cz-brass)]/30 rounded-md px-1.5 py-1 focus:bg-white transition"
+                        placeholder="Descripción del servicio">
+                </td>
+                <td class="px-3 py-2">
+                    <input type="number" value="${item.cantidad ?? 1}" min="0" step="any"
+                        class="edit-cant block w-full border-0 bg-transparent text-sm text-right text-[var(--cz-ink)] focus:ring-1 focus:ring-[var(--cz-brass)]/30 rounded-md px-1.5 py-1 focus:bg-white transition tabular-nums">
+                </td>
+                <td class="px-3 py-2">
+                    <input type="number" value="${item.precio_unitario ?? 0}" min="0" step="any"
+                        class="edit-price block w-full border-0 bg-transparent text-sm text-right text-[var(--cz-ink)] focus:ring-1 focus:ring-[var(--cz-brass)]/30 rounded-md px-1.5 py-1 focus:bg-white transition tabular-nums">
+                </td>
+                <td class="px-3 py-2 text-right text-sm tabular-nums text-[var(--cz-ink-soft)] edit-row-total">
+                    ${fmtMoney((item.cantidad ?? 1) * (item.precio_unitario ?? 0))}
+                </td>
+                <td class="px-2 py-2 text-center">
+                    <button type="button"
+                            class="delete-row w-6 h-6 rounded-md flex items-center justify-center text-[var(--cz-ink-soft)] hover:text-[var(--cz-rust)] hover:bg-[var(--cz-rust-soft)] transition">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </td>`;
+
+            // Recalc on input
+            tr.querySelectorAll('.edit-cant, .edit-price').forEach(input => {
+                input.addEventListener('input', recalcEditTotals);
+            });
+
+            // Eliminar fila
+            tr.querySelector('.delete-row').addEventListener('click', () => {
+                tr.remove();
+                recalcEditTotals();
+            });
+
+            return tr;
+        }
+
+        function openEditModal() {
+            editModal.classList.remove('hidden');
+            editModal.classList.add('flex');
+            requestAnimationFrame(() => {
+                editModalPanel.classList.remove('scale-95', 'opacity-0');
+                editModalPanel.classList.add('scale-100', 'opacity-100');
+            });
+        }
+
+        function closeEditModal() {
+            editModalPanel.classList.remove('scale-100', 'opacity-100');
+            editModalPanel.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                editModal.classList.add('hidden');
+                editModal.classList.remove('flex');
+                currentEditId = null;
+                editItemsBody.innerHTML = '';
+            }, 250);
+        }
+
+        editModalClose.addEventListener('click', closeEditModal);
+        editCancelBtn.addEventListener('click', closeEditModal);
+        editModal.addEventListener('click', (e) => { if (e.target === editModal) closeEditModal(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !editModal.classList.contains('hidden')) closeEditModal();
+        });
+
+        // Agregar fila vacía
+        document.getElementById('addRowBtn').addEventListener('click', () => {
+            editItemsBody.insertBefore(buildRow(), editItemsBody.firstChild);
+            recalcEditTotals();
+        });
+
+        // Cargar datos al abrir
+        document.addEventListener('click', async function (e) {
+            const btn = e.target.closest('.quotation-edit');
+            if (!btn) return;
+
+            currentEditId = btn.dataset.id;
+            document.getElementById('editModalFolio').textContent = btn.dataset.folio;
+            editItemsBody.innerHTML = '<tr><td colspan="6" class="px-4 py-6 text-center text-xs text-[var(--cz-ink-soft)]">Cargando...</td></tr>';
+            openEditModal();
+
+            try {
+                const response = await fetch(`${downloadBase}/${currentEditId}/edit`, {
+                    credentials: 'same-origin',
+                    headers: { 'Accept': 'application/json' },
+                });
+                if (!response.ok) throw new Error('No se pudo cargar la cotización');
+                const data = await response.json();
+
+                document.getElementById('editClientName').value = data.client_name;
+                document.getElementById('editDate').value        = data.quotation_date;
+
+                editItemsBody.innerHTML = '';
+                (data.items || []).forEach(item => editItemsBody.appendChild(buildRow(item)));
+                recalcEditTotals();
+            } catch (err) {
+                editItemsBody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-xs text-[var(--cz-rust)]">${err.message}</td></tr>`;
+            }
+        });
+
+        // Guardar
+        editSaveBtn.addEventListener('click', async () => {
+            if (!currentEditId) return;
+
+            const iconDefault = editSaveBtn.querySelector('.icon-default');
+            const iconLoading = editSaveBtn.querySelector('.icon-loading');
+
+            const items = [];
+            let valid = true;
+            editItemsBody.querySelectorAll('tr').forEach(row => {
+                const seccion     = row.querySelector('.edit-seccion')?.value.trim();
+                const descripcion = row.querySelector('.edit-desc')?.value.trim();
+                const cantidad    = parseFloat(row.querySelector('.edit-cant')?.value) || 0;
+                const precio      = parseFloat(row.querySelector('.edit-price')?.value) || 0;
+                if (!descripcion) { valid = false; return; }
+                items.push({ seccion: seccion || 'SERVICIOS', descripcion, cantidad, precio_unitario: precio });
+            });
+
+            if (!valid || items.length === 0) {
+                showToast('Completa la descripción de todos los ítems', 'error');
+                return;
+            }
+
+            editSaveBtn.disabled = true;
+            iconDefault.classList.add('hidden');
+            iconLoading.classList.remove('hidden');
+
+            // ← Capturar ANTES de que closeEditModal() lo limpie
+            const savedId = currentEditId;
+
+            try {
+                const response = await fetch(`${downloadBase}/${savedId}`, {
+                    method: 'PUT',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        client_name:    document.getElementById('editClientName').value,
+                        quotation_date: document.getElementById('editDate').value,
+                        items,
+                    }),
+                });
+
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.message || 'Error al guardar');
+
+                document.getElementById('historyContainer').innerHTML = result.history;
+                bindLoadMoreButton();
+                showToast('Cotización actualizada y documentos regenerados', 'success');
+                closeEditModal();
+
+                // Descarga usando savedId, no currentEditId (ya fue nulleado por closeEditModal)
+                try {
+                    const dlResponse = await fetch(`${downloadBase}/${savedId}/download/pdf`, {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/pdf, */*',
+                        },
+                    });
+                    if (!dlResponse.ok) {
+                        showToast('No se pudo descargar el PDF', 'error');
+                        return;
+                    }
+                    const disposition = dlResponse.headers.get('Content-Disposition') || '';
+                    const match       = disposition.match(/filename="?([^"]+)"?/);
+                    const filename    = match ? match[1] : 'cotizacion.pdf';
+                    const blob        = await dlResponse.blob();
+                    const blobUrl     = URL.createObjectURL(blob);
+                    const a           = document.createElement('a');
+                    a.href            = blobUrl;
+                    a.download        = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+                    showToast('PDF descargado', 'success');
+                } catch (_) {
+                    showToast('Error al descargar el PDF', 'error');
+                }
+
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                editSaveBtn.disabled = false;
+                iconDefault.classList.remove('hidden');
+                iconLoading.classList.add('hidden');
+            }
         });
 
         // ELIMINAR COTIZACIÓN

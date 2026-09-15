@@ -84,6 +84,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('quotations/{quotation}/download/{format}', [QuotationController::class, 'download'])
         ->name('quotations.download');
     Route::delete('quotations/{quotation}', [QuotationController::class, 'destroy'])->name('quotations.destroy');
+    Route::get('quotations/{quotation}/edit', [QuotationController::class, 'edit'])
+    ->name('quotations.edit');
+    Route::put('quotations/{quotation}', [QuotationController::class, 'update'])
+    ->name('quotations.update');
 });
 
 require __DIR__.'/auth.php';

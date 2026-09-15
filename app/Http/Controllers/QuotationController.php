@@ -11,7 +11,7 @@ class QuotationController extends Controller
 {
     /**
      * Cuántas cotizaciones se muestran por tanda en el historial.
-     */
+     */       
     private const PER_PAGE = 9;
 
     /**
@@ -161,6 +161,82 @@ class QuotationController extends Controller
                 : ($format === 'word'
                     ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                     : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+        ]);
+    }
+
+    /**
+     * Devuelve los datos de la cotización para el modal de edición.
+     */
+    public function edit(Quotation $quotation)
+    {
+        return response()->json([
+            'id'             => $quotation->id,
+            'folio'          => $quotation->folio,
+            'client_name'    => $quotation->client_name,
+            'quotation_date' => $quotation->quotation_date->format('Y-m-d'),
+            'items'          => $quotation->items,
+            'subtotal'       => $quotation->subtotal,
+            'total'          => $quotation->total,
+        ]);
+    }
+
+    /**
+     * Actualiza la cotización y regenera los documentos.
+     */
+    public function update(Request $request, Quotation $quotation, QuotationDocumentGenerator $generator)
+    {
+        $request->validate([
+            'client_name'        => 'required|string|max:255',
+            'quotation_date'     => 'required|date',
+            'items'              => 'required|array|min:1',
+            'items.*.seccion'    => 'required|string',
+            'items.*.descripcion'=> 'required|string',
+            'items.*.cantidad'   => 'required|numeric|min:0',
+            'items.*.precio_unitario' => 'required|numeric|min:0',
+        ]);
+
+        $items = collect($request->items)->map(function ($item) {
+            $cantidad = (float) $item['cantidad'];
+            $precio   = (float) $item['precio_unitario'];
+            return [
+                'seccion'         => strtoupper(trim($item['seccion'])),
+                'descripcion'     => trim($item['descripcion']),
+                'cantidad'        => $cantidad,
+                'precio_unitario' => $precio,
+                'total'           => $cantidad * $precio,
+            ];
+        })->values()->all();
+
+        $subtotal = collect($items)->sum('total');
+
+        $quotation->update([
+            'client_name'    => $request->client_name,
+            'quotation_date' => $request->quotation_date,
+            'items'          => $items,
+            'subtotal'       => $subtotal,
+            'iva'            => 0,
+            'total'          => $subtotal,
+        ]);
+
+        try {
+            $generator->generateAll($quotation->fresh());
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error al regenerar documentos: ' . $e->getMessage()], 500);
+        }
+
+        // HTML actualizado del historial
+        $quotations = Quotation::orderByDesc('created_at')->take(self::PER_PAGE)->get();
+        $hasMore    = Quotation::count() > self::PER_PAGE;
+
+        $history = view('quotations._history', [
+            'quotations'  => $quotations,
+            'hasMore'     => $hasMore,
+            'nextOffset'  => self::PER_PAGE,
+        ])->render();
+
+        return response()->json([
+            'message' => 'Cotización actualizada.',
+            'history' => $history,
         ]);
     }
 
