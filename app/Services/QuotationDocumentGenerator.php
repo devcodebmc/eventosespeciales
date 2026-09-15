@@ -68,9 +68,7 @@ class QuotationDocumentGenerator
         return $quotation;
     }
 
-    // =====================================================
-    // PDF (sin cambios — ya lo tienes)
-    // =====================================================
+    // PDF 
     protected function generatePdf(Quotation $quotation, string $img1, string $img2, string $img3): string
     {
         $img1Data = $this->imageToBase64($img1);
@@ -127,20 +125,13 @@ class QuotationDocumentGenerator
         return "data:{$mime};base64,{$data}";
     }
 
-    // =====================================================
-    // WORD — versión afinada (métricas exactas)
-    // =====================================================
+    // WORD 
     protected function generateWord(Quotation $quotation, string $img1, string $img2, string $img3): string
     {
         $phpWord = new PhpWord();
         $phpWord->setDefaultFontName('DejaVu Sans');
         $phpWord->setDefaultFontSize(10);
 
-        // =========================================================
-        // MEDIDAS (Letter = 12240 x 15840 twips)
-        // Objetivo: márgenes 0, banner toca bordes, padding lateral
-        // de 200 twips (~10px) igual que el .container del PDF.
-        // =========================================================
         $PAGE_W  = 12240;
         $PAGE_H  = 15840;
         $PAD_LAT = 200;
@@ -161,16 +152,14 @@ class QuotationDocumentGenerator
             'pageSizeW'   => $PAGE_W,
             'pageSizeH'   => $PAGE_H,
             'marginTop'   => 0,
-            'marginBottom' => 240,   // ← footer chico, reducido
+            'marginBottom' => 240,  
             'marginLeft'  => 0,
             'marginRight' => 0,
             'marginHeader' => 0,
-            'marginFooter' => 60,    // ← poquito para el footer
+            'marginFooter' => 60,   
         ]);
 
-        // =========================================================
         // FOOTER — una sola fila, sin tabla, para que no empuje nada
-        // =========================================================
         $footer = $section->addFooter();
         $footer->addText(
             '729-373-88-30                              Av. Circunvalación No. 15, Col. Agricola Analco, Lerma, Méx.                              eventosespecialeslerma.com',
@@ -178,9 +167,7 @@ class QuotationDocumentGenerator
             ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 1.0]
         );
 
-        // =========================================================
         // BANNER — altura 1200 twips (≈80px), imágenes más chicas
-        // =========================================================
         $bannerTable = $section->addTable([
             'borderSize' => 0,
             'cellMargin' => 0,
@@ -219,9 +206,7 @@ class QuotationDocumentGenerator
             $cellR->addImage($img3, ['width' => 85, 'height' => 85, 'alignment' => Jc::CENTER]);
         }
 
-        // =========================================================
         // CONTENEDOR PADDING (outer table, una sola celda)
-        // =========================================================
         $outerTable = $section->addTable([
             'borderSize' => 0,
             'cellMargin' => $PAD_LAT,
@@ -231,9 +216,7 @@ class QuotationDocumentGenerator
         $outerTable->addRow();
         $outerCell = $outerTable->addCell($PAGE_W, ['borderSize' => 0, 'cellMargin' => $PAD_LAT]);
 
-        // =========================================================
         // INFO BAR — TODO en una tabla compacta
-        // =========================================================
         $infoTable = $outerCell->addTable([
             'borderSize' => 0,
             'cellMargin' => 0,
@@ -301,18 +284,14 @@ class QuotationDocumentGenerator
                 ['size' => 8, 'color' => self::TEXT_MUTED],
                 ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
 
-        // =========================================================
         // TÍTULO "COTIZACIÓN" — SIN párrafos vacíos alrededor
-        // =========================================================
         $outerCell->addText(
             'COTIZACIÓN',
             ['name' => 'DejaVu Serif', 'size' => 14, 'color' => self::GOLD, 'spacing' => 160],
             ['alignment' => Jc::CENTER, 'spaceAfter' => 120, 'spaceBefore' => 120, 'lineHeight' => 1.0]
         );
 
-        // =========================================================
         // SECCIONES + ITEMS
-        // =========================================================
         $grupos = [];
         foreach ($quotation->items as $item) {
             $seccion = strtoupper($item['seccion'] ?? 'SERVICIOS');
@@ -370,9 +349,7 @@ class QuotationDocumentGenerator
             }
         }
 
-        // =========================================================
         // NOTAS + TOTALES
-        // =========================================================
         $outerCell->addText('', [], ['size' => 4, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.5]);
 
         $bottomTable = $outerCell->addTable([
@@ -437,9 +414,7 @@ class QuotationDocumentGenerator
             ->addText('$' . number_format($quotation->total, 2), ['size' => 11, 'color' => 'FFFFFF'],
                 ['alignment' => Jc::RIGHT, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.9]);
 
-        // =========================================================
         // PIE
-        // =========================================================
         $outerCell->addText('', [], ['size' => 4, 'spaceAfter' => 0, 'spaceBefore' => 0, 'lineHeight' => 0.5]);
         $outerCell->addText(
             'Gracias por su preferencia · Eventos Especiales Lerma · ' . now()->year,
@@ -454,9 +429,7 @@ class QuotationDocumentGenerator
         return "quotations/{$filename}";
     }
 
-    // =====================================================
-    // PDF → IMAGEN (sin cambios)
-    // =====================================================
+    // PDF → IMAGEN 
     protected function convertPdfToImage(string $pdfAbsolute, string $folio): ?string
     {
         $pngPath = "{$this->storagePath}/{$folio}.png";
@@ -485,9 +458,7 @@ class QuotationDocumentGenerator
         return null;
     }
 
-    // =====================================================
     // EXCEL — con imágenes del banner + footer
-    // =====================================================
     protected function generateExcel(Quotation $quotation, string $img1 = '', string $img2 = '', string $img3 = ''): string
     {
         $spreadsheet = new Spreadsheet();
@@ -511,12 +482,10 @@ class QuotationDocumentGenerator
         $textMuted  = self::TEXT_MUTED;
         $textLabel  = self::TEXT_LABEL;
 
-        // =========================================================
-        // BANNER — 3 filas y NO 4. Mucho más compacto.
+        // BANNER — 3 filas y NO 4.
         // Fila 1: título (altura 30)
-        // Fila 2: imágenes (altura 90) ← aquí flotan las 3 imágenes
+        // Fila 2: imágenes (altura 90)
         // Fila 3: separación (altura 10)
-        // =========================================================
         $sheet->mergeCells('A1:D1');
         $sheet->getStyle('A1')->getFill()
             ->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB($creamBg);
@@ -582,9 +551,7 @@ class QuotationDocumentGenerator
 
         $row = 4;
 
-        // =========================================================
         // INFO BAR (igual que antes)
-        // =========================================================
         $sheet->setCellValue("A{$row}", 'COTIZACIÓN PARA:');
         $sheet->getStyle("A{$row}")->getFont()->setSize(8)->getColor()->setARGB($textLabel);
         $sheet->setCellValue("C{$row}", 'ELABORÓ:');
@@ -623,9 +590,7 @@ class QuotationDocumentGenerator
         $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $row += 2;
 
-        // =========================================================
         // TÍTULO "COTIZACIÓN"
-        // =========================================================
         $sheet->mergeCells("A{$row}:D{$row}");
         $sheet->setCellValue("A{$row}", 'C O T I Z A C I Ó N');
         $sheet->getStyle("A{$row}")->getFont()->setSize(16)->getColor()->setARGB($gold);
@@ -635,9 +600,7 @@ class QuotationDocumentGenerator
         $sheet->getRowDimension($row)->setRowHeight(26);
         $row += 2;
 
-        // =========================================================
         // SECCIONES + ITEMS
-        // =========================================================
         $grupos = [];
         foreach ($quotation->items as $item) {
             $seccion = strtoupper($item['seccion'] ?? 'SERVICIOS');
@@ -708,9 +671,7 @@ class QuotationDocumentGenerator
             $row++;
         }
 
-        // =========================================================
         // NOTAS + TOTALES
-        // =========================================================
         $notasRowStart = $row;
         $notas = [
             'La presente cotización tiene una vigencia de 30 días naturales a partir de la fecha de emisión.',
@@ -783,9 +744,7 @@ class QuotationDocumentGenerator
             ->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getRowDimension($row)->setRowHeight(20);
 
-        // =========================================================
         // CONFIGURACIÓN DE IMPRESIÓN
-        // =========================================================
         $sheet->setShowGridlines(false);
         $sheet->getPageSetup()
             ->setOrientation(PageSetup::ORIENTATION_PORTRAIT)
@@ -799,7 +758,7 @@ class QuotationDocumentGenerator
             ->setLeft(0.4)->setRight(0.4)
             ->setHeader(0.2)->setFooter(0.2);
 
-        // Footer nativo (se repite en cada página impresa)
+        // Footer nativo 
         $sheet->getHeaderFooter()->setOddFooter(
             '&L&8&K595959729-373-88-30' .
             '&C&8&K595959Av. Circunvalación No. 15, Col. Agricola Analco, Lerma, Méx.' .
