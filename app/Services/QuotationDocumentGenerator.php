@@ -185,9 +185,9 @@ class QuotationDocumentGenerator
         );
 
         $headerImages = array_filter([
-            public_path('images/cotizacion/header-1.jpg'),
-            public_path('images/cotizacion/header-2.jpg'),
-            public_path('images/cotizacion/header-3.jpg'),
+            public_path('images/cotizacion/header-1.png'),
+            public_path('images/cotizacion/header-2.png'),
+            public_path('images/cotizacion/header-3.png'),
         ], 'file_exists');
 
         if (count($headerImages) > 0) {
