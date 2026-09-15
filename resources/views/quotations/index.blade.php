@@ -1,13 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="cz-display font-semibold text-2xl text-[var(--cz-ink)] leading-tight">
+        {{-- ✅ RESPONSIVE: gap, min-w-0 y truncate para evitar desbordes en móvil --}}
+        <div class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <h2 class="cz-display font-semibold text-xl sm:text-2xl text-[var(--cz-ink)] leading-tight truncate">
                     {{ __('Cotizaciones') }}
                 </h2>
-                <p class="text-sm text-[var(--cz-ink-soft)] mt-0.5">Genera documentos profesionales con IA</p>
+                <p class="text-xs sm:text-sm text-[var(--cz-ink-soft)] mt-0.5 truncate">Genera documentos profesionales con IA</p>
             </div>
-            <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full bg-[var(--cz-brass-soft)] text-[var(--cz-brass-deep)] text-xs font-medium border border-[var(--cz-brass)]/20">
+            <span class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full bg-[var(--cz-brass-soft)] text-[var(--cz-brass-deep)] text-xs font-medium border border-[var(--cz-brass)]/20 flex-shrink-0">
                 <span class="w-1.5 h-1.5 rounded-full bg-[var(--cz-brass)] mr-2 cz-pulse"></span>
                 IA activa
             </span>
@@ -135,26 +136,29 @@
         }
     </style>
 
-    <div class="py-8 cz-page min-h-screen">
-        <div class="w-full px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-14">
+    {{-- ✅ RESPONSIVE: py-6 en móvil, px-3 en móvil --}}
+    <div class="py-6 sm:py-8 cz-page min-h-screen">
+        <div class="w-full px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-14">
 
             {{-- ===== FORMULARIO ===== --}}
-            <div class="cz-rise-1 bg-[var(--cz-surface)] rounded-2xl border border-[var(--cz-border)] overflow-hidden mb-10">
-                <div class="px-6 py-5 border-b border-[var(--cz-border)] flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-lg cz-grad-primary flex items-center justify-center">
+            <div class="cz-rise-1 bg-[var(--cz-surface)] rounded-2xl border border-[var(--cz-border)] overflow-hidden mb-8 sm:mb-10">
+                {{-- ✅ RESPONSIVE: px-4/py-4 en móvil --}}
+                <div class="px-4 sm:px-6 py-4 sm:py-5 border-b border-[var(--cz-border)] flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg cz-grad-primary flex items-center justify-center flex-shrink-0">
                         <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                     </div>
-                    <div>
-                        <h3 class="text-sm font-semibold text-[var(--cz-ink)]">Nueva cotización</h3>
-                        <p class="text-xs text-[var(--cz-ink-soft)] mt-0.5">Pega el texto, la IA extrae y genera todo</p>
+                    <div class="min-w-0">
+                        <h3 class="text-sm font-semibold text-[var(--cz-ink)] truncate">Nueva cotización</h3>
+                        <p class="text-xs text-[var(--cz-ink-soft)] mt-0.5 truncate">Pega el texto, la IA extrae y genera todo</p>
                     </div>
                 </div>
 
-                <form id="quotationForm" class="p-6">
+                {{-- ✅ RESPONSIVE: p-4 en móvil --}}
+                <form id="quotationForm" class="p-4 sm:p-6">
                     @csrf
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
                         <div class="lg:col-span-4">
                             <label for="client_name" class="block text-xs font-semibold text-[var(--cz-ink-soft)] mb-2">
                                 Cliente <span class="font-normal text-[var(--cz-ink-soft)]/70">— opcional</span>
@@ -172,23 +176,26 @@
                         </div>
 
                         <div class="lg:col-span-8">
-                            <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center justify-between mb-2 gap-2">
                                 <label for="raw_input" class="block text-xs font-semibold text-[var(--cz-ink-soft)]">
                                     Texto <span class="font-normal text-[var(--cz-ink-soft)]/70">— requerido</span>
                                 </label>
-                                <span class="text-[11px] text-[var(--cz-ink-soft)] tabular-nums"><span id="charCount">0</span> caracteres</span>
+                                <span class="text-[11px] text-[var(--cz-ink-soft)] tabular-nums whitespace-nowrap"><span id="charCount">0</span> caracteres</span>
                             </div>
+                            {{-- ✅ RESPONSIVE: text-base en móvil evita zoom automático en iOS --}}
                             <textarea id="raw_input" name="raw_input" rows="5" required
-                                      class="block w-full border border-[var(--cz-border)] rounded-xl px-4 py-3 text-sm resize-none focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition bg-white placeholder:text-[var(--cz-ink-soft)]/50 text-[var(--cz-ink)] leading-relaxed"
+                                      class="block w-full border border-[var(--cz-border)] rounded-xl px-4 py-3 text-base sm:text-sm resize-none focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition bg-white placeholder:text-[var(--cz-ink-soft)]/50 text-[var(--cz-ink)] leading-relaxed"
                                       placeholder="• Pista de baile en vinil impreso de 6 x 7 mts. $10,080&#10;• Tarima para DJ booth de 7 x 3 mts $6700&#10;• Espejo en texto con vinil $1800"></textarea>
                         </div>
                     </div>
 
-                    <div class="cz-perforation my-6"></div>
+                    {{-- ✅ RESPONSIVE: my-5 en móvil --}}
+                    <div class="cz-perforation my-5 sm:my-6"></div>
 
                     <div class="flex justify-end">
+                        {{-- ✅ RESPONSIVE: full width en móvil --}}
                         <button type="submit" id="submitBtn"
-                                class="group inline-flex items-center px-6 py-2.5 cz-grad-primary cz-glow text-white rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--cz-brass)] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
+                                class="group w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 sm:py-2.5 cz-grad-primary cz-glow text-white rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--cz-brass)] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
                             <svg id="btnIcon" class="w-4 h-4 mr-2 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                             </svg>
@@ -199,12 +206,13 @@
             </div>
 
             {{-- ===== HISTORIAL ===== --}}
-            <div class="cz-rise-2 mb-5 flex items-end justify-between">
-                <div>
+            {{-- ✅ RESPONSIVE: flex-wrap y gap para que el badge no se salga --}}
+            <div class="cz-rise-2 mb-4 sm:mb-5 flex flex-wrap items-end justify-between gap-3">
+                <div class="min-w-0">
                     <h3 class="text-base font-semibold text-[var(--cz-ink)]">Historial</h3>
                     <p class="text-xs text-[var(--cz-ink-soft)] mt-0.5">Cotizaciones generadas recientemente</p>
                 </div>
-                <span class="text-[11px] text-[var(--cz-brass-deep)] bg-[var(--cz-brass-soft)] border border-[var(--cz-brass)]/20 px-3 py-1.5 rounded-lg tabular-nums font-medium" id="historyCountBadge">
+                <span class="text-[11px] text-[var(--cz-brass-deep)] bg-[var(--cz-brass-soft)] border border-[var(--cz-brass)]/20 px-3 py-1.5 rounded-lg tabular-nums font-medium flex-shrink-0" id="historyCountBadge">
                     {{ $quotations->count() }} {{ $quotations->count() === 1 ? 'registro' : 'registros' }}
                 </span>
             </div>
@@ -217,8 +225,9 @@
     </div>
 
     {{-- Overlay de procesamiento --}}
-    <div id="loadingOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-[var(--cz-ink)]/40 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 text-center">
+    <div id="loadingOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-[var(--cz-ink)]/40 backdrop-blur-sm p-4">
+        {{-- ✅ RESPONSIVE: p-6 en móvil --}}
+        <div class="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 max-w-sm w-full text-center">
             <div class="relative w-20 h-20 mx-auto mb-5 flex items-center justify-center">
                 <span class="absolute inset-0 rounded-full border-2 border-[var(--cz-brass)] cz-seal-ring"></span>
                 <div class="relative w-14 h-14 rounded-full cz-grad-primary flex items-center justify-center cz-seal-icon">
@@ -242,7 +251,8 @@
         <div id="successModalPanel"
              class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
-            <div class="px-7 py-8 text-center">
+            {{-- ✅ RESPONSIVE: px-6 en móvil --}}
+            <div class="px-6 sm:px-7 py-6 sm:py-8 text-center">
 
                 <div class="relative w-20 h-20 mx-auto mb-5 flex items-center justify-center">
                     <span class="absolute inset-0 rounded-full bg-[var(--cz-moss-soft)] cz-seal-ring"></span>
@@ -263,13 +273,14 @@
                     <span id="successClient">—</span>
                 </p>
 
-                <div class="flex items-center justify-center gap-3 mt-7">
+                {{-- ✅ RESPONSIVE: flex-wrap por si el texto es largo --}}
+                <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-7">
                     <button type="button" id="successClose"
-                            class="px-5 py-2.5 text-sm font-medium text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] transition">
+                            class="px-4 sm:px-5 py-2.5 text-sm font-medium text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] transition">
                         Cerrar
                     </button>
                     <button type="button" id="downloadPdfBtn"
-                            class="inline-flex items-center px-5 py-2.5 cz-grad-primary cz-glow text-white rounded-xl text-sm font-semibold transition-all">
+                            class="inline-flex items-center px-4 sm:px-5 py-2.5 cz-grad-primary cz-glow text-white rounded-xl text-sm font-semibold transition-all">
                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                         </svg>
@@ -282,25 +293,27 @@
     </div>
 
     {{-- Modal edición --}}
-    <div id="editModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-[var(--cz-ink)]/50 backdrop-blur-sm p-4">
+    <div id="editModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-[var(--cz-ink)]/50 backdrop-blur-sm p-3 sm:p-4">
+        {{-- ✅ RESPONSIVE: max-w-5xl sigue estando, pero con p-3 en móvil --}}
         <div id="editModalPanel"
-            class="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col transform scale-95 opacity-0 transition-all duration-300 ease-out">
+            class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col transform scale-95 opacity-0 transition-all duration-300 ease-out">
 
             {{-- Header --}}
-            <div class="px-7 py-5 border-b border-[var(--cz-border)] flex items-center justify-between flex-shrink-0">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-lg cz-grad-primary flex items-center justify-center">
+            {{-- ✅ RESPONSIVE: px-4 sm:px-7 --}}
+            <div class="px-4 sm:px-7 py-4 sm:py-5 border-b border-[var(--cz-border)] flex items-center justify-between flex-shrink-0 gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-9 h-9 rounded-lg cz-grad-primary flex items-center justify-center flex-shrink-0">
                         <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.172-8.172z"/>
                         </svg>
                     </div>
-                    <div>
-                        <h3 class="text-sm font-semibold text-[var(--cz-ink)]">Editar cotización</h3>
-                        <p class="text-xs text-[var(--cz-ink-soft)]" id="editModalFolio">—</p>
+                    <div class="min-w-0">
+                        <h3 class="text-sm font-semibold text-[var(--cz-ink)] truncate">Editar cotización</h3>
+                        <p class="text-xs text-[var(--cz-ink-soft)] truncate" id="editModalFolio">—</p>
                     </div>
                 </div>
                 <button type="button" id="editModalClose"
-                        class="w-8 h-8 flex items-center justify-center rounded-lg text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] hover:bg-[var(--cz-border)] transition">
+                        class="w-8 h-8 flex items-center justify-center rounded-lg text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] hover:bg-[var(--cz-border)] transition flex-shrink-0">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -308,28 +321,29 @@
             </div>
 
             {{-- Cuerpo scrolleable --}}
-            <div class="overflow-y-auto flex-1 px-7 py-6 space-y-6">
+            {{-- ✅ RESPONSIVE: px-4 sm:px-7, py-4 sm:py-6, space-y-5 sm:space-y-6 --}}
+            <div class="overflow-y-auto flex-1 px-4 sm:px-7 py-4 sm:py-6 space-y-5 sm:space-y-6">
 
                 {{-- Datos generales --}}
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-[var(--cz-ink-soft)] mb-1.5">Cliente</label>
                         <input id="editClientName" type="text"
-                            class="block w-full border border-[var(--cz-border)] rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition text-[var(--cz-ink)]">
+                            class="block w-full border border-[var(--cz-border)] rounded-xl px-3.5 py-2.5 text-base sm:text-sm focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition text-[var(--cz-ink)]">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-[var(--cz-ink-soft)] mb-1.5">Fecha</label>
                         <input id="editDate" type="date"
-                            class="block w-full border border-[var(--cz-border)] rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition text-[var(--cz-ink)]">
+                            class="block w-full border border-[var(--cz-border)] rounded-xl px-3.5 py-2.5 text-base sm:text-sm focus:ring-2 focus:ring-[var(--cz-brass)]/25 focus:border-[var(--cz-brass)] transition text-[var(--cz-ink)]">
                     </div>
                 </div>
 
                 {{-- Tabla de items --}}
                 <div>
-                    <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center justify-between mb-3 gap-2">
                         <h4 class="text-xs font-semibold text-[var(--cz-ink-soft)] uppercase tracking-wide">Items</h4>
                         <button type="button" id="addRowBtn"
-                                class="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--cz-brass-deep)] hover:text-[var(--cz-brass)] transition">
+                                class="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--cz-brass-deep)] hover:text-[var(--cz-brass)] transition flex-shrink-0">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                             </svg>
@@ -338,8 +352,9 @@
                     </div>
 
                     <div class="rounded-xl border border-[var(--cz-border)] overflow-hidden">
+                        {{-- ✅ RESPONSIVE: overflow-x-auto ya estaba, ahora con min-w en tabla para no encoger --}}
                         <div class="overflow-x-auto">
-                            <table class="w-full text-sm">
+                            <table class="w-full text-sm min-w-[640px]">
                                 <thead>
                                     <tr class="bg-[var(--cz-paper)] border-b border-[var(--cz-border)]">
                                         <th class="text-left text-[10px] font-semibold text-[var(--cz-ink-soft)] uppercase tracking-wide px-3 py-2.5 w-36">Sección</th>
@@ -360,7 +375,8 @@
 
                 {{-- Totales --}}
                 <div class="flex justify-end">
-                    <div class="bg-[var(--cz-paper)] rounded-xl border border-[var(--cz-border)] px-5 py-4 min-w-[200px] space-y-2">
+                    {{-- ✅ RESPONSIVE: en móvil ocupa todo el ancho --}}
+                    <div class="bg-[var(--cz-paper)] rounded-xl border border-[var(--cz-border)] px-5 py-4 w-full sm:min-w-[200px] sm:w-auto space-y-2">
                         <div class="flex justify-between text-xs text-[var(--cz-ink-soft)]">
                             <span>Subtotal</span>
                             <span id="editSubtotal" class="tabular-nums font-medium text-[var(--cz-ink)]">$0.00</span>
@@ -374,13 +390,14 @@
             </div>
 
             {{-- Footer --}}
-            <div class="px-7 py-4 border-t border-[var(--cz-border)] flex items-center justify-end gap-3 flex-shrink-0 bg-[var(--cz-paper)]">
+            {{-- ✅ RESPONSIVE: px-4 sm:px-7, botones full-width en móvil --}}
+            <div class="px-4 sm:px-7 py-3 sm:py-4 border-t border-[var(--cz-border)] flex flex-col-reverse sm:flex-row items-stretch sm:items-center sm:justify-end gap-2 sm:gap-3 flex-shrink-0 bg-[var(--cz-paper)]">
                 <button type="button" id="editCancelBtn"
-                        class="px-5 py-2.5 text-sm font-medium text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] transition">
+                        class="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] transition">
                     Cancelar
                 </button>
                 <button type="button" id="editSaveBtn"
-                        class="inline-flex items-center px-6 py-2.5 cz-grad-primary cz-glow text-white rounded-xl text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed">
+                        class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 cz-grad-primary cz-glow text-white rounded-xl text-sm font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed">
                     <svg class="w-4 h-4 mr-1.5 icon-default" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                     </svg>
@@ -398,7 +415,8 @@
     <div id="deleteModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-[var(--cz-ink)]/50 backdrop-blur-sm p-4">
         <div id="deleteModalPanel"
             class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 opacity-0 transition-all duration-300 ease-out">
-            <div class="px-7 py-8 text-center">
+            {{-- ✅ RESPONSIVE: px-6 en móvil --}}
+            <div class="px-6 sm:px-7 py-6 sm:py-8 text-center">
                 <div class="w-16 h-16 rounded-full bg-[var(--cz-rust-soft)] flex items-center justify-center mx-auto mb-5">
                     <svg class="w-7 h-7 text-[var(--cz-rust)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
@@ -408,13 +426,14 @@
                 <p class="text-sm text-[var(--cz-ink-soft)]">
                     Se eliminará <span id="deleteFolio" class="font-semibold text-[var(--cz-rust)]"></span> y sus archivos (PDF, Word, Excel). Esta acción no se puede deshacer.
                 </p>
-                <div class="flex items-center justify-center gap-3 mt-7">
+                {{-- ✅ RESPONSIVE: botones full-width en móvil --}}
+                <div class="flex flex-col-reverse sm:flex-row items-stretch sm:items-center sm:justify-center gap-2 sm:gap-3 mt-7">
                     <button type="button" id="deleteCancelBtn"
-                            class="px-5 py-2.5 text-sm font-medium text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] transition">
+                            class="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-[var(--cz-ink-soft)] hover:text-[var(--cz-ink)] transition">
                         Cancelar
                     </button>
                     <button type="button" id="deleteConfirmBtn"
-                            class="inline-flex items-center px-5 py-2.5 bg-[var(--cz-rust)] cz-glow text-white rounded-xl text-sm font-semibold transition-all hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed">
+                            class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 bg-[var(--cz-rust)] cz-glow text-white rounded-xl text-sm font-semibold transition-all hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed">
                         <svg class="w-4 h-4 mr-1.5 icon-default" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                         </svg>
@@ -430,7 +449,8 @@
     </div>
 
     {{-- Toast container --}}
-    <div id="toastContainer" class="fixed top-4 right-4 z-[70] space-y-2"></div>
+    {{-- ✅ RESPONSIVE: en móvil ocupa casi todo el ancho --}}
+    <div id="toastContainer" class="fixed top-4 right-4 left-4 sm:left-auto z-[70] space-y-2 sm:max-w-sm"></div>
 
     @push('js')
         <script>
@@ -462,7 +482,8 @@
             };
             const cfg = configs[type] || configs.info;
             const toast = document.createElement('div');
-            toast.className = `flex items-center space-x-3 bg-white border ${cfg.border} p-3.5 rounded-xl shadow-lg transform transition-all duration-300 translate-x-full opacity-0 min-w-[280px]`;
+            // ✅ RESPONSIVE: w-full en móvil, min-w en sm+
+            toast.className = `flex items-center space-x-3 bg-white border ${cfg.border} p-3.5 rounded-xl shadow-lg transform transition-all duration-300 translate-x-full opacity-0 w-full sm:min-w-[280px]`;
             toast.innerHTML = `<span class="w-2 h-2 rounded-full ${cfg.dot} flex-shrink-0"></span><p class="text-sm flex-1 text-[var(--cz-ink)]">${message}</p>`;
             document.getElementById('toastContainer').appendChild(toast);
             requestAnimationFrame(() => toast.classList.remove('translate-x-full', 'opacity-0'));
@@ -658,6 +679,10 @@
             const loadMoreBtn = document.getElementById('loadMoreBtn');
             if (!loadMoreBtn) return;
 
+            // ✅ Evita listeners duplicados al re-renderizar el historial
+            if (loadMoreBtn.dataset.bound === '1') return;
+            loadMoreBtn.dataset.bound = '1';
+
             loadMoreBtn.addEventListener('click', async () => {
                 const offset = parseInt(loadMoreBtn.dataset.offset, 10) || 0;
                 const icon = document.getElementById('loadMoreIcon');
@@ -802,26 +827,35 @@
             document.getElementById('editTotal').textContent    = fmtMoney(subtotal);
         }
 
+        function escapeHtml(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
         function buildRow(item = {}) {
             const tr = document.createElement('tr');
             tr.className = 'bg-white hover:bg-[var(--cz-paper)] transition-colors';
             tr.innerHTML = `
                 <td class="px-3 py-2">
-                    <input type="text" value="${item.seccion ?? ''}"
+                    <input type="text" value="${escapeHtml(item.seccion ?? '')}"
                         class="edit-seccion block w-full border-0 bg-transparent text-xs font-semibold text-[var(--cz-ink-soft)] uppercase focus:ring-1 focus:ring-[var(--cz-brass)]/30 rounded-md px-1.5 py-1 focus:bg-white transition placeholder:normal-case placeholder:font-normal"
                         placeholder="Sección">
                 </td>
                 <td class="px-3 py-2">
-                    <input type="text" value="${item.descripcion ?? ''}"
+                    <input type="text" value="${escapeHtml(item.descripcion ?? '')}"
                         class="edit-desc block w-full border-0 bg-transparent text-sm text-[var(--cz-ink)] focus:ring-1 focus:ring-[var(--cz-brass)]/30 rounded-md px-1.5 py-1 focus:bg-white transition"
                         placeholder="Descripción del servicio">
                 </td>
                 <td class="px-3 py-2">
-                    <input type="number" value="${item.cantidad ?? 1}" min="0" step="any"
+                    <input type="number" value="${Number(item.cantidad ?? 1)}" min="0" step="any"
                         class="edit-cant block w-full border-0 bg-transparent text-sm text-right text-[var(--cz-ink)] focus:ring-1 focus:ring-[var(--cz-brass)]/30 rounded-md px-1.5 py-1 focus:bg-white transition tabular-nums">
                 </td>
                 <td class="px-3 py-2">
-                    <input type="number" value="${item.precio_unitario ?? 0}" min="0" step="any"
+                    <input type="number" value="${Number(item.precio_unitario ?? 0)}" min="0" step="any"
                         class="edit-price block w-full border-0 bg-transparent text-sm text-right text-[var(--cz-ink)] focus:ring-1 focus:ring-[var(--cz-brass)]/30 rounded-md px-1.5 py-1 focus:bg-white transition tabular-nums">
                 </td>
                 <td class="px-3 py-2 text-right text-sm tabular-nums text-[var(--cz-ink-soft)] edit-row-total">
@@ -1088,7 +1122,7 @@
                         // Si el grid queda vacío recarga la sección completa
                         if (grid && grid.children.length === 0) {
                             document.getElementById('historyContainer').innerHTML = `
-                                <div class="bg-[var(--cz-surface)] rounded-2xl border border-[var(--cz-border)] p-14 text-center">
+                                <div class="bg-[var(--cz-surface)] rounded-2xl border border-[var(--cz-border)] p-10 sm:p-14 text-center">
                                     <div class="mx-auto w-12 h-12 rounded-xl bg-[var(--cz-brass-soft)] flex items-center justify-center mb-3">
                                         <svg class="w-5 h-5 text-[var(--cz-brass)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
