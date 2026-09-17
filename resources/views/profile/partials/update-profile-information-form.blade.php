@@ -47,6 +47,16 @@
             @endif
         </div>
 
+        {{-- Role --}}
+        <div class="space-y-2">
+            <x-input-label for="role" :value="__('Role')" />
+            <select id="role" name="role" class="mt-1 block h-10 w-full rounded-md border-gray-300 px-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                <option value="editor" {{ $user->role === 'editor' ? 'selected' : '' }}>Editor</option>
+                <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
+            </select>
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
