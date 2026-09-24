@@ -12,9 +12,12 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Inicio') }}
-                    </x-nav-link>
+                    @if (Auth::user()->role !== 'editor')
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Inicio') }}
+                        </x-nav-link>
+                    @endif
+                    @if (Auth::user()->role !== 'editor')
                     <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
                         {{ __('Categorías') }}
                     </x-nav-link>
@@ -42,6 +45,12 @@
                     <x-nav-link :href="route('recyclebin.index')" :active="request()->routeIs('recyclebin.*')">
                         {{ __('Papelera') }}
                     </x-nav-link>
+                    @endif
+                    @if (Auth::user()->role === 'editor')
+                        <x-nav-link :href="route('quotations.index')" :active="request()->routeIs('quotations.*')">
+                            {{ __('Cotizaciones') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -94,9 +103,12 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Inicio') }}
-            </x-responsive-nav-link>
+            @if (Auth::user()->role !== 'editor')
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Inicio') }}
+                </x-responsive-nav-link>
+            @endif
+            @if (Auth::user()->role !== 'editor')
             <x-responsive-nav-link  :href="route('categories.index')" :active="request()->is('categories*')">
                 {{ __('Categorías') }}
             </x-responsive-nav-link>
@@ -124,6 +136,12 @@
             <x-responsive-nav-link :href="route('recyclebin.index')" :active="request()->is('recyclebin*')">
                 {{ __('Papelera') }}
             </x-responsive-nav-link>
+            @endif
+            @if (Auth::user()->role === 'editor')
+                <x-responsive-nav-link :href="route('quotations.index')" :active="request()->is('quotations*')">
+                    {{ __('Cotizaciones') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

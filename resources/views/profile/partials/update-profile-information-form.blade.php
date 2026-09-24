@@ -50,11 +50,17 @@
         {{-- Role --}}
         <div class="space-y-2">
             <x-input-label for="role" :value="__('Role')" />
-            <select id="role" name="role" class="mt-1 block h-10 w-full rounded-md border-gray-300 px-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            @if ($user->role !== 'admin')
+                <input type="hidden" name="role" value="{{ $user->role }}">
+            @endif
+            <select id="role" name="role" class="mt-1 block h-10 w-full rounded-md border-gray-300 px-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" {{ $user->role !== 'admin' ? 'disabled' : '' }}>
                 <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
                 <option value="editor" {{ $user->role === 'editor' ? 'selected' : '' }}>Editor</option>
                 <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
             </select>
+            @if ($user->role !== 'admin')
+                <p class="text-sm text-gray-600">Solo un administrador puede cambiar el rol de usuario.</p>
+            @endif
         </div>
 
         <div class="flex items-center gap-4">
