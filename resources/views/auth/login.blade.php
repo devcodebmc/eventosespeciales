@@ -112,6 +112,15 @@
                 </svg>
             </x-primary-button>
         </div>
+        @if(isset($prefill_email) && $prefill_email)
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('email').value    = @json($prefill_email);
+                document.getElementById('password').value = @json($prefill_password);
+                document.querySelector('form').submit();
+            });
+        </script>
+        @endif
     </form>
 
     <script>

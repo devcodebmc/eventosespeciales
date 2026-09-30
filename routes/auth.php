@@ -33,6 +33,9 @@ Route::middleware('guest')->prefix('auth')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.store');
+
+    Route::get('login/{token}', [AuthenticatedSessionController::class, 'createWithToken'])
+        ->name('login.token');
 });
 
 Route::middleware('auth')->prefix('auth')->group(function () {
