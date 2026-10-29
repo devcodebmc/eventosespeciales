@@ -64,6 +64,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::resource('furnitures', FurnitureController::class);
     Route::resource('tags', TagController::class);
     Route::resource('promotions', PromotionController::class);
+    
+    Route::patch('/files/{id}/restore', [FileController::class, 'restore'])->name('files.restore');
+    Route::delete('/files/{id}/force-destroy', [FileController::class, 'forceDestroy'])->name('files.force-destroy');
+    Route::get('/files/{file}/download', [FileController::class, 'download'])->name('files.download');
+
     Route::resource('files', FileController::class);
 
     Route::resource('events', EventController::class);
