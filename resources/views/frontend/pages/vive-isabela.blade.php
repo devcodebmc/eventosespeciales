@@ -425,8 +425,8 @@
                         'titulo' => 'Hospedaje',
                         'imagen' => 'servicio-cabanas.jpg',
                         'items'  => ['Cabaña Manzanillo (2 personas)', 'Cabaña Ocotillo (4 personas)', 'Cabaña Encino (8 personas)', 'Habitaciones dobles disponibles'],
-                        'link'   => url('cabanas'),
-                        'label'  => 'Conocer más'
+                        'link'   => null,
+                        'label'  => null
                     ],
                     [
                         'titulo' => 'Temazcal',
@@ -576,10 +576,10 @@
                 </svg>
                 @endfor
             </div>
-            <p class="text-gray-500 text-sm leading-relaxed">
+            {{-- <p class="text-gray-500 text-sm leading-relaxed">
                 Próximamente integraremos aquí nuestras reseñas verificadas de Google para que conozcas
                 la experiencia de quienes ya celebraron en Finca Isabela.
-            </p>
+            </p> --}}
         </div>
 
         @include('frontend.partials.divider')
